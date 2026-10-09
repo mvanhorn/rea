@@ -1,0 +1,138 @@
+{
+  "repo": "morluto/rea",
+  "status": "ok",
+  "fork": {
+    "slug": "mvanhorn/rea",
+    "matches_upstream_main": true,
+    "sha": "283c82f68ce49037a5e3ffdf0cada9208aef69f3",
+    "upstream": "morluto/rea",
+    "checked_at": "2026-10-09T00:08:00Z"
+  },
+  "plans_written": 2,
+  "plan_files": [
+    "osc-plans/inspect-analysis-view.md",
+    "osc-plans/export-shape-property-presence.md"
+  ],
+  "plans": [
+    {
+      "stem": "inspect-analysis-view",
+      "title": "feat(mcp): select views of retained analysis results",
+      "summary": "Add inspect_analysis_view so agents can read a summary, one section/module, or a stable page of retained layout or JavaScript analysis Evidence without shipping the complete MCP payload or re-running the provider.",
+      "why_selected": "Open unassigned issue #1050 with maintainer measurements (65k-section ELF and 300-function JS MCP frame failures). Transport retention already shipped in #1088; selected views did not. Fits existing Evidence references, demoable with a generated JS tree, files disjoint from plan 2.",
+      "dup_check": "CLEAN: no open PR; #1065 T1 and #1088 are transport retention only; #723 is catalog/result repetition; code search has no inspect_analysis_view. Link #1050 from the PR.",
+      "score": 9,
+      "linked_issue": 1050,
+      "deep_rubric_score": 9,
+      "complexity": "M",
+      "source": "novel:issue-seed",
+      "citations": [
+        { "kind": "issue", "id": "1050" },
+        { "kind": "issue", "id": "1065" },
+        { "kind": "social", "id": "signal-ctx-window-and-rea-mcp-results" }
+      ],
+      "open_issue_overlap": [1050, 1065],
+      "pre_plan_score": 9,
+      "post_plan_score": 9
+    },
+    {
+      "stem": "export-shape-property-presence",
+      "title": "feat(javascript): report observed export property presence",
+      "summary": "Extend compare_javascript_export_shapes so observed return-property names and presence/absence are reported even when values stay unknown and variants cannot be paired by a unique discriminant.",
+      "why_selected": "Open unassigned issue #725 from maintainer CLI/MCP evaluation. Small in-contract extension, no new tool, no BYO engine, demoable with two generated JS files, different files from inspect_analysis_view.",
+      "dup_check": "CLEAN: no open or recent PR; #698 is a distinct closed container-path issue already in baseline; fieldChangeStatus still collapses presence-only gaps into unknown. Link #725 from the PR.",
+      "score": 8,
+      "linked_issue": 725,
+      "deep_rubric_score": 8,
+      "complexity": "S",
+      "source": "novel:issue",
+      "citations": [{ "kind": "issue", "id": "725" }],
+      "open_issue_overlap": [725],
+      "pre_plan_score": 8,
+      "post_plan_score": 8
+    }
+  ],
+  "chosen_features": [
+    {
+      "title": "feat(mcp): select views of retained analysis results",
+      "plan_file": "osc-plans/inspect-analysis-view.md",
+      "deep_rubric_score": 9,
+      "complexity": "M",
+      "source": "novel:issue-seed",
+      "citations": [
+        { "kind": "issue", "id": "1050" },
+        { "kind": "issue", "id": "1065" }
+      ],
+      "open_issue_overlap": [1050, 1065]
+    },
+    {
+      "title": "feat(javascript): report observed export property presence",
+      "plan_file": "osc-plans/export-shape-property-presence.md",
+      "deep_rubric_score": 8,
+      "complexity": "S",
+      "source": "novel:issue",
+      "citations": [{ "kind": "issue", "id": "725" }],
+      "open_issue_overlap": [725]
+    }
+  ],
+  "autonomous_check_inputs": {
+    "pre_plan_score": 9,
+    "post_plan_score": 9,
+    "PROCESS_LEVEL": "PR_WELCOME",
+    "NO_AI_OPPOSED": true,
+    "NO_COMPETING_PRS": true,
+    "HAS_PRECEDENT": true,
+    "WARMTH_SCORE": 2,
+    "OPEN_PRS_AUTHORED": 0,
+    "REPO_OPEN_PRS_TOTAL": 2,
+    "IS_OWN_PROJECT": false
+  },
+  "quick_fixes": [],
+  "social_pass": {
+    "invoked": true,
+    "engine": {
+      "kind": "active_skill",
+      "script": "/home/box/src/open-source-contributor/skills/osc-newfeature/scripts/social_search.py"
+    },
+    "artifact": "uploads/social-morluto-rea_c44a.json",
+    "status": "ok",
+    "gate": "passed",
+    "reason": null,
+    "signals": { "total": 70, "main": 70, "competitors": 0 },
+    "source_coverage": {
+      "searched": ["tiktok", "reddit", "youtube"],
+      "failed": {
+        "x": "HTTPError: 404 Client Error: Not Found for url: https://api.scrapecreators.com/v1/twitter/search/tweets?query=mcp+server+reverse+engineering+binaries+with+ai+agents&sort_by=relevance"
+      }
+    },
+    "provenance": "host_handoff",
+    "waited": true,
+    "downgrade_consented": false,
+    "consume": "manual_upload; newfeature_social_handoff.py not present on this VM"
+  },
+  "competitor_coverage": "skipped_pre_step3",
+  "proposal_lane": false,
+  "dogfooded_general": false,
+  "skipped_reasons": {},
+  "skipped_candidates": [
+    {
+      "id": 884,
+      "title": "WABT WebAssembly inspection",
+      "reason": "New BYO provider adapter; larger than one focused PR; needs WABT in demo"
+    },
+    {
+      "id": 883,
+      "title": "Worker/service-worker attribution",
+      "reason": "Needs real Chrome verification lane"
+    },
+    {
+      "id": 724,
+      "title": "Process comparison content/exit/timing facets",
+      "reason": "Contributor asked for contract agreement first; heavier capture fixtures"
+    },
+    {
+      "id": 1048,
+      "title": "Pre-imported Ghidra project",
+      "reason": "Requires bring-your-own Ghidra; not demoable here"
+    }
+  ]
+}
