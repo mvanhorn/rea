@@ -493,21 +493,179 @@ installs, upgrades, or modifies Ghidra or Java.
 
 Each verified session uses an ephemeral temporary project and isolated
 home/cache/config/temp paths. REA passes `-readOnly`, `-deleteProject`, uses
-Ghidra's default analysis and resource settings, and loads its packaged Java
-bridge via `-scriptPath`; it never opens an existing user project. Linux and
-macOS use a current-user-only local bridge socket and descriptor. The
+Ghidra's default analysis, and loads its packaged Java bridge via
+`-scriptPath`; it never opens an existing user project. Linux and macOS heap
+selection and CPU placement are in [Resource controls](#resource-controls).
+Linux and macOS use a current-user-only local bridge socket and descriptor. The
 project remains under the selected temporary directory. If its Unix socket
 pathname would exceed the host's byte limit, REA allocates a separate mode-0700
 socket directory under `/tmp` and removes it on close, cancellation, or failure.
 Diagnostics retain the actual endpoint and both owned directories.
-On macOS, REA starts the inspected JVM directly using Ghidra's own LaunchSupport
-configuration. Apple platform shell wrappers hide their environments from
-ownership inspection, so retaining those wrappers would prevent verified
-process-group cancellation during startup.
+On Linux and macOS, REA starts the inspected JVM directly using Ghidra's own
+LaunchSupport configuration. Apple platform shell wrappers hide their
+environments from ownership inspection, so retaining those wrappers would
+prevent verified process-group cancellation during startup.
 If ownership remains unverifiable, it reports the reason and retains the process
 supervisor and private runtime instead of removing files beneath a live provider.
 The experimental Windows transport uses authenticated IPv4 loopback with a
 private native-owned bearer descriptor and Job Object process ownership.
+The Windows batch launcher is documented in the
+[Windows Ghidra P0 guide](windows-ghidra-p0.md).
+
+### Resource controls
+
+On Linux and macOS, REA builds the Java command in `ghidraJavaLaunch`. It runs
+Ghidra LaunchSupport for environment defaults (`-envvars`) and VM arguments
+(`-vmargs`), then appends its own heap and thread flags. Windows uses the batch
+launcher instead of this direct launch. The heap precedence and thread flags
+below are Linux and macOS behavior. This page does not describe the Windows
+batch launcher as using the same `-Xmx` selection or the same thread flags. Use
+the [Windows Ghidra P0 guide](windows-ghidra-p0.md) for that launcher, its
+`JDK_JAVA_OPTIONS` isolation properties, and preserved caller affinity.
+
+REA first replaces the JVM option variables described below. LaunchSupport then
+writes a variable only when the value REA already holds is absent or empty. A
+nonempty caller value stays. After that fill, the direct launch appends one
+`-Xmx` after LaunchSupport's VM arguments:
+
+1. `GHIDRA_HEADLESS_MAXMEM`, when it is nonempty.
+2. Otherwise `GHIDRA_MAXMEM`, when it is nonempty.
+3. Otherwise `2G`.
+
+`2G` is only the case where both variables are still empty. It is not the heap
+used for every installation. A LaunchSupport default that fills either
+variable, or a nonempty caller value, selects that text instead.
+
+- With both variables omitted, LaunchSupport may fill either one, and the same
+  three-step selection applies to the filled environment. When both are still
+  empty, the appended heap is `2G`.
+- With only `GHIDRA_HEADLESS_MAXMEM` set to a nonempty value, that caller value
+  is kept and appended. LaunchSupport may still fill an empty `GHIDRA_MAXMEM`;
+  the headless value remains the appended heap.
+- With only `GHIDRA_MAXMEM` set to a nonempty value, that caller value is kept,
+  but it is appended only when `GHIDRA_HEADLESS_MAXMEM` is still empty after
+  LaunchSupport filling. A headless value filled by LaunchSupport is the
+  appended heap instead.
+- With both variables set nonempty, both caller values are kept, and
+  `GHIDRA_HEADLESS_MAXMEM` is the appended heap.
+
+REA copies the selected text into `-Xmx` and does not parse it again. A size
+such as `512M` is a supported value. An invalid size fails when the JVM starts.
+Correct or remove the variable and use the launch's existing diagnostics.
+There is no separate resource-limit validator.
+
+`ghidraJavaEnvironment` replaces the caller's `_JAVA_OPTIONS`,
+`JAVA_TOOL_OPTIONS`, `JDK_JAVA_OPTIONS`, and `GHIDRA_JAVA_OPTIONS` with empty
+values before launch. `ghidraHeadlessJavaOptions` also replaces
+`GHIDRA_HEADLESS_JAVA_OPTIONS`. On Linux and macOS, REA sets
+`JDK_JAVA_OPTIONS` and `GHIDRA_HEADLESS_JAVA_OPTIONS` to empty before
+LaunchSupport runs; home and temporary-directory isolation properties are
+direct JVM arguments. On Windows, REA still clears
+`GHIDRA_HEADLESS_JAVA_OPTIONS` and supplies its own isolation properties
+through `JDK_JAVA_OPTIONS`, as described in the
+[Windows Ghidra P0 guide](windows-ghidra-p0.md). On the Linux and macOS direct
+launch, an empty value can still receive a LaunchSupport default. Linux,
+macOS, and Windows all replace the caller's custom values for these variables.
+Those variables are not a supported tuning mechanism. The heap controls that a
+nonempty caller value can keep are `GHIDRA_HEADLESS_MAXMEM` and
+`GHIDRA_MAXMEM`.
+
+The direct launch also appends `-XX:ParallelGCThreads=2` and
+`-XX:CICompilerCount=2`. Those flags set the parallel garbage-collector worker
+count and the JIT compiler thread count. They are not a limit on every JVM
+thread or on the host's CPUs. `ghidraHeadlessArguments` does not pass
+`-max-cpu`, and REA has no CPU-count flag. Changing the heap or CPU affinity
+leaves the committed target and analysis-profile identity unchanged. Either
+change can still alter cost and latency.
+
+Keep these measurements separate:
+
+- Java heap: the appended `-Xmx` of the JVM REA launches.
+- REA's Node.js heap: the CLI or MCP server process. Node and `NODE_OPTIONS`
+  control it. `GHIDRA_HEADLESS_MAXMEM` does not change that heap.
+- JVM native and non-heap allocations, including metaspace, code cache, thread
+  stacks, and garbage-collector structures.
+- Native decompiler processes that Ghidra starts beside the JVM.
+- Sampled aggregate process-family RSS: one observation of resident memory
+  across those processes. It is not a ceiling set by the heap variables or by
+  CPU affinity.
+
+Scope the heap variable to one command, and substitute the absolute path of
+the program you are analyzing:
+
+```bash
+GHIDRA_HEADLESS_MAXMEM=512M rea analyze /absolute/path/to/program --provider ghidra --json
+```
+
+The prefix applies to that process only. A GUI-launched MCP client does not
+inherit a shell export from another terminal. Put the same variable in the
+environment of the REA MCP server process, using the registration that client
+already uses to start the server, then restart that server. On an `mcpServers`
+entry, the server environment is the existing `env` object:
+
+```json
+{
+  "env": {
+    "GHIDRA_INSTALL_DIR": "/absolute/path/to/ghidra_12.1.4_PUBLIC",
+    "GHIDRA_HEADLESS_MAXMEM": "512M"
+  }
+}
+```
+
+Grok Build stores that server environment in `[mcp_servers.rea.env]`. `rea
+setup` can preserve detected Ghidra and JDK paths. It does not persist heap
+settings, and a later setup run is not a heap-configuration store.
+
+On a constrained Linux host, keep Ghidra imports sequential. When `taskset` is
+already available, place the same command on CPUs taken from the host's actual
+allowed affinity:
+
+```bash
+GHIDRA_HEADLESS_MAXMEM=512M taskset -c <allowed-cpu-list> rea analyze /absolute/path/to/program --provider ghidra --json
+```
+
+`<allowed-cpu-list>` has to be a list the host already allows for this user.
+An invalid list, or a CPU outside that allowed set, makes `taskset` fail before
+analysis starts. Correct or remove that wrapper. This workflow does not install
+`taskset`, and macOS does not use this command. Affinity chooses where the
+process may be scheduled. It leaves total CPU time and memory unchanged.
+
+`rea doctor --provider ghidra --json` checks prerequisites, including platform,
+architecture, the Ghidra installation, the headless launcher, and the JDK. It
+does not report the heap or CPU limits of a running analysis.
+
+During a sufficiently long real analysis, identify the live Java process REA
+launched. Its command is the inspected JDK's `java` and includes
+`ghidra.app.util.headless.AnalyzeHeadless`. Inspect that command line:
+
+```bash
+ps -ww -p <java-pid> -o args=
+```
+
+The appended `-Xmx` is the size selected above. When that same JDK provides
+`jcmd` and permits attach, read the flags the running JVM is using:
+
+```bash
+jcmd <java-pid> VM.flags
+```
+
+On Linux, current affinity is:
+
+```bash
+taskset -pc <java-pid>
+```
+
+Treat these outcomes as limits of the check. A Java process that has already
+exited, which includes a short analysis, leaves no command line to read.
+Missing `ps`, `jcmd`, or `taskset` means that check cannot be run; do not
+install diagnostic tools to produce one. `jcmd` attach or permission denial
+leaves effective flags unread. A rejected `taskset` CPU list means the wrapper
+needs to be corrected or removed. None of these results, and neither a
+completed analysis nor a healthy doctor report, proves that a heap or affinity
+setting was applied or rejected. When a launch fails after a resource override,
+remove or correct that override and read the existing command diagnostics and
+`rea doctor --provider ghidra --json`. REA does not add a resource-limit
+validator.
 
 Operations begin only after default auto-analysis completes. `open_binary`
 selects and validates the target/provider binding; it does not wait for Ghidra

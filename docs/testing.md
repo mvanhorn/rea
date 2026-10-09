@@ -508,9 +508,13 @@ installed package with `REA_NATIVEAOT_PROOF_PACKAGE_ROOT`, a fixture directory
 with `REA_NATIVEAOT_PROOF_FIXTURE_ROOT`, and optional evidence capture directory
 with `REA_NATIVEAOT_PROOF_CAPTURE_DIR` (absolute paths).
 
-Keep builds/imports sequential on small hosts; scope `GHIDRA_HEADLESS_MAXMEM`
-(e.g. `768M`) to this command and use CPU affinity if needed. REA does not install
-or upgrade Java, Ghidra, .NET or native toolchains. See
+Keep NativeAOT builds and imports sequential on small hosts. Scope
+`GHIDRA_HEADLESS_MAXMEM` (e.g. `768M`) to this command. When the host needs CPU
+affinity, follow [Ghidra resource controls](installation.md#resource-controls):
+on Linux, wrap the command with an already installed `taskset` and CPUs from
+the host's allowed affinity. That section is the canonical heap precedence,
+cleared JVM options, and affinity guidance. REA does not install or upgrade
+Java, Ghidra, .NET, or native toolchains. See
 [the supported layout and provenance](ghidra-nativeaot.md).
 
 ## IDA MCP adapter
