@@ -979,6 +979,107 @@ describe("ESM module URL path decoding", () => {
   });
 });
 
+describe("empty URL segments in module and HTML paths", () => {
+  const repeatedSeparatorLimitation =
+    "Repeated URL path separators cannot be mapped to an exact canonical artifact file.";
+  const files = () =>
+    fileMap([
+      file("index.js", "root"),
+      file("index.html", "root"),
+      file("app.js", "root"),
+      file("assets/app.js", "root"),
+    ]);
+
+  it("reports an ESM import with an empty segment as unavailable", () => {
+    expect(
+      resolve({
+        declaredPath: "./assets//../app.js",
+        sourcePath: "index.js",
+        context: "module-specifier",
+        moduleKind: "import",
+        files: files(),
+      }),
+    ).toMatchObject({
+      declared_path: "./assets//../app.js",
+      resolution_status: "unavailable",
+      resolved_path: null,
+      limitations: [repeatedSeparatorLimitation],
+    });
+  });
+
+  it("reports an HTML reference with an empty segment as unavailable", () => {
+    expect(
+      resolve({
+        declaredPath: "./assets//../app.js",
+        sourcePath: "index.html",
+        context: "html-reference",
+        files: files(),
+      }),
+    ).toMatchObject({
+      declared_path: "./assets//../app.js",
+      resolution_status: "unavailable",
+      resolved_path: null,
+      limitations: [repeatedSeparatorLimitation],
+    });
+  });
+
+  it("keeps CommonJS normalization for the same specifier", () => {
+    expect(
+      resolve({
+        declaredPath: "./assets//../app.js",
+        sourcePath: "index.js",
+        context: "module-specifier",
+        moduleKind: "require",
+        files: files(),
+      }),
+    ).toMatchObject({
+      resolution_status: "resolved",
+      resolved_path: "app.js",
+      limitations: [],
+    });
+  });
+
+  it.each([
+    ["ESM import", "module-specifier", "import", "index.js"],
+    ["CommonJS require", "module-specifier", "require", "index.js"],
+    ["HTML reference", "html-reference", undefined, "index.html"],
+  ] as const)(
+    "still resolves ./assets/../app.js for %s",
+    (_label, context, moduleKind, sourcePath) => {
+      expect(
+        resolve({
+          declaredPath: "./assets/../app.js",
+          sourcePath,
+          context,
+          ...(moduleKind === undefined ? {} : { moduleKind }),
+          files: files(),
+        }),
+      ).toMatchObject({
+        resolution_status: "resolved",
+        resolved_path: "app.js",
+        limitations: [],
+      });
+    },
+  );
+
+  it("reports a base href with an empty segment as unavailable", () => {
+    expect(
+      resolve({
+        declaredPath: "app.js",
+        sourcePath: "index.html",
+        context: "html-reference",
+        htmlBaseHref: "assets//../",
+        files: files(),
+      }),
+    ).toMatchObject({
+      declared_path: "app.js",
+      resolution_status: "unavailable",
+      resolved_path: null,
+      limitations: [repeatedSeparatorLimitation],
+    });
+  });
+});
+
 describe("JavaScript file URL resolution", () => {
   it("resolves file URL paths without interpreting query bytes as path syntax", () => {
     const files = fileMap([file("assets/app.js", "root")]);

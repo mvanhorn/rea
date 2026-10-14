@@ -462,6 +462,17 @@ const declaresLiteralPercent = (input: ResolveArtifactPathInput): boolean =>
   (input.context === "module-specifier" ||
     input.context === "package-entrypoint");
 
+// Empty URL segments are significant; canonical filesystem paths cannot
+// preserve them, including their interaction with following dot segments.
+const emptyUrlSegmentCandidate = (
+  decodedPath: string,
+): CandidateResolution | null =>
+  decodedPath.includes("//")
+    ? unresolvedCandidate("unavailable", [
+        "Repeated URL path separators cannot be mapped to an exact canonical artifact file.",
+      ])
+    : null;
+
 const contextualCandidate = (
   input: ResolveArtifactPathInput,
 ): string | CandidateResolution => {
@@ -522,6 +533,10 @@ const contextualCandidate = (
         ]);
       const decoded = decodeModuleUrlPath(stripQueryAndFragment(declared));
       if (typeof decoded !== "string") return decoded;
+      if (hasUrlPathSemantics) {
+        const emptySegments = emptyUrlSegmentCandidate(decoded);
+        if (emptySegments !== null) return emptySegments;
+      }
       declared = decoded;
     }
   } else if (looksExternal(declared))
@@ -551,12 +566,8 @@ const contextualCandidate = (
       return unresolvedCandidate("rejected", [
         "The URL reference path percent-decodes to NUL or to bytes that are not UTF-8.",
       ]);
-    // Empty URL segments are significant; canonical filesystem paths cannot
-    // preserve them, including their interaction with following dot segments.
-    if (decoded.includes("//"))
-      return unresolvedCandidate("unavailable", [
-        "Repeated URL path separators cannot be mapped to an exact canonical artifact file.",
-      ]);
+    const emptySegments = emptyUrlSegmentCandidate(decoded);
+    if (emptySegments !== null) return emptySegments;
     return exactUrlPathCandidate(
       decoded,
       relativeCandidate(input.sourcePath, decoded),
@@ -1066,6 +1077,8 @@ const htmlCandidate = (
     return unresolvedCandidate("rejected", [
       "The HTML reference path percent-decodes to NUL or to bytes that are not UTF-8.",
     ]);
+  const emptyDeclaredSegments = emptyUrlSegmentCandidate(declaredPath);
+  if (emptyDeclaredSegments !== null) return emptyDeclaredSegments;
   if (declaredPath.startsWith("/")) return declaredPath.slice(1);
   if (base === undefined || base === null || base === "")
     return declaredPath === ""
@@ -1083,6 +1096,8 @@ const htmlCandidate = (
     return unresolvedCandidate("rejected", [
       "The document base href path percent-decodes to NUL or to bytes that are not UTF-8.",
     ]);
+  const emptyBaseSegments = emptyUrlSegmentCandidate(decodedBase);
+  if (emptyBaseSegments !== null) return emptyBaseSegments;
   const basePath = decodedBase.startsWith("/")
     ? decodedBase.slice(1)
     : posix.join(posix.dirname(input.sourcePath), decodedBase);
