@@ -30,6 +30,8 @@ export const collectDoctorDiagnostics = async (
   host: DoctorHost,
 ): Promise<DoctorDiagnostics> => {
   const checks: DoctorCheck[] = [nodeCheck(host)];
+  const configuration = configurationCheck(host);
+  if (configuration !== undefined) checks.push(configuration);
   checks.push(await hostCheck(host));
 
   const hopperPath = await findHopper(host);
@@ -70,10 +72,12 @@ export const doctorHealthy = (
     return checks.every(({ ok }) => ok);
   const providerChecks = checks.filter(
     ({ name }) =>
-      name.startsWith("hopper") ||
-      providers.providerInspections?.some((inspection) =>
-        providerCheckName(inspection.id, name),
-      ) === true,
+      // Invalid settings block every provider, so this check stays core.
+      name !== "configuration" &&
+      (name.startsWith("hopper") ||
+        providers.providerInspections?.some((inspection) =>
+          providerCheckName(inspection.id, name),
+        ) === true),
   );
   const coreHealthy = checks
     .filter((candidate) => !providerChecks.includes(candidate))
@@ -93,6 +97,35 @@ export const doctorHealthy = (
     (providers.hopperAvailable ||
       providers.providerInspections.some(({ available }) => available))
   );
+};
+
+/**
+ * Startup rejects any invalid setting, so the check name stays outside the
+ * optional `hopper*` provider filter.
+ */
+const configurationCheck = (host: DoctorHost): DoctorCheck | undefined => {
+  const settings = host.configurationIssues?.() ?? [];
+  if (settings.length === 0) return undefined;
+  return {
+    ...check(
+      "configuration",
+      false,
+      settings
+        .map(({ setting, constraint }) => `${setting}: ${constraint}`)
+        .join("; "),
+      {
+        remediation:
+          "Correct each rejected setting so it satisfies the reported constraint, then rerun rea doctor.",
+        classification: "config_drift",
+      },
+    ),
+    details: {
+      settings: settings.map(({ setting, constraint }) => ({
+        setting,
+        constraint,
+      })),
+    },
+  };
 };
 
 /** Bun passes when its reported Node.js compatibility version is supported. */

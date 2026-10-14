@@ -61,9 +61,12 @@ export const scopeDoctorChecks = (
   const providerChecks = input.checks.filter((candidate) =>
     isProviderCheck(candidate.name, input.providers.providerInspections),
   );
+  // Any invalid runtime setting blocks startup, whichever provider it names.
   const coreChecks = input.checks.filter(
     ({ name }) =>
-      name === "node" || (input.scope.target !== null && name === "target"),
+      name === "node" ||
+      name === "configuration" ||
+      (input.scope.target !== null && name === "target"),
   );
   const clientChecks = input.scope.clients.map((client) =>
     selectedRegistrationCheck(
@@ -106,8 +109,9 @@ const isProviderCheck = (
   name: string,
   inspections: readonly DoctorProviderInspection[] | undefined,
 ): boolean =>
-  name.startsWith("hopper") ||
-  inspections?.some(({ id }) => doctorProviderCheckName(id, name)) === true;
+  name !== "configuration" &&
+  (name.startsWith("hopper") ||
+    inspections?.some(({ id }) => doctorProviderCheckName(id, name)) === true);
 
 const selectedProviderChecksFor = (
   providerId: string,

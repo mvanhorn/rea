@@ -1,9 +1,10 @@
 import { describe, expect, it } from "vitest";
 
+import { parseConfig } from "../config/parseConfig.js";
 import { SUPPORTED_NODE_VERSION_PROSE } from "../domain/runtimeVersion.js";
 import type { ClientRegistrationStatus } from "./ClientRegistrationStatus.js";
 import { createDoctorHostFixture as host } from "./Doctor.fixture.js";
-import { runDoctor } from "./Doctor.js";
+import { runDoctor, type DoctorProviderInspection } from "./Doctor.js";
 
 describe("doctor runtime check", () => {
   it("reports Node 25 as unsupported", async () => {
@@ -726,5 +727,114 @@ describe("doctor target admission diagnostics", () => {
       }),
     );
     expect(result.checks).toContainEqual(targetCheck);
+  });
+});
+
+const rejectedSettings = (timeout: string) => {
+  const parsed = parseConfig({ REA_HOPPER_STARTUP_TIMEOUT_MS: timeout });
+  return parsed.ok
+    ? []
+    : parsed.error.settings.map(({ setting, constraint }) => ({
+        setting,
+        constraint,
+      }));
+};
+
+describe("doctor runtime configuration", () => {
+  const readyGhidra: DoctorProviderInspection = {
+    id: "ghidra",
+    configured: true,
+    available: true,
+    providerVersion: "12.1.4",
+    registrationEnvironment: { GHIDRA_INSTALL_DIR: "/tools/ghidra" },
+    checks: [
+      {
+        name: "configuration",
+        ok: true,
+        code: null,
+        detail: "/tools/ghidra",
+        remediation: null,
+        classification: "config_drift",
+      },
+    ],
+  };
+  const configurationHost = (timeout: string) =>
+    host({
+      configurationIssues: () => rejectedSettings(timeout),
+      providerInspections: () => Promise.resolve([readyGhidra]),
+    });
+
+  it("fails hopper-scoped readiness when the startup timeout is 0", async () => {
+    const settings = rejectedSettings("0");
+    const result = await runDoctor(undefined, configurationHost("0"), {
+      providers: ["hopper"],
+    });
+
+    expect(settings.map(({ setting }) => setting)).toEqual([
+      "REA_HOPPER_STARTUP_TIMEOUT_MS",
+    ]);
+    expect(JSON.stringify(settings)).not.toContain('"0"');
+    expect(result).toMatchObject({
+      healthy: false,
+      environment_healthy: false,
+    });
+    expect(result.informational_checks.map(({ name }) => name)).not.toContain(
+      "configuration",
+    );
+    expect(
+      result.scope_checks.find(({ name }) => name === "configuration"),
+    ).toEqual({
+      name: "configuration",
+      ok: false,
+      classification: "config_drift",
+      detail: settings
+        .map(({ setting, constraint }) => `${setting}: ${constraint}`)
+        .join("; "),
+      remediation:
+        "Correct each rejected setting so it satisfies the reported constraint, then rerun rea doctor.",
+      details: { settings },
+    });
+  });
+
+  it("keeps hopper-scoped readiness healthy for a 120000 startup timeout", async () => {
+    const result = await runDoctor(undefined, configurationHost("120000"), {
+      providers: ["hopper"],
+    });
+
+    expect(rejectedSettings("120000")).toEqual([]);
+    expect(result.healthy).toBe(true);
+    expect(result.environment_healthy).toBe(true);
+    expect(result.checks.map(({ name }) => name)).not.toContain(
+      "configuration",
+    );
+  });
+
+  it("names every rejected setting without retaining values", async () => {
+    const settings = [
+      {
+        setting: "REA_HOPPER_STARTUP_TIMEOUT_MS",
+        constraint: "must be a positive decimal integer",
+      },
+      {
+        setting: "HOPPER_LOADER_ARGS_JSON",
+        constraint: "HOPPER_LOADER_ARGS_JSON must be valid JSON",
+      },
+    ];
+    const result = await runDoctor(
+      undefined,
+      host({
+        configurationIssues: () => settings,
+        providerInspections: () => Promise.resolve([readyGhidra]),
+      }),
+      { providers: ["hopper"] },
+    );
+
+    expect(result.healthy).toBe(false);
+    expect(result.environment_healthy).toBe(false);
+    expect(
+      result.scope_checks.find(({ name }) => name === "configuration")?.detail,
+    ).toBe(
+      "REA_HOPPER_STARTUP_TIMEOUT_MS: must be a positive decimal integer; HOPPER_LOADER_ARGS_JSON: HOPPER_LOADER_ARGS_JSON must be valid JSON",
+    );
   });
 });

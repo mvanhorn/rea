@@ -2,10 +2,14 @@ import { constants } from "node:fs";
 import { access, readdir, stat } from "node:fs/promises";
 import { ArtifactResourceScope } from "../artifacts/ArtifactResourceScope.js";
 import { homeDirectoryFromEnvironment } from "../config/homeDirectory.js";
+import { parseConfig } from "../config/parseConfig.js";
 import { join } from "node:path";
 
 import { analysisErrorRemediationAction } from "../domain/analysisErrorPresentation.js";
-import { BinaryTargetError } from "../domain/configurationErrors.js";
+import {
+  BinaryTargetError,
+  type ConfigurationSettingIssue,
+} from "../domain/configurationErrors.js";
 import { parseBinaryTarget } from "./BinaryTargetResolver.js";
 import { execFileOutput } from "../process/ExecFileOutput.js";
 import type { JsonValue } from "../domain/jsonValue.js";
@@ -107,6 +111,11 @@ export interface DoctorHost {
   providerInspections?(): Promise<readonly DoctorProviderInspection[]>;
   /** Validated provider settings preserved by setup, independent of readiness. */
   providerRegistrationEnvironment?(): Readonly<Record<string, string>>;
+  /**
+   * Settings rejected by the analysis runtime parser.
+   * Empty means the configuration is valid. Values are not included.
+   */
+  configurationIssues?(): readonly ConfigurationSettingIssue[];
   installationPaths?(): Promise<readonly string[]>;
   /** Undefined checks installed skill roots; explicit selections stay scoped. */
   installedSkillIdentity?(
@@ -436,6 +445,7 @@ export const systemDoctorHost = (
     ...(environment.REA_ILSPY_CMD_PATH === undefined
       ? {}
       : { configuredIlspyCmdPath: environment.REA_ILSPY_CMD_PATH }),
+    configurationIssues: () => rejectedRuntimeSettings(environment),
     macosVersion: () =>
       readMacosVersion(hostExecFileOutput, commandEnvironment),
     linuxDistribution: readLinuxDistribution,
@@ -581,6 +591,20 @@ export const systemDoctorHost = (
         resources,
       }),
   };
+};
+
+/** Settings `parseConfig` rejects before an analysis runtime can be constructed. */
+const rejectedRuntimeSettings = (
+  environment: Readonly<Record<string, string | undefined>>,
+): readonly ConfigurationSettingIssue[] => {
+  const parsed = parseConfig(environment);
+  if (parsed.ok) return [];
+  if (parsed.error.settings.length > 0)
+    return parsed.error.settings.map(({ setting, constraint }) => ({
+      setting,
+      constraint,
+    }));
+  return [{ setting: "environment", constraint: parsed.error.message }];
 };
 
 const readMacosVersion = async (

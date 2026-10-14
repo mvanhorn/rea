@@ -1,11 +1,15 @@
 import { chmod, mkdir, realpath, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 
-import { expect, it as test } from "vitest";
+import { expect, test } from "vitest";
 
-import { createSystemDoctorHost } from "./doctorRuntime.js";
+import { runDoctorOwned } from "./application/Doctor.js";
 import { DOCTOR_PROVIDER_IDS } from "./application/DoctorProviderIds.js";
 import { providerRegistrationEnvironment } from "./application/SetupRegistrationEnvironment.js";
+import { CLI_COMMANDS } from "./cliCommandNames.js";
+import { logCliCommand } from "./cliLogging.js";
+import { createSystemDoctorHost } from "./doctorRuntime.js";
+import { silentLogger } from "./logger.js";
 import { createTestTempDirectory } from "../tests/fixtures/temporaryDirectory.js";
 import { writeJadxJarInventory } from "../tests/fixtures/android/jadxJar.js";
 
@@ -40,6 +44,55 @@ it("omits REA_JADX_MCP_JAR from the provider registration environment when it is
 
   const environment = providerRegistrationEnvironment(inspections ?? []);
   expect(environment).not.toHaveProperty("REA_JADX_MCP_JAR");
+});
+
+test("exits nonzero when scoped hopper readiness rejects a startup timeout of 0", async () => {
+  const root = await createTestTempDirectory("rea-doctor-config-");
+  const report = await runDoctorOwned(
+    undefined,
+    createSystemDoctorHost({
+      HOME: root,
+      USERPROFILE: root,
+      REA_HOPPER_STARTUP_TIMEOUT_MS: "0",
+    }),
+    { providers: ["hopper"] },
+  );
+  const configuration = report.scope_checks.find(
+    ({ name }) => name === "configuration",
+  );
+
+  expect(report.healthy).toBe(false);
+  expect(configuration).toMatchObject({
+    ok: false,
+    classification: "config_drift",
+    detail: expect.stringContaining("REA_HOPPER_STARTUP_TIMEOUT_MS"),
+  });
+  expect(JSON.stringify(configuration)).not.toContain('"0"');
+  expect(report.informational_checks.map(({ name }) => name)).not.toContain(
+    "configuration",
+  );
+  const previousExitCode = process.exitCode;
+  try {
+    await logCliCommand(silentLogger, CLI_COMMANDS.doctor, async () => report);
+    expect(process.exitCode).toBe(1);
+  } finally {
+    process.exitCode = previousExitCode;
+  }
+});
+
+test("accepts a 120000 Hopper startup timeout without a configuration failure", async () => {
+  const root = await createTestTempDirectory("rea-doctor-config-");
+  const report = await runDoctorOwned(
+    undefined,
+    createSystemDoctorHost({
+      HOME: root,
+      USERPROFILE: root,
+      REA_HOPPER_STARTUP_TIMEOUT_MS: "120000",
+    }),
+    { providers: ["hopper"] },
+  );
+
+  expect(report.checks.map(({ name }) => name)).not.toContain("configuration");
 });
 
 const createFakeJdk = async (root: string): Promise<string> => {
