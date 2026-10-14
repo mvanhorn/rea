@@ -7,6 +7,7 @@ import type {
   ExecutionOptions,
   ProviderIdentity,
 } from "../application/AnalysisProvider.js";
+import type { ElectronFusePort } from "../application/electron/ElectronFusePort.js";
 import type {
   CanonicalElectronActiveObservationInput,
   ElectronActiveObservationPort,
@@ -31,6 +32,7 @@ import {
   systemProcessOwnershipHost,
 } from "../process/ProcessOwnershipObservation.js";
 import { selectCapturedProcessGroupIds } from "../process/ProcessOwnershipProcessTree.js";
+import { refuseDisabledInspectArguments } from "./ElectronActiveInspectArguments.js";
 import {
   runElectronActions,
   readApplicationState,
@@ -48,6 +50,7 @@ const hookPath = fileURLToPath(
 );
 
 type ElectronApplication = Awaited<ReturnType<typeof electron.launch>>;
+export type ElectronActiveLaunch = typeof electron.launch;
 type ElectronPaths = {
   readonly executable: string;
   readonly application: string;
@@ -59,8 +62,9 @@ export class PlaywrightElectronActiveProvider implements ElectronActiveObservati
   constructor(
     private readonly environment: Readonly<Record<string, string | undefined>>,
     // Load Playwright only when a capture launches; MCP startup stays off its module graph.
-    private readonly launch: typeof electron.launch = async (options) =>
+    private readonly launch: ElectronActiveLaunch = async (options) =>
       (await import("playwright-core"))._electron.launch(options),
+    private readonly fuses?: ElectronFusePort,
   ) {}
 
   identity(): ProviderIdentity {
@@ -85,6 +89,14 @@ export class PlaywrightElectronActiveProvider implements ElectronActiveObservati
     try {
       if (options.signal?.aborted === true)
         throw new BrowserObservationError(OPERATION, "cancelled");
+      // Hash the framework before the launch budget starts, or a large binary
+      // spends the 60s deadline on a read that never needs to launch.
+      const refusal = await refuseDisabledInspectArguments(
+        this.fuses,
+        input.executable_path,
+        options.signal,
+      );
+      if (refusal !== undefined) return err(refusal);
       await prepareProcessOwnershipInspection(options.signal);
       const startupDeadline = performance.now() + STARTUP_TIMEOUT_MS;
       paths = {

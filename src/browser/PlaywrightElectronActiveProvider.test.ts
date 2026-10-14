@@ -1,14 +1,26 @@
 import { afterEach, expect, it, vi } from "vitest";
 import { dirname } from "node:path";
 
+import type { ElectronFusePort } from "../application/electron/ElectronFusePort.js";
 import * as processOwnership from "../process/ProcessOwnership.js";
 import * as electronActions from "./PlaywrightElectronActiveActions.js";
+import { createElectronScenarioProvider } from "../composition/electronScenario.js";
+import {
+  AnalysisCancelledError,
+  AnalysisInputError,
+  AnalysisUnsupportedTargetError,
+} from "../domain/analysisErrorCore.js";
+import type { ElectronFuseReport } from "../domain/electron/electronFuses.js";
 import { electronActiveObservationInputSchema } from "../domain/javascript/electronActiveObservation.js";
+import type { CanonicalElectronActiveObservationInput } from "../application/javascript/ElectronActiveObservationPort.js";
 import type { OwnedProcessGroup } from "../process/ProcessOwnership.js";
+import { err, ok, type Result } from "../domain/result.js";
+import type { AnalysisError } from "../domain/analysisErrorBase.js";
 import {
   cleanupElectronProcesses,
   PlaywrightElectronActiveProvider,
   safeElectronEnvironment,
+  type ElectronActiveLaunch,
 } from "./PlaywrightElectronActiveProvider.js";
 
 afterEach(() => {
@@ -252,4 +264,299 @@ it("retains the initial snapshot when the final state read fails", async () => {
       ]),
     },
   });
+});
+
+const FUSE_READER_IDENTITY = {
+  id: "recording-electron-fuses",
+  name: "Recording Electron fuse reader",
+  version: "1",
+} as const;
+
+const captureInput = (
+  executable = process.execPath,
+): CanonicalElectronActiveObservationInput => ({
+  executable_path: executable,
+  application_path: executable,
+  application_root: dirname(executable),
+  args: [],
+  actions: [],
+});
+
+const fuseReport = (
+  implications: readonly {
+    readonly subject: "node_cli_inspect_arguments" | "electron_run_as_node";
+    readonly outcome: "honored" | "not_honored" | "unknown";
+  }[],
+): ElectronFuseReport =>
+  ({
+    runtime_implications: implications.map((implication, index) => ({
+      relationship: "derivation",
+      subject: implication.subject,
+      fuse_index: implication.subject === "node_cli_inspect_arguments" ? 3 : 0,
+      outcome: implication.outcome,
+      slice_index: index,
+      sentinel_offset: index,
+    })),
+  }) as ElectronFuseReport;
+
+const fuseReader = (
+  inspect: ElectronFusePort["inspect"],
+): ElectronFusePort => ({
+  identity: FUSE_READER_IDENTITY,
+  inspect,
+});
+
+const recordLaunch = (): {
+  readonly launch: ElectronActiveLaunch;
+  readonly calls: Parameters<ElectronActiveLaunch>[0][];
+} => {
+  const calls: Parameters<ElectronActiveLaunch>[0][] = [];
+  return {
+    calls,
+    launch: async (options) => {
+      calls.push(options);
+      throw new Error("launch boundary reached");
+    },
+  };
+};
+
+const withPlatform = async (
+  platform: NodeJS.Platform,
+  run: () => Promise<void>,
+): Promise<void> => {
+  const originalPlatform = Object.getOwnPropertyDescriptor(process, "platform");
+  Object.defineProperty(process, "platform", { value: platform });
+  try {
+    await run();
+  } finally {
+    if (originalPlatform !== undefined)
+      Object.defineProperty(process, "platform", originalPlatform);
+  }
+};
+
+const expectInspectArgumentsRefusal = (
+  result: Result<unknown, AnalysisError>,
+  executable: string,
+): void => {
+  expect(result.ok).toBe(false);
+  if (result.ok) throw new Error("expected fuse refusal");
+  expect(result.error).toBeInstanceOf(AnalysisUnsupportedTargetError);
+  expect(result.error).toMatchObject({
+    _tag: "AnalysisUnsupportedTargetError",
+    operation: "capture_electron_scenario",
+    path: executable,
+    reason:
+      "EnableNodeCliInspectArguments is disabled or removed, so Electron ignores Node inspector arguments and active capture cannot attach.",
+    remediationAction:
+      "Use passive CDP tools, or a stock Electron runtime with the extracted app.",
+  });
+};
+
+const refusedReport = (): ElectronFuseReport =>
+  fuseReport([
+    { subject: "node_cli_inspect_arguments", outcome: "not_honored" },
+  ]);
+
+it("refuses active capture before launch when EnableNodeCliInspectArguments is disabled", async () => {
+  const { launch, calls } = recordLaunch();
+  const provider = new PlaywrightElectronActiveProvider(
+    {},
+    launch,
+    fuseReader(async () => ok(refusedReport())),
+  );
+  const executable = process.execPath;
+  const result = await provider.capture(captureInput(executable));
+
+  expect(calls).toEqual([]);
+  expectInspectArgumentsRefusal(result, executable);
+});
+
+it("refuses active capture before launch when EnableNodeCliInspectArguments is removed", async () => {
+  const { launch, calls } = recordLaunch();
+  const provider = new PlaywrightElectronActiveProvider(
+    {},
+    launch,
+    fuseReader(async () =>
+      ok(
+        fuseReport([
+          { subject: "node_cli_inspect_arguments", outcome: "not_honored" },
+          { subject: "electron_run_as_node", outcome: "honored" },
+        ]),
+      ),
+    ),
+  );
+  const executable = process.execPath;
+  const result = await provider.capture(captureInput(executable));
+
+  expect(calls).toEqual([]);
+  expectInspectArgumentsRefusal(result, executable);
+});
+
+it.each([
+  {
+    label: "enabled",
+    inspected: async () =>
+      ok(
+        fuseReport([
+          { subject: "node_cli_inspect_arguments", outcome: "honored" },
+        ]),
+      ),
+  },
+  {
+    label: "unknown",
+    inspected: async () =>
+      ok(
+        fuseReport([
+          { subject: "node_cli_inspect_arguments", outcome: "not_honored" },
+          { subject: "node_cli_inspect_arguments", outcome: "unknown" },
+        ]),
+      ),
+  },
+  {
+    label: "mixed across slices",
+    inspected: async () =>
+      ok(
+        fuseReport([
+          { subject: "node_cli_inspect_arguments", outcome: "not_honored" },
+          { subject: "node_cli_inspect_arguments", outcome: "honored" },
+        ]),
+      ),
+  },
+  {
+    label: "absent",
+    inspected: async () =>
+      ok(
+        fuseReport([
+          { subject: "electron_run_as_node", outcome: "not_honored" },
+        ]),
+      ),
+  },
+  {
+    label: "an inspection error",
+    inspected: async () =>
+      err(new AnalysisInputError("inspect_electron_fuses")),
+  },
+  {
+    label: "a thrown inspection error",
+    inspected: async () => {
+      throw new Error("unreadable fuse wire");
+    },
+  },
+])(
+  "launches when the inspect-arguments fuse state is $label",
+  async ({ label, inspected }) => {
+    const { launch, calls } = recordLaunch();
+    const provider = new PlaywrightElectronActiveProvider(
+      {},
+      launch,
+      fuseReader(inspected),
+    );
+    const executable = process.execPath;
+    const result = await provider.capture(captureInput(executable));
+
+    expect(calls).toHaveLength(1);
+    expect(result.ok).toBe(false);
+    if (result.ok) throw new Error("expected launch boundary");
+    expect(result.error._tag).not.toBe("AnalysisUnsupportedTargetError");
+    if (label === "enabled")
+      expect(calls[0]).toEqual(
+        expect.objectContaining({
+          executablePath: executable,
+          cwd: dirname(executable),
+          args: [
+            "-r",
+            expect.stringContaining("electron-active-hook.cjs"),
+            executable,
+          ],
+        }),
+      );
+  },
+);
+
+it("passes a macOS executable inside an app bundle to the fuse reader as the enclosing .app", async () => {
+  const executable = "/Applications/Example.app/Contents/MacOS/Example";
+  const inspected: string[] = [];
+  const { launch, calls } = recordLaunch();
+  const provider = new PlaywrightElectronActiveProvider(
+    {},
+    launch,
+    fuseReader(async (input) => {
+      inspected.push(input.path);
+      return ok(refusedReport());
+    }),
+  );
+
+  await withPlatform("darwin", async () => {
+    const result = await provider.capture(captureInput(executable));
+    expect(inspected).toEqual(["/Applications/Example.app"]);
+    expect(calls).toEqual([]);
+    expectInspectArgumentsRefusal(result, executable);
+  });
+});
+
+it("passes the executable itself when the host is not macOS", async () => {
+  const executable = "/Applications/Example.app/Contents/MacOS/Example";
+  const inspected: string[] = [];
+  const { launch, calls } = recordLaunch();
+  const provider = new PlaywrightElectronActiveProvider(
+    {},
+    launch,
+    fuseReader(async (input) => {
+      inspected.push(input.path);
+      return ok(refusedReport());
+    }),
+  );
+
+  await withPlatform("linux", async () => {
+    const result = await provider.capture(captureInput(executable));
+    expect(inspected).toEqual([executable]);
+    expect(calls).toEqual([]);
+    expectInspectArgumentsRefusal(result, executable);
+  });
+});
+
+it("does not launch when fuse inspection is cancelled", async () => {
+  const { launch, calls } = recordLaunch();
+  const controller = new AbortController();
+  const provider = new PlaywrightElectronActiveProvider(
+    {},
+    launch,
+    fuseReader(async () => {
+      controller.abort();
+      return err(new AnalysisCancelledError("inspect_electron_fuses"));
+    }),
+  );
+  const result = await provider.capture(captureInput(), {
+    signal: controller.signal,
+  });
+
+  expect(calls).toEqual([]);
+  expect(result.ok).toBe(false);
+  if (result.ok) throw new Error("expected cancellation");
+  expect(result.error).toMatchObject({
+    _tag: "BrowserObservationError",
+    reason: "cancelled",
+    operation: "capture_electron_scenario",
+  });
+});
+
+it("wires the electron scenario fuse reader and refuses before launch", async () => {
+  const inspected: string[] = [];
+  const { launch, calls } = recordLaunch();
+  const executable = process.execPath;
+  const provider = createElectronScenarioProvider(
+    {},
+    {
+      launch,
+      fuses: fuseReader(async (input) => {
+        inspected.push(input.path);
+        return ok(refusedReport());
+      }),
+    },
+  );
+  const result = await provider.capture(captureInput(executable));
+
+  expect(inspected).toEqual([executable]);
+  expect(calls).toEqual([]);
+  expectInspectArgumentsRefusal(result, executable);
 });
