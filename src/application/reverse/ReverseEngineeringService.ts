@@ -215,7 +215,14 @@ export class ReverseEngineeringService {
   ): Promise<Result<Evidence, AnalysisError>> {
     const parsed = objdumpInputSchema.safeParse(rawInput);
     if (!parsed.success)
-      return err(new AnalysisInputError("inspect_with_objdump"));
+      return err(
+        analysisInputErrorFromIssues(
+          "inspect_with_objdump",
+          parsed.error.issues,
+          rawInput,
+          { cause: parsed.error },
+        ),
+      );
     const {
       detail,
       command_timeout_ms: commandTimeoutMs,

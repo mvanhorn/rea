@@ -1,6 +1,9 @@
 import { rm } from "node:fs/promises";
 import { expect, it, vi } from "vitest";
 
+import { AnalysisInputError } from "../../src/domain/analysisErrorCore.js";
+import { projectInputIssues } from "../../src/domain/inputIssueProjection.js";
+import { objdumpInputSchema } from "../../src/domain/reverseEngineering.js";
 import { createArtifact } from "../support/reverseEngineeringCompositionFixtures.js";
 import { TestReverseEngineeringService } from "../support/reverseEngineeringService.js";
 
@@ -85,7 +88,8 @@ it.each([
   async (operation) => {
     const digest = vi.fn();
     const run = vi.fn();
-    const service = new TestReverseEngineeringService({ digest, run });
+    const stat = vi.fn();
+    const service = new TestReverseEngineeringService({ digest, run, stat });
     const result = await service.inspectWithObjdump({
       ...(operation === "architectures" ? {} : { path: "/unread-artifact" }),
       operation,
@@ -93,10 +97,14 @@ it.each([
     });
     expect(result).toMatchObject({
       ok: false,
-      error: { _tag: "AnalysisInputError" },
+      error: {
+        _tag: "AnalysisInputError",
+        issues: [{ path: ["symbol"], reason: "unknown_argument" }],
+      },
     });
     expect(digest).not.toHaveBeenCalled();
     expect(run).not.toHaveBeenCalled();
+    expect(stat).not.toHaveBeenCalled();
     await service.close();
   },
 );
@@ -114,15 +122,24 @@ it.each([
   const digest = vi.fn();
   const run = vi.fn();
   const service = new TestReverseEngineeringService({ digest, run });
-  const result = await service.inspectWithObjdump({
+  const input = {
     path: "/unread-artifact",
-    operation: "disassemble",
+    operation: "disassemble" as const,
     symbol,
-  });
-  expect(result).toMatchObject({
-    ok: false,
-    error: { _tag: "AnalysisInputError" },
-  });
+  };
+  const parsed = objdumpInputSchema.safeParse(input);
+  if (parsed.success) throw new Error("expected schema rejection");
+  const projected = projectInputIssues(parsed.error.issues, input);
+  expect(projected).toEqual(
+    expect.arrayContaining([expect.objectContaining({ path: ["symbol"] })]),
+  );
+  const result = await service.inspectWithObjdump(input);
+  expect(result.ok).toBe(false);
+  if (result.ok) throw new Error("expected input rejection");
+  expect(result.error).toBeInstanceOf(AnalysisInputError);
+  if (!(result.error instanceof AnalysisInputError))
+    throw new Error("expected AnalysisInputError");
+  expect(result.error.issues).toEqual(projected);
   expect(digest).not.toHaveBeenCalled();
   expect(run).not.toHaveBeenCalled();
   await service.close();
