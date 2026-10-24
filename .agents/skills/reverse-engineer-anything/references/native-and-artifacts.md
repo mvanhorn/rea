@@ -125,6 +125,19 @@ table or overlay. Bound snapshots, loaded IAT contents, and export-forward
 resolution remain unobserved. See
 [PE import and delay-load tables](https://github.com/morluto/rea/blob/main/docs/pe-imports.md).
 
+## PE TLS callbacks and load configuration
+
+Use `inspect_pe_load_config` for an explicit local PE32/PE32+ image when the
+question concerns code that runs before the entry point through TLS callbacks,
+or the security cookie, SafeSEH, CFG, EH-continuation and XFG declarations in
+the load configuration. No `open_binary`, Windows SDK, or target execution is
+required. The CLI equivalent is `inspect-pe-load-config PATH`. Preserve artifact
+SHA-256, directory and callback-array file ranges, and callback VAs as
+hexadecimal strings. Fields outside the declared `Size` are `null`. Guard-flag
+mitigations carry `evidence_kind: "inferred"`; enforcement remains unobserved.
+See
+[PE TLS callbacks and load configuration](https://github.com/morluto/rea/blob/main/docs/pe-load-config.md).
+
 ## ELF note tables
 
 Use `inspect_elf_notes` for an explicit local ELF32/ELF64 image when the

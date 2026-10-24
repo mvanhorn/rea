@@ -531,7 +531,7 @@ const workflowAvailabilityFor = ({
     return { reason: "available", remediation: null };
   if (name === "inspect_pe_certificates" || name === "inspect_pe_imports")
     return { reason: "available", remediation: null };
-  if (name === "inspect_elf_notes")
+  if (name === "inspect_elf_notes" || name === "inspect_pe_load_config")
     return { reason: "available", remediation: null };
   if (name === "inspect_evm_interface") {
     const profile = hostRestrictedAvailability(

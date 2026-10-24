@@ -259,6 +259,14 @@ explicit path or endpoint and do not need it.
   proof the image never imported APIs through another table. Bound snapshots
   and loaded IAT contents remain unobserved. See the
   [PE import guide](https://github.com/morluto/rea/blob/main/docs/pe-imports.md).
+- PE TLS callbacks and load configuration: `inspect_pe_load_config` with the
+  explicit local PE32/PE32+ file. This built-in target-free inspection requires
+  no Windows SDK. Preserve callback VAs as strings with their RVA, file offset
+  and section, and the size-covered security cookie, SafeSEH, CFG,
+  EH-continuation and XFG fields. Guard-flag mitigation claims are inferred
+  linker declarations, not proof of enforcement. A missing directory is observed
+  absence of that declaration. See the
+  [PE load configuration guide](https://github.com/morluto/rea/blob/main/docs/pe-load-config.md).
 - ELF note tables: `inspect_elf_notes` with the explicit local ELF32/ELF64
   file. This built-in target-free inspection requires no disassembler. Preserve
   PT_NOTE and SHT_NOTE ranges, owners, types, descriptor SHA-256, and GNU

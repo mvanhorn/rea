@@ -1,3 +1,5 @@
+import { PeLoadConfigService } from "../application/binaryDiagnostics/PeLoadConfigService.js";
+import { PeLoadConfigProvider } from "../native/pe/PeLoadConfigProvider.js";
 import { ByteEntropyService } from "../application/binaryDiagnostics/ByteEntropyService.js";
 import { RecordedCrashService } from "../application/binaryDiagnostics/RecordedCrashService.js";
 import { PwntoolsRecordedCrashProvider } from "../native/pwntools/PwntoolsRecordedCrashProvider.js";
@@ -53,3 +55,6 @@ export const createRecordedCrashService = (
 export const createByteEntropyService = (
   resources?: ArtifactResourceScope,
 ): ByteEntropyService => new ByteEntropyService(undefined, resources);
+
+export const createPeLoadConfigService = (): PeLoadConfigService =>
+  new PeLoadConfigService(new PeLoadConfigProvider());

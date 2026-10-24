@@ -1,3 +1,5 @@
+import { PeLoadConfigProvider } from "../../src/native/pe/PeLoadConfigProvider.js";
+import { inspectPeLoadConfigInputSchema } from "../../src/domain/native/peLoadConfig.js";
 import { open, writeFile, type FileHandle } from "node:fs/promises";
 import { createHash } from "node:crypto";
 import { join } from "node:path";
@@ -857,6 +859,7 @@ const stableArtifactProviders = [
   ...staticProviders,
   ["ELF notes", () => new ElfNotesProvider()],
   ["PE certificates", () => new PeCertificatesProvider()],
+  ["PE load configuration", () => new PeLoadConfigProvider()],
   ["PE imports", () => new PeImportsProvider()],
   ["native exports", () => new NativeExportsProvider()],
   ["Python pyc", () => new PythonPycProvider()],
@@ -886,6 +889,11 @@ const inspectFileFailure = (
   if (provider instanceof PeCertificatesProvider)
     return provider.inspect(
       inspectPeCertificatesInputSchema.parse({ path }),
+      options,
+    );
+  if (provider instanceof PeLoadConfigProvider)
+    return provider.inspect(
+      inspectPeLoadConfigInputSchema.parse({ path }),
       options,
     );
   if (provider instanceof PeImportsProvider)

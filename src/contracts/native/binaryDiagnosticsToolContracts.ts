@@ -1,3 +1,7 @@
+import {
+  inspectPeLoadConfigInputSchema,
+  peLoadConfigSchema,
+} from "../../domain/native/peLoadConfig.js";
 import { inspectByteEntropyInputSchema } from "../../domain/native/byteEntropy.js";
 import { publicInputStrictObject } from "../../domain/publicInput.js";
 import { byteEntropyOutputSchema } from "../toolOutputSchemaGroups.js";
@@ -58,6 +62,22 @@ export const inspectByteEntropyRequestSchema = publicInputStrictObject(
 
 /** Offline binary diagnostics are independent of macOS process/UI providers. */
 export const BINARY_DIAGNOSTICS_TOOL_CONTRACTS = [
+  {
+    name: "inspect_pe_load_config",
+    ...toolContractMetadata("inspect_pe_load_config"),
+    kind: "native-provider",
+    description:
+      "Inspect PE32/PE32+ TLS callbacks and sized load configuration without executing the image. Returns callback VA/RVA/file offsets and sections, security cookie, SafeSEH (PE32), CFG flags and table pointers/counts, EH continuation and XFG fields. Flag-derived mitigation claims are labeled inferred. Absent directories are null; malformed structures and exhausted budgets fail without partial success. Reads a stable local regular file without a disassembler.",
+    inputSchema: inspectPeLoadConfigInputSchema,
+    outputSchema: evidenceResultOf(peLoadConfigSchema),
+    examples: [
+      {
+        title: "Inspect PE TLS callbacks and load configuration",
+        input: { path: "/artifacts/program" },
+      },
+    ],
+  },
+
   {
     name: "inspect_elf_notes",
     ...toolContractMetadata("inspect_elf_notes"),

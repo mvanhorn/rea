@@ -1,3 +1,4 @@
+import { inspectPeLoadConfigInputSchema } from "../domain/native/peLoadConfig.js";
 import { inspectByteEntropyInputSchema } from "../domain/native/byteEntropy.js";
 import { z } from "incur";
 import {
@@ -5,6 +6,7 @@ import {
   createRecordedCrashService,
   createBinaryLayoutService,
   createElfNotesService,
+  createPeLoadConfigService,
   createPeResourcesService,
   createPeCertificatesService,
   createPeImportsService,
@@ -67,6 +69,41 @@ export const registerBinaryDiagnosticsCommands = (
               elf,
               "rea-elf-notes",
               "inspect_elf_notes",
+              signal,
+            ),
+        );
+      }),
+  });
+  cli.command(CLI_COMMANDS.inspectPeLoadConfig, {
+    description:
+      "Inspect PE TLS callbacks and load configuration without executing the image",
+    args: z.object({
+      path: localPathStringSchema.describe("Local PE32/PE32+ image"),
+    }),
+    options: z.object({
+      maxFileBytes: inspectPeLoadConfigInputSchema.shape.max_file_bytes,
+      maxCallbacks: inspectPeLoadConfigInputSchema.shape.max_callbacks,
+    }),
+    run: ({ args, options }) =>
+      withCommandCancellation(async (signal) => {
+        const elf = createPeLoadConfigService();
+        return await logCliCommand(
+          logger,
+          CLI_COMMANDS.inspectPeLoadConfig,
+          async () =>
+            finishAnalysisCommand(
+              () =>
+                elf.inspect(
+                  {
+                    path: absoluteCallerPath(args.path),
+                    max_file_bytes: options.maxFileBytes,
+                    max_callbacks: options.maxCallbacks,
+                  },
+                  { signal },
+                ),
+              elf,
+              "rea-pe-load-config",
+              "inspect_pe_load_config",
               signal,
             ),
         );

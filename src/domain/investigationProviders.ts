@@ -158,3 +158,9 @@ export const RECONSTRUCTION_PROVIDER = {
   name: "REA reconstruction verifier",
   version: "1",
 } as const;
+
+export const PE_LOAD_CONFIG_PROVIDER = Object.freeze({
+  id: "rea-pe-load-config",
+  name: "REA PE TLS/load-config parser",
+  version: "1",
+} as const);

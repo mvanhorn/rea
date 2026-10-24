@@ -34,6 +34,7 @@ export default defineConfig({
           { text: "Rust dependencies", link: "/rust-binaries" },
           { text: "PE certificates", link: "/pe-certificates" },
           { text: "PE imports", link: "/pe-imports" },
+          { text: "PE TLS/load config", link: "/pe-load-config" },
           { text: "ELF notes", link: "/elf-notes" },
           { text: "CPython pyc files", link: "/python-pyc" },
           { text: "Erlang BEAM", link: "/erlang-beam" },

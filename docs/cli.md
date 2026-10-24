@@ -986,3 +986,13 @@ Counting retains the existing bounded formatted-string allocation after capacity
 admission; omit the flag to stream large JSON documents without materializing
 the complete formatted text. Exhausted token windows display an empty range at
 the total token count and have no next offset.
+
+### PE TLS and load configuration
+
+```sh
+rea inspect-pe-load-config /absolute/path/to/application.exe --json
+```
+
+Reports TLS callbacks and size-covered load-config fields without execution.
+Use `--max-callbacks` and `--max-file-bytes` to set read budgets. See
+[PE TLS and load configuration](pe-load-config.md).
