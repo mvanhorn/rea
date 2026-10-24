@@ -5,6 +5,7 @@ import {
   createRecordedCrashService,
   createBinaryLayoutService,
   createElfNotesService,
+  createKernelModuleService,
   createPeResourcesService,
   createPeCertificatesService,
   createPeImportsService,
@@ -22,6 +23,7 @@ import { inspectPeCertificatesInputSchema } from "../domain/native/peCertificate
 import { inspectPeImportsInputSchema } from "../domain/native/peImports.js";
 import { inspectNativeExportsInputSchema } from "../domain/native/nativeExports.js";
 import { inspectElfNotesInputSchema } from "../domain/native/elfNotes.js";
+import { inspectKernelModuleInputSchema } from "../domain/native/kernelModule.js";
 import { projectAnalysisError } from "../domain/analysisErrorProjection.js";
 import { finishAnalysisCommand } from "./finishAnalysisCommand.js";
 import { localPathStringSchema } from "../domain/localPath.js";
@@ -67,6 +69,43 @@ export const registerBinaryDiagnosticsCommands = (
               elf,
               "rea-elf-notes",
               "inspect_elf_notes",
+              signal,
+            ),
+        );
+      }),
+  });
+  cli.command(CLI_COMMANDS.inspectKernelModule, {
+    description:
+      "Inspect Linux kernel module metadata without executing the module",
+    args: z.object({
+      path: localPathStringSchema.describe(
+        "Local ELF32/ELF64 kernel module or compressed .ko container",
+      ),
+    }),
+    options: z.object({
+      maxFileBytes: inspectKernelModuleInputSchema.shape.max_file_bytes,
+      maxEntries: inspectKernelModuleInputSchema.shape.max_entries,
+    }),
+    run: ({ args, options }) =>
+      withCommandCancellation(async (signal) => {
+        const kernelModule = createKernelModuleService();
+        return await logCliCommand(
+          logger,
+          CLI_COMMANDS.inspectKernelModule,
+          async () =>
+            finishAnalysisCommand(
+              () =>
+                kernelModule.inspect(
+                  {
+                    path: absoluteCallerPath(args.path),
+                    max_file_bytes: options.maxFileBytes,
+                    max_entries: options.maxEntries,
+                  },
+                  { signal },
+                ),
+              kernelModule,
+              "rea-kernel-module",
+              "inspect_kernel_module",
               signal,
             ),
         );

@@ -136,6 +136,25 @@ absence of those declarations, not proof the image never carried notes in
 another container. See
 [ELF note tables](https://github.com/morluto/rea/blob/main/docs/elf-notes.md).
 
+## Linux kernel modules
+
+Use `inspect_kernel_module` for an explicit local ELF32/ELF64 relocatable
+object when the question concerns `.modinfo` license, vermagic, alias,
+depends, or parm strings, the `__versions` symbol CRCs, or an appended module
+signature trailer. No `open_binary`, Linux host, or `modinfo` program is
+required. The CLI equivalent is `inspect-kernel-module PATH`. Preserve
+artifact SHA-256, key order, duplicate keys, CRC hex, and section file ranges.
+A missing section is observed absence when section names are known, not proof
+the module never carried that metadata. `.gnu.linkonce.this_module` is reported
+as present or absent; `struct module` stays unknown because its layout changes
+with the kernel version. `__ksymtab` records are not decoded. The PKCS#7 range
+and its SHA-256 are observed; certificate, signer, and digest coverage remain
+unvalidated. An absent trailer is not proof the module is unsigned in another
+container. gzip, xz, and zstd whole-file containers are unsupported and name
+`external_decompression` as the next probe: use an external codec utility to
+decompress into a separate file, then call `inspect_kernel_module` on that file. See
+[Linux kernel modules](https://github.com/morluto/rea/blob/main/docs/kernel-modules.md).
+
 ## CPython pyc files
 
 Use `inspect_python_pyc` for an explicit local CPython 3.7–3.13 `.pyc` when the

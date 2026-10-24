@@ -12,6 +12,8 @@ import { PeImportsService } from "../application/binaryDiagnostics/PeImportsServ
 import { PeImportsProvider } from "../native/pe/PeImportsProvider.js";
 import { ElfNotesService } from "../application/binaryDiagnostics/ElfNotesService.js";
 import { ElfNotesProvider } from "../native/elf/ElfNotesProvider.js";
+import { KernelModuleService } from "../application/binaryDiagnostics/KernelModuleService.js";
+import { KernelModuleProvider } from "../native/elf/KernelModuleProvider.js";
 import type { ArtifactResourceScope } from "../artifacts/ArtifactResourceScope.js";
 import { NativeExportsService } from "../application/binaryDiagnostics/NativeExportsService.js";
 import { NativeExportsProvider } from "../native/exports/NativeExportsProvider.js";
@@ -36,6 +38,10 @@ export const createNativeExportsService = (): NativeExportsService =>
 /** Portable ELF note-table inspection with no engine or package catalog. */
 export const createElfNotesService = (): ElfNotesService =>
   new ElfNotesService(new ElfNotesProvider());
+
+/** Portable Linux kernel-module metadata inspection with no engine or host `modinfo`. */
+export const createKernelModuleService = (): KernelModuleService =>
+  new KernelModuleService(new KernelModuleProvider());
 
 /** Compose the offline adapter without import-time I/O or dependency acquisition. */
 export const createBinaryLayoutService = (

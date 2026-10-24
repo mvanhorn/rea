@@ -275,6 +275,13 @@ export const providerCatalog = (sources) => {
         ),
     },
     {
+      identity: sources.artifactProviders.KERNEL_MODULE_PROVIDER,
+      contracts:
+        sources.binaryDiagnosticsContracts.BINARY_DIAGNOSTICS_TOOL_CONTRACTS.filter(
+          ({ name }) => name === "inspect_kernel_module",
+        ),
+    },
+    {
       identity: sources.artifactProviders.BYTE_ENTROPY_PROVIDER,
       contracts:
         sources.binaryDiagnosticsContracts.BINARY_DIAGNOSTICS_TOOL_CONTRACTS.filter(

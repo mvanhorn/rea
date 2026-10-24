@@ -311,6 +311,23 @@ The workflow reports note owners, types, descriptor hashes, and GNU build-id
 or ABI-tag fields when those descriptors match. A missing note table is
 observed absence of those declarations. See [ELF note tables](elf-notes.md).
 
+Inspect Linux kernel module metadata without executing the module or requiring
+`modinfo`:
+
+```bash
+rea inspect-kernel-module /absolute/path/to/module.ko --json
+```
+
+The workflow reports ordered `.modinfo` keys (duplicate `alias` and `parm`
+entries preserved), `__versions` symbol CRCs, presence of
+`.gnu.linkonce.this_module` and `__ksymtab` sections, observed `.init.text`
+and `.exit.text` sizes, and an appended signature trailer. `struct module` is
+not decoded and the signature is not validated. Other ELF types are not
+applicable. gzip, xz, and zstd containers are unsupported and name
+`external_decompression` as the next probe: decompress with an external
+utility, then inspect the decompressed file. See
+[Linux kernel modules](kernel-modules.md).
+
 Inspect a CPython 3.7–3.13 `.pyc` header and nested marshal code objects
 without executing bytecode or installing Python:
 

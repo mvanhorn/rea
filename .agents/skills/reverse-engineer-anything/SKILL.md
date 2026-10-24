@@ -2,7 +2,7 @@
 name: reverse-engineer-anything
 description: Reverse engineer native, managed, Electron/JavaScript, packaged, firmware, and browser targets with REA. Use shipped-artifact or requested runtime evidence to explain features, compare versions, decompile code, or guide a reconstruction. Skip REA for ordinary source-repository architecture analysis.
 metadata:
-  version: "46"
+  version: "47"
 ---
 
 # REA
@@ -265,6 +265,16 @@ explicit path or endpoint and do not need it.
   build-id or ABI-tag fields. A missing table is observed absence of those
   declarations, not proof the image never carried notes. See the
   [ELF notes guide](https://github.com/morluto/rea/blob/main/docs/elf-notes.md).
+- Linux kernel module metadata: `inspect_kernel_module` with the explicit local
+  ELF32/ELF64 relocatable file. This built-in target-free inspection requires
+  no Linux host or `modinfo`. Preserve `.modinfo` key order and duplicate keys,
+  `__versions` CRC hex, section file ranges, and the appended signature
+  trailer's PKCS#7 SHA-256. A missing section is observed absence when section
+  names are known, not proof the module never carried that metadata.
+  `struct module` is not decoded. The signature is not validated. gzip, xz, and
+  zstd containers are unsupported; decompress into a separate file with an
+  external codec utility, then inspect the decompressed `ET_REL` image. See the
+  [kernel module guide](https://github.com/morluto/rea/blob/main/docs/kernel-modules.md).
 - CPython 3.7–3.13 `.pyc` header, nested marshal code objects and bytecode
   identity: `inspect_python_pyc` with the explicit local file. This built-in
   target-free inspection requires no Python installation. Preserve magic,

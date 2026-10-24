@@ -40,6 +40,10 @@ import {
   inspectElfNotesInputSchema,
   elfNotesSchema,
 } from "../../domain/native/elfNotes.js";
+import {
+  inspectKernelModuleInputSchema,
+  kernelModuleSchema,
+} from "../../domain/native/kernelModule.js";
 
 /** Caller-selected delivery of completed binary layout Evidence. */
 export const inspectBinaryLayoutRequestSchema =
@@ -70,6 +74,22 @@ export const BINARY_DIAGNOSTICS_TOOL_CONTRACTS = [
       {
         title: "Inspect ELF GNU build-id and ABI-tag notes",
         input: { path: "/artifacts/program" },
+      },
+    ],
+  },
+  {
+    name: "inspect_kernel_module",
+    ...toolContractMetadata("inspect_kernel_module"),
+    kind: "native-provider",
+    description:
+      "Inspect one explicit local ELF32/ELF64 ET_REL Linux kernel module without executing it or opening a disassembler. Returns ordered .modinfo key/value entries (duplicates preserved), __versions symbol CRCs, presence of .gnu.linkonce.this_module and __ksymtab sections, observed .init.text and .exit.text sizes, and an appended module signature trailer with its module_signature fields plus a PKCS#7 byte range and SHA-256. Does not execute the module, decode struct module, or validate certificates. A missing section is observed absence when section names are known, not proof the module never carried that metadata. Other ELF types are not applicable. gzip, xz, and zstd containers are unsupported and name external_decompression as the next probe; neither this tool nor extract_artifact decodes those codecs, so decompress with an external utility and inspect the result. Reads a stable regular file; malformed ELF headers and exhausted entry budgets return no partial success. Portable on supported Node hosts.",
+    inputSchema: inspectKernelModuleInputSchema,
+    outputSchema: evidenceResultOf(kernelModuleSchema),
+    examples: [
+      {
+        title:
+          "Inspect Linux kernel module license, vermagic, and dependencies",
+        input: { path: "/artifacts/demo.ko" },
       },
     ],
   },
