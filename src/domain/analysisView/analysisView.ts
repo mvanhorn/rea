@@ -1,4 +1,10 @@
 import {
+  devicetreeViewRequestSchema,
+  devicetreeViewItemsSchema,
+  devicetreeSummarySchema,
+  projectDevicetreeView,
+} from "./devicetreeView.js";
+import {
   apkSignatureViewRequestSchema,
   apkSignatureViewItemsSchema,
 } from "../apkSignature/apkSignatureQuery.js";
@@ -346,6 +352,7 @@ const nativeViewSchema = z.strictObject({
 
 /** Caller-selected projection of already completed analysis Evidence. */
 export const analysisViewRequestSchema = z.discriminatedUnion("kind", [
+  devicetreeViewRequestSchema,
   erlangBeamViewRequestSchema,
   pythonPycViewRequestSchema,
   nativeExportsViewRequestSchema,
@@ -473,6 +480,7 @@ const viewResultBase = {
   parent_operation: z.enum([
     "inspect_python_pyc",
     "inspect_erlang_beam",
+    "inspect_devicetree",
     "inspect_byte_entropy",
     "inspect_native_exports",
     "inspect_binary_layout",
@@ -528,6 +536,11 @@ export const nativeExportsSummaryViewResultSchema = z.strictObject({
   summary: nativeExportsSummarySchema,
 });
 
+export const devicetreeSummaryViewResultSchema = z.strictObject({
+  ...summaryViewResultBase,
+  parent_operation: z.literal("inspect_devicetree"),
+  summary: devicetreeSummarySchema,
+});
 export const erlangBeamSummaryViewResultSchema = z.strictObject({
   ...summaryViewResultBase,
   parent_operation: z.literal("inspect_erlang_beam"),
@@ -968,6 +981,7 @@ export const analysisViewResultSchema = z.discriminatedUnion("kind", [
   }),
   z.discriminatedUnion("parent_operation", [
     erlangBeamSummaryViewResultSchema,
+    devicetreeSummaryViewResultSchema,
     pythonPycSummaryViewResultSchema,
     nativeExportsSummaryViewResultSchema,
     byteEntropySummaryViewResultSchema,
@@ -999,6 +1013,14 @@ export const analysisViewResultSchema = z.discriminatedUnion("kind", [
     nativeFunctionSummaryViewResultSchema,
     sourceToBundleSummaryViewResultSchema,
   ]),
+  z.strictObject({
+    ...viewResultBase,
+    kind: z.literal("devicetree"),
+    parent_operation: z.literal("inspect_devicetree"),
+    view: devicetreeViewRequestSchema,
+    devicetree: devicetreeSummarySchema,
+    items: devicetreeViewItemsSchema,
+  }),
   erlangBeamTableViewResultSchema,
   pythonPycCodeObjectsViewResultSchema,
   z.strictObject({
@@ -1269,6 +1291,7 @@ const parentArtifactPath = (parent: AnalysisViewParent): string => {
 /** Named source owners for views that need no extra decoder or accumulator. */
 const retainedViewProjectors = new Map<string, typeof projectWasmArtifactView>([
   ["inspect_erlang_beam", projectErlangBeamView],
+  ["inspect_devicetree", projectDevicetreeView],
   ["inspect_native_exports", projectNativeExportsView],
   ["inspect_python_pyc", projectPythonPycView],
   ["frida_session_status", projectFridaSessionStatusView],

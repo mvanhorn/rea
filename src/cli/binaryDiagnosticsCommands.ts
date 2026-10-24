@@ -1,3 +1,4 @@
+import { inspectDevicetreeInputSchema } from "../domain/firmware/devicetree.js";
 import { inspectByteEntropyInputSchema } from "../domain/native/byteEntropy.js";
 import { z } from "incur";
 import {
@@ -5,6 +6,7 @@ import {
   createRecordedCrashService,
   createBinaryLayoutService,
   createElfNotesService,
+  createDevicetreeService,
   createPeResourcesService,
   createPeCertificatesService,
   createPeImportsService,
@@ -212,6 +214,47 @@ export const registerBinaryDiagnosticsCommands = (
               "inspect_pe_resources",
               signal,
             ),
+        );
+      }),
+  });
+  cli.command(CLI_COMMANDS.inspectDevicetree, {
+    description: "Inspect a flattened devicetree blob without executing it",
+    args: z.object({
+      path: localPathStringSchema.describe("Local flattened devicetree image"),
+    }),
+    options: z.object({
+      maxFileBytes: inspectDevicetreeInputSchema.shape.max_file_bytes,
+      maxNodes: inspectDevicetreeInputSchema.shape.max_nodes,
+      maxProperties: inspectDevicetreeInputSchema.shape.max_properties,
+      maxDepth: inspectDevicetreeInputSchema.shape.max_depth,
+      ...analysisEvidenceDeliveryOptions,
+    }),
+    run: ({ args, options }) =>
+      withCommandCancellation(async (signal) => {
+        const devicetree = createDevicetreeService();
+        return await logCliCommand(
+          logger,
+          CLI_COMMANDS.inspectDevicetree,
+          async () =>
+            deliverCliAnalysisEvidence({
+              run: () =>
+                devicetree.inspect(
+                  {
+                    path: absoluteCallerPath(args.path),
+                    max_file_bytes: options.maxFileBytes,
+                    max_nodes: options.maxNodes,
+                    max_properties: options.maxProperties,
+                    max_depth: options.maxDepth,
+                  },
+                  { signal },
+                ),
+              service: devicetree,
+              providerId: "rea-devicetree",
+              operation: "inspect_devicetree",
+              signal,
+              detail: options.detail,
+              evidenceOutput: options.evidence_output,
+            }),
         );
       }),
   });

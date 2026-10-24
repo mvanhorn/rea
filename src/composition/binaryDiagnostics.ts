@@ -16,6 +16,11 @@ import type { ArtifactResourceScope } from "../artifacts/ArtifactResourceScope.j
 import { NativeExportsService } from "../application/binaryDiagnostics/NativeExportsService.js";
 import { NativeExportsProvider } from "../native/exports/NativeExportsProvider.js";
 
+import { DevicetreeService } from "../application/binaryDiagnostics/DevicetreeService.js";
+import { DevicetreeProvider } from "../firmware/devicetree/DevicetreeProvider.js";
+export const createDevicetreeService = (): DevicetreeService =>
+  new DevicetreeService(new DevicetreeProvider());
+
 export { pwntoolsHostSupported };
 
 /** Portable PE inspection with no engine, installation or target acquisition. */

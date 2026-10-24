@@ -41,6 +41,12 @@ export const PE_IMPORTS_PROVIDER = Object.freeze({
 } as const);
 
 /** Provider identity for portable, execution-free ELF note-table decoding. */
+export const DEVICETREE_PROVIDER = Object.freeze({
+  id: "rea-devicetree",
+  name: "REA flattened devicetree parser",
+  version: "1",
+} as const);
+
 export const ELF_NOTES_PROVIDER = Object.freeze({
   id: "rea-elf-notes",
   name: "REA ELF note parser",

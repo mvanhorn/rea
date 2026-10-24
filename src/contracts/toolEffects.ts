@@ -261,6 +261,7 @@ export const TOOL_EFFECTS: Readonly<Record<string, ToolEffects>> = {
   inspect_pe_imports: evidence,
   inspect_native_exports: evidence,
   inspect_elf_notes: evidence,
+  inspect_devicetree: evidence,
   inspect_analysis_view: evidence,
   inspect_firmware_regions: effects({
     mutatesSession: true,

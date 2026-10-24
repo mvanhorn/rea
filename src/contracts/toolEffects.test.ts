@@ -28,6 +28,7 @@ const EXECUTION_WORDING_EXCEPTIONS: Readonly<Record<string, string>> = {
   inspect_byte_entropy: "states that it profiles the file without execution",
   inspect_pe_resources: "states that it does not execute the image",
   inspect_native_exports: "reads the export table without executing it",
+  inspect_devicetree: "states that it does not execute the image",
   inspect_elf_notes: "states that it does not execute the image",
   inspect_desktop_application:
     "states that directory triage performs no target execution",

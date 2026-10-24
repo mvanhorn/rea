@@ -1,3 +1,8 @@
+import {
+  inspectDevicetreeInputSchema,
+  devicetreeSchema,
+} from "../../domain/firmware/devicetree.js";
+import { devicetreeSummaryViewResultSchema } from "../../domain/analysisView/analysisView.js";
 import { inspectByteEntropyInputSchema } from "../../domain/native/byteEntropy.js";
 import { publicInputStrictObject } from "../../domain/publicInput.js";
 import { byteEntropyOutputSchema } from "../toolOutputSchemaGroups.js";
@@ -58,6 +63,26 @@ export const inspectByteEntropyRequestSchema = publicInputStrictObject(
 
 /** Offline binary diagnostics are independent of macOS process/UI providers. */
 export const BINARY_DIAGNOSTICS_TOOL_CONTRACTS = [
+  {
+    name: "inspect_devicetree",
+    ...toolContractMetadata("inspect_devicetree"),
+    kind: "native-provider",
+    description:
+      "Inspect an explicit local flattened devicetree blob (FDT v16/v17) without execution or external tools. Returns validated header, memory reservations, full node/property tree with bounded raw hex, derived standard strings, cells and parent-sized reg tuples, aliases and selected single-cell phandle references with unresolved targets. Binding-specific arrays, overlays and runtime hardware remain unknown. Malformed structure or exhausted named budgets fails without partial success. Complete detail returns all Evidence inline; summary retains it for inspect_analysis_view kind devicetree, collections nodes, properties (requires exact path), reservations and references, with offset/limit pagination.",
+    inputSchema: inspectDevicetreeInputSchema.extend({
+      detail: analysisDetailSchema,
+    }),
+    outputSchema: analysisDetailOutputSchemaOf(
+      devicetreeSchema,
+      devicetreeSummaryViewResultSchema,
+    ),
+    examples: [
+      {
+        title: "Inspect a firmware hardware description",
+        input: { path: "/artifacts/board.dtb", detail: "summary" },
+      },
+    ],
+  },
   {
     name: "inspect_elf_notes",
     ...toolContractMetadata("inspect_elf_notes"),

@@ -13,6 +13,7 @@ import { itWithCaptureCapability as captureTest } from "../../boundary/process/p
 import { connectLocalToolsMcp } from "../../fixtures/localToolsMcp.js";
 import { parseMcpToolError } from "../../fixtures/mcpToolError.js";
 import { createTestTempDirectory } from "../../fixtures/temporaryDirectory.js";
+import { cliCompileCacheEnvironment } from "../../support/cli/cliFixture.js";
 
 const execute = promisify(execFile);
 const cli = fileURLToPath(new URL("../../../scripts/rea.mjs", import.meta.url));
@@ -124,13 +125,13 @@ it("keeps overall replay verification unknown when capture divergence is unknown
 
 const runCliExpectingInputError = async (
   scenarioPath: string,
+  environment?: NodeJS.ProcessEnv,
 ): Promise<unknown> => {
-  const failure = await execute(process.execPath, [
-    cli,
-    "capture-process",
-    scenarioPath,
-    "--json",
-  ]).then(
+  const failure = await execute(
+    process.execPath,
+    [cli, "capture-process", scenarioPath, "--json"],
+    { env: environment },
+  ).then(
     () => undefined,
     (cause: unknown) => cause,
   );
@@ -222,6 +223,7 @@ const pathRequests: readonly [string, Record<string, unknown>][] = [
   ["inspect_pe_imports", { path: nul }],
   ["inspect_native_exports", { path: nul }],
   ["inspect_elf_notes", { path: nul }],
+  ["inspect_devicetree", { path: nul }],
   ["inspect_python_pyc", { path: nul }],
   ["inspect_erlang_beam", { path: nul }],
   ["inspect_binary_layout", { path: nul }],
@@ -333,6 +335,10 @@ captureTest(
   "rejects malformed process choices through CLI and MCP before launching the command",
   async () => {
     const root = await createTestTempDirectory("rea-local-contracts-");
+    const environment = cliCompileCacheEnvironment(
+      process.env,
+      join(root, "node-compile-cache"),
+    );
     const marker = join(root, "launched");
     const scenario = {
       executable: process.execPath,
@@ -379,7 +385,13 @@ captureTest(
           const path = join(root, `scenario-${String(start + offset)}.json`);
           await writeFile(path, JSON.stringify(request));
           await expect(
-            execute(process.execPath, [cli, "capture-process", path, "--json"]),
+            execute(
+              process.execPath,
+              [cli, "capture-process", path, "--json"],
+              {
+                env: environment,
+              },
+            ),
             JSON.stringify(options),
           ).rejects.toMatchObject({
             code: 1,
@@ -412,6 +424,7 @@ captureTest(
     );
     const executableCliFailure = await runCliExpectingInputError(
       join(root, "scenario.json"),
+      environment,
     );
     expect(executableCliFailure).toMatchObject({
       code: "invalid_request",
@@ -455,7 +468,9 @@ captureTest(
         working_directory: missingWorkingDirectory,
       }),
     );
-    expect(await runCliExpectingInputError(cwdScenario)).toMatchObject({
+    expect(
+      await runCliExpectingInputError(cwdScenario, environment),
+    ).toMatchObject({
       code: "invalid_request",
       details: {
         operation: "capture_process_scenario",
@@ -470,7 +485,9 @@ captureTest(
       },
     });
   },
-  60_000,
+  // 22 malformed requests plus two filesystem errors each start a fresh CLI.
+  // Cache compilation, but allow for startup at the bounded fanout of two.
+  120_000,
 );
 
 captureTest.each(["untruncated", "truncated"] as const)(
