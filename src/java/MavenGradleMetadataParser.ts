@@ -2,6 +2,7 @@ import type { Element, Node } from "@xmldom/xmldom";
 
 import { parseXmlDocument, opensLikeXml } from "../domain/xmlDocument.js";
 import {
+  MAVEN_GRADLE_METADATA_REPEATED_VARIANT_NAME_CHARS,
   mavenPropertyReferences,
   requestedVersionKind,
   type MavenGradleDependency,
@@ -9,7 +10,10 @@ import {
   type MavenGradleUnresolved,
 } from "../domain/java/mavenGradleMetadata.js";
 import { parseRecordedTransportUrl } from "../domain/recordedTransportUrl.js";
-import { MavenGradleMetadataFormatFailure } from "./MavenGradleMetadata.errors.js";
+import {
+  MavenGradleMetadataFormatFailure,
+  MavenGradleMetadataReportFailure,
+} from "./MavenGradleMetadata.errors.js";
 
 const UTF8 = new TextDecoder("utf-8", { fatal: true, ignoreBOM: true });
 
@@ -473,6 +477,7 @@ const parseGradle = (
   const gradleVariants: NonNullable<MavenGradleMetadata["gradle"]>["variants"] =
     [];
   let nextIndex = 0;
+  let repeatedVariantNameChars = 0;
   for (const variantValue of variants) {
     const variant = isRecord(variantValue) ? variantValue : {};
     const name = textOf(variant.name);
@@ -490,6 +495,18 @@ const parseGradle = (
     const constraints = Array.isArray(variant.dependencyConstraints)
       ? variant.dependencyConstraints
       : [];
+    // Every row repeats its variant's name; admit that expansion before
+    // building rows, so a long name times many rows cannot outgrow the input.
+    repeatedVariantNameChars +=
+      (name?.length ?? 0) * (variantDependencies.length + constraints.length);
+    if (
+      repeatedVariantNameChars >
+      MAVEN_GRADLE_METADATA_REPEATED_VARIANT_NAME_CHARS
+    )
+      throw new MavenGradleMetadataReportFailure(
+        MAVEN_GRADLE_METADATA_REPEATED_VARIANT_NAME_CHARS,
+        repeatedVariantNameChars,
+      );
     for (const dependency of variantDependencies)
       dependencies.push(
         parseGradleDependency(

@@ -31,7 +31,11 @@ import {
   type InspectMavenGradleMetadataInput,
 } from "../domain/java/mavenGradleMetadata.js";
 import { err, ok } from "../domain/result.js";
-import { MavenGradleMetadataFormatFailure } from "./MavenGradleMetadata.errors.js";
+import {
+  MavenGradleMetadataFormatFailure,
+  MavenGradleMetadataReportFailure,
+} from "./MavenGradleMetadata.errors.js";
+import { fixedAllowanceOptions } from "../domain/fixedAllowanceRemediation.js";
 import { MAVEN_GRADLE_METADATA_PROVIDER_IDENTITY } from "./MavenGradleMetadataProviderIdentity.js";
 import { parseMavenGradleMetadata } from "./MavenGradleMetadataParser.js";
 
@@ -98,6 +102,20 @@ const mavenGradleMetadataFailurePrimary = (
   input: InspectMavenGradleMetadataInput,
 ) => {
   const { cause, origin } = facts;
+  if (cause instanceof MavenGradleMetadataReportFailure)
+    return new AnalysisResourceConstraintError(
+      OPERATION,
+      "memory",
+      cause.message,
+      { repeated_variant_name_chars: cause.allowance },
+      {
+        cause,
+        ...fixedAllowanceOptions(
+          `The ${String(cause.allowance)}-character allowance for variant names repeated across Gradle dependency rows`,
+          "report",
+        ),
+      },
+    );
   if (cause instanceof MavenGradleMetadataFormatFailure)
     return cause.kind === "unsupported"
       ? new AnalysisUnsupportedTargetError(

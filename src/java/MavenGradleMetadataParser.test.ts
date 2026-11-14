@@ -1,4 +1,7 @@
 import { createHash } from "node:crypto";
+import { mkdtemp, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import { expect, it } from "vitest";
 import {
   mavenGradleMetadataSchema,
@@ -8,7 +11,12 @@ import {
   gradleModuleFixture,
   mavenPomFixture,
 } from "./MavenGradleMetadata.fixture.js";
-import { MavenGradleMetadataFormatFailure } from "./MavenGradleMetadata.errors.js";
+import {
+  MavenGradleMetadataFormatFailure,
+  MavenGradleMetadataReportFailure,
+} from "./MavenGradleMetadata.errors.js";
+import { MavenGradleMetadataProvider } from "./MavenGradleMetadataProvider.js";
+import { projectAnalysisError } from "../domain/analysisErrorProjection.js";
 import { parseMavenGradleMetadata } from "./MavenGradleMetadataParser.js";
 
 const parse = (source: string, path = "/artifacts/pom.xml") => {
@@ -545,4 +553,57 @@ it("refuses empty and non-metadata files", () => {
 it("keeps coverage examined_bytes equal to the artifact length", () => {
   const report: MavenGradleMetadata = parse(mavenPomFixture);
   expect(report.coverage.examined_bytes).toBe(report.artifact.bytes);
+});
+
+// A 1,000-character variant name on 5,000 dependency rows repeats 5,000,000
+// characters, past the fixed allowance, from about 300 KB of input.
+const repeatedVariantModule = () =>
+  JSON.stringify({
+    formatVersion: "1.1",
+    component: { group: "com.example", module: "demo", version: "1.0.0" },
+    variants: [
+      {
+        name: "v".repeat(1000),
+        dependencies: Array.from({ length: 5000 }, (_, index) => ({
+          group: "com.example",
+          module: `lib${String(index)}`,
+          version: { requires: "1.0" },
+        })),
+      },
+    ],
+  });
+
+it("refuses Gradle metadata whose rows would repeat variant names past the report allowance", () => {
+  const bytes = Buffer.from(repeatedVariantModule(), "utf8");
+  expect(() =>
+    parseMavenGradleMetadata(bytes, {
+      path: "/artifacts/demo.module",
+      sha256: createHash("sha256").update(bytes).digest("hex"),
+      bytes: bytes.length,
+    }),
+  ).toThrow(MavenGradleMetadataReportFailure);
+});
+
+it("reports the repeated variant-name refusal as a fixed report allowance", async () => {
+  const root = await mkdtemp(join(tmpdir(), "rea-gradle-report-"));
+  const path = join(root, "demo.module");
+  await writeFile(path, repeatedVariantModule());
+  const provider = new MavenGradleMetadataProvider();
+  try {
+    const result = await provider.inspect({
+      path,
+      max_file_bytes: 1024 * 1024,
+    });
+    expect(result.ok).toBe(false);
+    if (result.ok) return;
+    expect(projectAnalysisError(result.error)).toMatchObject({
+      code: "resource_constraint",
+      retryable: false,
+      remediation: {
+        action: expect.stringContaining("fixed report allowance"),
+      },
+    });
+  } finally {
+    await provider.close();
+  }
 });

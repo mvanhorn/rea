@@ -12,6 +12,13 @@ export const MAVEN_GRADLE_METADATA_LIMIT_MAXIMA = {
   max_file_bytes: MAX_INSPECT_MAVEN_GRADLE_METADATA_FILE_BYTES,
 } as const;
 
+/**
+ * Fixed allowance for variant-name characters repeated across Gradle dependency
+ * and constraint rows (name length times rows, summed over variants).
+ */
+export const MAVEN_GRADLE_METADATA_REPEATED_VARIANT_NAME_CHARS =
+  4 * 1024 * 1024;
+
 /** Detected metadata document; classification is from content, not the suffix. */
 export const MAVEN_GRADLE_METADATA_FORMATS = [
   "maven-pom",
