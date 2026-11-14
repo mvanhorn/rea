@@ -1,0 +1,27 @@
+Source-test feedback; compiled boundaries and real providers need explicit verification.
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |adapters| src/artifacts/pyinstaller/PyInstallerBoundaries.test.ts > binds materialization to the inventoried digest and checks cached carrier freshness
+AssertionError: promise resolved "undefined" instead of rejecting
+
+- Expected:
+Error {
+  "message": "rejected promise",
+}
+
++ Received:
+undefined
+
+ ❯ src/artifacts/pyinstaller/PyInstallerBoundaries.test.ts:280:55
+    278|     await reader.prepareContainer(hash(bytes));
+    279|     await writeFile(path, archive(Buffer.from("other")));
+    280|     await expect(reader.prepareContainer(hash(bytes))).rejects.toMatch…
+       |                                                       ^
+    281|       reason: "integrity",
+    282|     });
+ ❯ withPyInstallerReader tests/fixtures/pyinstallerReader.ts:23:5
+ ❯ src/artifacts/pyinstaller/PyInstallerBoundaries.test.ts:273:3
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+

@@ -1,0 +1,22 @@
+
+> rea-agents@6.9.0 precheck:fast
+> npm run deps:check
+
+
+> rea-agents@6.9.0 deps:check
+> node scripts/check-dependency-install.mjs
+
+
+> rea-agents@6.9.0 check:fast
+> node scripts/run-turbo.mjs run typecheck lint --output-logs=errors-only
+
+
+   • turbo 2.11.7
+   • Running typecheck, lint
+   • Remote caching disabled
+
+
+ Tasks:    2 successful, 2 total
+Cached:    2 cached, 2 total
+  Time:    48ms >>> FULL TURBO
+

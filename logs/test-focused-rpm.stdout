@@ -1,0 +1,51 @@
+
+> rea-agents@6.9.0 test:focused
+> node scripts/run-development-tests.mjs focused tests/acceptance/rpmPackageCli.test.ts tests/boundary/mcp/rpmPackageMcp.test.ts
+
+
+   • turbo 2.11.7
+   • Running artifacts:skills
+   • Remote caching disabled
+
+metadata:check: cache hit, replaying logs 938dad9181fccb37
+metadata:check: 
+metadata:check: > rea-agents@6.9.0 metadata:check
+metadata:check: > node scripts/generate-package-metadata.mjs --check
+metadata:check: 
+metadata:check: (node:3414) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time
+metadata:check: (Use `node --trace-warnings ...` to show where the warning was created)
+compile: cache hit, replaying logs d14fb99bbb8ce50b
+compile: 
+compile: > rea-agents@6.9.0 compile
+compile: > node scripts/clean-build-output.mjs && node scripts/run-typescript.mjs -p tsconfig.build.json && node scripts/record-catalog-digests.mjs && node scripts/record-mcp-catalog.mjs && node scripts/record-cli-commands.mjs && node scripts/bundle-runtime.mjs
+compile: 
+compile: [33m[INEFFECTIVE_DYNAMIC_IMPORT] [0mdist/dotnet/ManagedStaticProvider.js is dynamically imported by dist/composition/auxiliaryAnalysisProviders.js but also statically imported by dist/composition/binary.js, dynamic import will not move module into another chunk.
+compile: 
+compile: [33m[INEFFECTIVE_DYNAMIC_IMPORT] [0mdist/dotnet/ManagedStaticProvider.js is dynamically imported by dist/composition/auxiliaryAnalysisProviders.js but also statically imported by dist/composition/binary.js, dynamic import will not move module into another chunk.
+compile: 
+artifacts:skills: cache hit, replaying logs b5bad1e7f617fb5d
+artifacts:skills: 
+artifacts:skills: > rea-agents@6.9.0 artifacts:skills
+artifacts:skills: > node scripts/generate-skill-metadata.mjs
+artifacts:skills: 
+artifacts:skills: (node:6480) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time
+artifacts:skills: (Use `node --trace-warnings ...` to show where the warning was created)
+
+ Tasks:    3 successful, 3 total
+Cached:    3 cached, 3 total
+  Time:    42ms >>> FULL TURBO
+
+
+ RUN  v5.0.3 /workspace
+
+ ✓ |acceptance| tests/acceptance/rpmPackageCli.test.ts (5 tests) 3031ms
+   ✓ reports RPM lead, dependencies and header files through the public CLI 1123ms
+   ✓ matches CLI and MCP observations for the same RPM 1845ms
+ ✓ |mcp-boundary| tests/boundary/mcp/rpmPackageMcp.test.ts (4 tests) 1065ms
+   ✓ advertises inspect_rpm_package and reads package identity 1032ms
+
+ Test Files  2 passed (2)
+      Tests  9 passed (9)
+   Start at  20:59:18
+   Duration  8.45s (transform 56%, tests 27%, import 17%)
+

@@ -1,0 +1,27 @@
+# npm run test:changed -- --base upstream/main
+
+Ran once during implementation on feat/rpm-package-metadata against
+upstream/main (f3b697da5) after the RPM inspector and its tests landed
+(Node v22.23.4).
+
+Result:
+  3 failed | 11401 passed | 17 skipped
+  636 files
+
+Named failures:
+  - NodeSeaArtifactReader
+  - ZipArtifactReader
+  - PyInstallerBoundaries
+
+Follow-up (Node v24.22.1): each file on a clean checkout of f3b697da5 and on
+feat/rpm-package-metadata 2317e800f, `npm run test:local -- <file>`, three
+serial iterations. See logs/changed-failures/SUMMARY.txt.
+
+  ZipArtifactReader: 39 passed on both, all iterations
+  NodeSeaArtifactReader: fails on both (shared: valid-replacement integrity
+    case; formatMetadata still defined). Extra malformed-blob case flakes on feat.
+  PyInstallerBoundaries: flakes on both (cached carrier freshness / integrity)
+
+The RPM change does not modify those tests or readers. RPM-focused files in
+the original test:changed run passed. The original vitest --changed stdout
+was not retained.

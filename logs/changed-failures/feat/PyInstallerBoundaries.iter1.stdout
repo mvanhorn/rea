@@ -1,0 +1,46 @@
+
+> rea-agents@6.9.0 test:local
+> node scripts/run-development-tests.mjs local src/artifacts/pyinstaller/PyInstallerBoundaries.test.ts
+
+
+ RUN  v5.0.3 /workspace
+
+ ❯ |adapters| src/artifacts/pyinstaller/PyInstallerBoundaries.test.ts (32 tests | 1 failed) 646ms
+   ✓ joins the pending descriptor read after a module prefix stop (success) 33ms
+   ✓ joins the pending descriptor read after a module prefix stop (io) 19ms
+   ✓ joins the pending descriptor read after a module prefix stop (caller cancellation) 18ms
+   ✓ joins the pending descriptor read after a module prefix stop (reader close) 17ms
+   ✓ settles independent private and carrier closes and retries only failed owners (carrier failure: false) 15ms
+   ✓ settles independent private and carrier closes and retries only failed owners (carrier failure: true) 7ms
+   × binds materialization to the inventoried digest and checks cached carrier freshness 5ms
+   ✓ retains changed-source evidence when an admitted carrier becomes unaddressable (ENOENT) 5ms
+   ✓ retains changed-source evidence when an admitted carrier becomes unaddressable (ENOTDIR) 3ms
+   ✓ bounds descriptor reads while hashing a selected stored member 11ms
+   ✓ joins pending native reads during cancellation/close (I/O failure: false) 3ms
+   ✓ joins pending native reads during cancellation/close (I/O failure: true) 2ms
+   ✓ preserves BOM characters in length-delimited UTF-8 fields 3ms
+   ✓ keeps runtime options as declarations with literal names and distinct source indices 3ms
+   ✓ rejects metadata expansion before retaining every repeated long container path 438ms
+   ✓ validates compressed member bounds through the stream (truncated: false) 4ms
+   ✓ validates compressed member bounds through the stream (truncated: true) 2ms
+   ✓ joins a late private-file close and retries its failed owner after cancellation 3ms
+   ✓ awaits private member close before completion (cancel: false, close failure: false) 4ms
+   ✓ awaits private member close before completion (cancel: false, close failure: true) 4ms
+   ✓ awaits private member close before completion (cancel: true, close failure: false) 3ms
+   ✓ awaits private member close before completion (cancel: true, close failure: true) 3ms
+   ✓ preserves a private-image read failure when its descriptor close also fails 4ms
+   ✓ shares owned carrier admission across callers and joins late admission (owner closes: false) 2ms
+   ✓ shares owned carrier admission across callers and joins late admission (owner closes: true) 1ms
+   ✓ isolates cancelled carrier parsing from a fresh inventory (concurrent: false) 2ms
+   ✓ isolates cancelled carrier parsing from a fresh inventory (concurrent: true) 2ms
+   ✓ isolates cancelled private image parsing from a fresh inventory (concurrent: false) 4ms
+   ✓ isolates cancelled private image parsing from a fresh inventory (concurrent: true) 4ms
+   ✓ does not charge a cancelled namespace projection against the next parse 15ms
+   ✓ keeps a physical parse failure primary despite simultaneous caller cancellation 1ms
+   ✓ retains failed cancelled-attempt cleanup and retries its exact private owner on close 3ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 31 passed (32)
+   Start at  21:03:26
+   Duration  1.25s (tests 60%, transform 28%, import 10%, worker 2%)
+

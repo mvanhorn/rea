@@ -1,0 +1,14 @@
+
+> rea-agents@6.9.0 test:local
+> node scripts/run-development-tests.mjs local src/artifacts/ZipArtifactReader.test.ts
+
+
+ RUN  v5.0.3 /tmp/rea-main
+
+ ✓ |adapters| src/artifacts/ZipArtifactReader.test.ts (39 tests) 309ms
+
+ Test Files  1 passed (1)
+      Tests  39 passed (39)
+   Start at  21:03:46
+   Duration  3.51s (transform 69%, import 21%, tests 9%, worker 1%)
+

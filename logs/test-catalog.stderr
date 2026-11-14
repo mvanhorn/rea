@@ -1,0 +1,1 @@
+Focused tests: tests/acceptance/localPathAdmissionCli.test.ts, tests/acceptance/stableArtifactParserFailureCli.test.ts, tests/acceptance/tools/localToolContracts.test.ts, tests/boundary/cli/cliIntegerArguments.test.ts, tests/boundary/mcp/absoluteLocalPathTools.test.ts

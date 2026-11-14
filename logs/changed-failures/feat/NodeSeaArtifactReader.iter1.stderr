@@ -1,0 +1,44 @@
+Source-test feedback; compiled boundaries and real providers need explicit verification.
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |adapters| src/artifacts/NodeSeaArtifactReader.test.ts > rejects post-classification carrier mutation before publishing Node SEA facts: valid replacement
+ FAIL  |adapters| src/artifacts/NodeSeaArtifactReader.test.ts > rejects post-classification carrier mutation before publishing Node SEA facts: malformed blob
+AssertionError: expected { kind: 'node-sea', …(16) } to be undefined
+
+- Expected:
+undefined
+
++ Received:
+{
+  "blob_length": 153,
+  "blob_offset": 340,
+  "carrier": "elf",
+  "code_path": "app/main.js",
+  "disable_experimental_sea_warning": true,
+  "exec_argv": [
+    "--no-warnings",
+  ],
+  "exec_argv_extension": "env",
+  "flags": 29,
+  "fuse_contradiction": null,
+  "fuse_sentinel": "NODE_SEA_FUSE_fce680ab2cc467b6e072b8b5df1996b2:1",
+  "fuse_state": "set",
+  "include_assets": true,
+  "include_exec_argv": true,
+  "kind": "node-sea",
+  "magic": 21223968,
+  "use_code_cache": true,
+  "use_snapshot": false,
+}
+
+ ❯ src/artifacts/NodeSeaArtifactReader.test.ts:1146:39
+    1144|     ).rejects.toMatchObject({ reason: "integrity" });
+    1145|     expect(created).toBeInstanceOf(NodeSeaArtifactReader);
+    1146|     expect(created?.formatMetadata()).toBeUndefined();
+       |                                       ^
+    1147|   },
+    1148| );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+

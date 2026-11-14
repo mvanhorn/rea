@@ -1,0 +1,31 @@
+Serial iterations (one file, one checkout at a time; Node v24.22.1)
+
+NodeSeaArtifactReader.test.ts
+  main iter1: 1 failed | 50 passed  (valid replacement)
+  main iter2: 1 failed | 50 passed  (valid replacement)
+  main iter3: 1 failed | 50 passed  (valid replacement)
+  feat iter1: 2 failed | 49 passed  (valid replacement + malformed blob)
+  feat iter2: 1 failed | 50 passed  (valid replacement)
+  feat iter3: 2 failed | 49 passed  (valid replacement + malformed blob)
+  Shared failure: "rejects post-classification carrier mutation before publishing
+  Node SEA facts: valid replacement" — formatMetadata() still defined after the
+  expected integrity reject. Same assertion on main and feat.
+  Extra feat-only case "malformed blob" is intermittent (2 of 3 feat iters).
+
+ZipArtifactReader.test.ts
+  main iter1-3: 39 passed
+  feat iter1-3: 39 passed
+
+PyInstallerBoundaries.test.ts
+  main iter1: 32 passed
+  main iter2: 32 passed
+  main iter3: 1 failed | 31 passed
+  feat iter1: 1 failed | 31 passed
+  feat iter2: 32 passed
+  feat iter3: 1 failed | 31 passed
+  Shared failure when it fails: "binds materialization to the inventoried digest
+  and checks cached carrier freshness" — prepareContainer resolved instead of
+  rejecting with reason "integrity". Same assertion on main and feat.
+
+Conclusion: Zip passes on both. NodeSea and PyInstaller fail (or flake) on
+upstream/main the same way; not introduced by feat/rpm-package-metadata.

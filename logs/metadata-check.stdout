@@ -1,0 +1,4 @@
+
+> rea-agents@6.9.0 metadata:check
+> node scripts/generate-package-metadata.mjs --check
+

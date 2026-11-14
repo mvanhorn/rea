@@ -1,0 +1,15 @@
+
+> rea-agents@6.9.0 test:local
+> node scripts/run-development-tests.mjs local src/artifacts/pyinstaller/PyInstallerBoundaries.test.ts
+
+
+ RUN  v5.0.3 /tmp/rea-main
+
+ ✓ |adapters| src/artifacts/pyinstaller/PyInstallerBoundaries.test.ts (32 tests) 633ms
+   ✓ rejects metadata expansion before retaining every repeated long container path 429ms
+
+ Test Files  1 passed (1)
+      Tests  32 passed (32)
+   Start at  21:02:34
+   Duration  1.28s (tests 57%, transform 32%, import 9%, worker 2%)
+

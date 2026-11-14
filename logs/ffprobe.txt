@@ -1,0 +1,169 @@
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from '/tmp/rpm-demo/out.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf60.16.100
+  Duration: 00:00:24.00, start: 0.000000, bitrate: 2261 kb/s
+  Stream #0:0[0x1](und): Video: h264 (High) (avc1 / 0x31637661), yuv420p(progressive), 1920x1080, 2258 kb/s, 30 fps, 30 tbr, 15360 tbn (default)
+    Metadata:
+      handler_name    : VideoHandler
+      vendor_id       : [0][0][0][0]
+      encoder         : Lavc60.31.102 libx264
+[STREAM]
+index=0
+codec_name=h264
+codec_long_name=H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10
+profile=High
+codec_type=video
+codec_tag_string=avc1
+codec_tag=0x31637661
+width=1920
+height=1080
+coded_width=1920
+coded_height=1080
+closed_captions=0
+film_grain=0
+has_b_frames=2
+sample_aspect_ratio=N/A
+display_aspect_ratio=N/A
+pix_fmt=yuv420p
+level=40
+color_range=unknown
+color_space=unknown
+color_transfer=unknown
+color_primaries=unknown
+chroma_location=left
+field_order=progressive
+refs=1
+is_avc=true
+nal_length_size=4
+id=0x1
+r_frame_rate=30/1
+avg_frame_rate=30/1
+time_base=1/15360
+start_pts=0
+start_time=0.000000
+duration_ts=368640
+duration=24.000000
+bit_rate=2258420
+max_bit_rate=N/A
+bits_per_raw_sample=8
+nb_frames=720
+nb_read_frames=N/A
+nb_read_packets=N/A
+extradata_size=47
+DISPOSITION:default=1
+DISPOSITION:dub=0
+DISPOSITION:original=0
+DISPOSITION:comment=0
+DISPOSITION:lyrics=0
+DISPOSITION:karaoke=0
+DISPOSITION:forced=0
+DISPOSITION:hearing_impaired=0
+DISPOSITION:visual_impaired=0
+DISPOSITION:clean_effects=0
+DISPOSITION:attached_pic=0
+DISPOSITION:timed_thumbnails=0
+DISPOSITION:non_diegetic=0
+DISPOSITION:captions=0
+DISPOSITION:descriptions=0
+DISPOSITION:metadata=0
+DISPOSITION:dependent=0
+DISPOSITION:still_image=0
+TAG:language=und
+TAG:handler_name=VideoHandler
+TAG:vendor_id=[0][0][0][0]
+TAG:encoder=Lavc60.31.102 libx264
+[/STREAM]
+[FORMAT]
+filename=/tmp/rpm-demo/out.mp4
+nb_streams=1
+nb_programs=0
+format_name=mov,mp4,m4a,3gp,3g2,mj2
+format_long_name=QuickTime / MOV
+start_time=0.000000
+duration=24.000000
+size=6783470
+bit_rate=2261156
+probe_score=100
+TAG:major_brand=isom
+TAG:minor_version=512
+TAG:compatible_brands=isomiso2avc1mp41
+TAG:encoder=Lavf60.16.100
+[/FORMAT]
+===== GIF =====
+Input #0, gif, from '/tmp/rpm-demo/preview.gif':
+  Duration: 00:00:24.00, start: 0.000000, bitrate: 3121 kb/s
+  Stream #0:0: Video: gif, bgra, 720x405, 12.50 fps, 12 tbr, 100 tbn
+[STREAM]
+index=0
+codec_name=gif
+codec_long_name=CompuServe GIF (Graphics Interchange Format)
+profile=unknown
+codec_type=video
+codec_tag_string=[0][0][0][0]
+codec_tag=0x0000
+width=720
+height=405
+coded_width=720
+coded_height=405
+closed_captions=0
+film_grain=0
+has_b_frames=0
+sample_aspect_ratio=N/A
+display_aspect_ratio=N/A
+pix_fmt=bgra
+level=-99
+color_range=unknown
+color_space=unknown
+color_transfer=unknown
+color_primaries=unknown
+chroma_location=unspecified
+field_order=unknown
+refs=1
+id=N/A
+r_frame_rate=12/1
+avg_frame_rate=25/2
+time_base=1/100
+start_pts=0
+start_time=0.000000
+duration_ts=2400
+duration=24.000000
+bit_rate=N/A
+max_bit_rate=N/A
+bits_per_raw_sample=N/A
+nb_frames=288
+nb_read_frames=N/A
+nb_read_packets=N/A
+DISPOSITION:default=0
+DISPOSITION:dub=0
+DISPOSITION:original=0
+DISPOSITION:comment=0
+DISPOSITION:lyrics=0
+DISPOSITION:karaoke=0
+DISPOSITION:forced=0
+DISPOSITION:hearing_impaired=0
+DISPOSITION:visual_impaired=0
+DISPOSITION:clean_effects=0
+DISPOSITION:attached_pic=0
+DISPOSITION:timed_thumbnails=0
+DISPOSITION:non_diegetic=0
+DISPOSITION:captions=0
+DISPOSITION:descriptions=0
+DISPOSITION:metadata=0
+DISPOSITION:dependent=0
+DISPOSITION:still_image=0
+[/STREAM]
+[FORMAT]
+filename=/tmp/rpm-demo/preview.gif
+nb_streams=1
+nb_programs=0
+format_name=gif
+format_long_name=CompuServe Graphics Interchange Format (GIF)
+start_time=0.000000
+duration=24.000000
+size=9364022
+bit_rate=3121340
+probe_score=100
+[/FORMAT]

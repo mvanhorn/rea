@@ -1,0 +1,87 @@
+commit 4a6798b7f2410b8e62a76219de55fa42b8c27eca
+Author:     Matt Van Horn <mvanhorn@users.noreply.github.com>
+AuthorDate: Sat Nov 14 20:56:20 2026 +0000
+Commit:     Matt Van Horn <mvanhorn@users.noreply.github.com>
+CommitDate: Sat Nov 14 20:56:20 2026 +0000
+
+    feat(artifacts): inspect RPM package headers and dependency metadata
+
+ .agents/skills/reverse-engineer-anything/SKILL.md  |    8 +
+ .../references/native-and-artifacts.md             |   12 +
+ .../skills/reverse-engineer-anything/SKILL.md      |    8 +
+ .../references/native-and-artifacts.md             |   12 +
+ README.md                                          |    1 +
+ docs/.vitepress/documentation.ts                   |    5 +
+ docs/README.md                                     |    1 +
+ docs/getting-started/cli.md                        |   11 +
+ docs/guides/native/rpm-package.md                  |   70 ++
+ docs/index.md                                      |   26 +-
+ docs/readme/README_ar.md                           |    1 +
+ docs/readme/README_bg.md                           |    1 +
+ docs/readme/README_de.md                           |    1 +
+ docs/readme/README_el.md                           |    1 +
+ docs/readme/README_es.md                           |    1 +
+ docs/readme/README_fa.md                           |    1 +
+ docs/readme/README_fr.md                           |    1 +
+ docs/readme/README_id.md                           |    1 +
+ docs/readme/README_it.md                           |    1 +
+ docs/readme/README_ja.md                           |    1 +
+ docs/readme/README_ko.md                           |   83 +-
+ docs/readme/README_ml.md                           |    1 +
+ docs/readme/README_pl.md                           |    1 +
+ docs/readme/README_pt-BR.md                        |    1 +
+ docs/readme/README_ro.md                           |    1 +
+ docs/readme/README_ru.md                           |    1 +
+ docs/readme/README_th.md                           |   83 +-
+ docs/readme/README_tr.md                           |    1 +
+ docs/readme/README_uk.md                           |    1 +
+ docs/readme/README_ur-Latn.md                      |    1 +
+ docs/readme/README_vi.md                           |    1 +
+ docs/readme/README_zh-TW.md                        |   83 +-
+ docs/readme/README_zh.md                           |   83 +-
+ docs/specs/README.md                               |    1 +
+ docs/specs/artifacts/rpm-package/plan.md           |   34 +
+ docs/specs/artifacts/rpm-package/spec.md           |   54 ++
+ docs/specs/artifacts/rpm-package/tasks.md          |   12 +
+ scripts/lib/module-boundaries.mjs                  |    1 +
+ scripts/lib/test-projects.mjs                      |    2 +-
+ src/application/CapabilityInventory.ts             |    1 +
+ src/application/rpm/RpmPackagePort.ts              |   20 +
+ src/application/rpm/RpmPackageService.test.ts      |  229 +++++
+ src/application/rpm/RpmPackageService.ts           |  146 +++
+ src/cli.ts                                         |    2 +
+ src/cli/cliCommandRegistrations.ts                 |    6 +
+ src/cli/rpmPackageCommands.ts                      |   78 ++
+ src/cliCommandNames.ts                             |    1 +
+ src/composition/capabilityDeclarations.ts          |    8 +
+ src/composition/capabilityServices.ts              |    6 +
+ src/composition/rpmPackage.ts                      |    6 +
+ src/contracts/rpm/rpmPackageToolContracts.ts       |   26 +
+ src/contracts/toolContracts.ts                     |    2 +
+ src/contracts/toolEffects.ts                       |    1 +
+ src/contracts/toolFamilies.ts                      |    1 +
+ src/domain/analysisView/analysisView.ts            |    2 +
+ src/domain/analysisView/analysisViewResult.ts      |    9 +
+ src/domain/analysisView/rpmPackageView.test.ts     |  180 ++++
+ src/domain/analysisView/rpmPackageView.ts          |   90 ++
+ src/domain/artifactOperationError.ts               |    1 +
+ src/domain/rpm/package.test.ts                     |   28 +
+ src/domain/rpm/package.ts                          |  265 +++++
+ src/rpm/RpmPackage.errors.ts                       |   29 +
+ src/rpm/RpmPackage.fixture.ts                      |  434 +++++++++
+ src/rpm/RpmPackageParser.test.ts                   |  272 ++++++
+ src/rpm/RpmPackageParser.ts                        | 1014 ++++++++++++++++++++
+ src/rpm/RpmPackageProvider.ts                      |  207 ++++
+ src/rpm/RpmPackageProviderIdentity.ts              |    6 +
+ src/rpm/RpmPackageTags.ts                          |  123 +++
+ src/server/createServer.ts                         |    9 +
+ src/server/registerRpmPackageTool.ts               |   31 +
+ tests/acceptance/localPathAdmissionCli.test.ts     |    1 +
+ tests/acceptance/rpmPackageCli.test.ts             |  121 +++
+ .../stableArtifactParserFailureCli.test.ts         |    1 +
+ tests/acceptance/tools/localToolContracts.test.ts  |    1 +
+ tests/boundary/cli/cliIntegerArguments.test.ts     |    9 +
+ tests/boundary/mcp/absoluteLocalPathTools.test.ts  |    4 +
+ tests/boundary/mcp/rpmPackageMcp.test.ts           |  135 +++
+ .../process-global/stableArtifactConsumers.test.ts |   11 +-
+ 78 files changed, 3946 insertions(+), 179 deletions(-)

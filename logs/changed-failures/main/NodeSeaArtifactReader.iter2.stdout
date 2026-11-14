@@ -1,0 +1,65 @@
+
+> rea-agents@6.9.0 test:local
+> node scripts/run-development-tests.mjs local src/artifacts/NodeSeaArtifactReader.test.ts
+
+
+ RUN  v5.0.3 /tmp/rea-main
+
+ ❯ |adapters| src/artifacts/NodeSeaArtifactReader.test.ts (51 tests | 1 failed) 402ms
+   ✓ rechecks a lower SEA policy instead of reusing an earlier admitted decode 27ms
+   ✓ locates SEA after a long unrelated ELF note owner without admitting its text 13ms
+   ✓ applies selected aggregate work before yielding SEA members 3ms
+   ✓ inventories a mach-o Node SEA carrier 11ms
+   ✓ inventories a elf Node SEA carrier 9ms
+   ✓ inventories a pe Node SEA carrier 11ms
+   ✓ accepts the __NODE_SEA segment spelling and a universal Mach-O slice 11ms
+   ✓ reads a 32-bit and a big-endian Mach-O section 22ms
+   ✓ classifies a main script without a JavaScript suffix as javascript-bundle 4ms
+   ✓ keeps a snapshot body opaque and retains the code path 3ms
+   ✓ reports a absent fuse as a contradiction 3ms
+   ✓ reports a unset fuse as a contradiction 3ms
+   ✓ reports disagreeing fuse sentinels 4ms
+   ✓ leaves a Mach-O, ELF, or PE without a SEA slot in its native format 13ms
+   ✓ scopes the large PE admission limit to SEA resources (PE32+: false) 9ms
+   ✓ scopes the large PE admission limit to SEA resources (PE32+: true) 2ms
+   ✓ trusts the PT_NOTE blob over a stale SHT_NOTE entry 4ms
+   ✓ leaves a non-SEA PE with a cyclic resource tree to native classification 3ms
+   ✓ fails closed when the located blob is truncated, has a bad magic, or unknown flags 5ms
+   ✓ fails closed when two different blobs are declared 3ms
+   ✓ keeps one blob when the same bytes are declared twice 3ms
+   ✓ reports limited SEA recognition rather than absence above the ELF header policy 74ms
+   ✓ recovers SEA recognition after raising Mach-O load-command admission 1ms
+   ✓ reads repeated PT_NOTE declarations at most once per note the file holds 30ms
+   ✓ extracts the main script and assets without executing them 29ms
+   ✓ rejects duplicate raw asset keys 2ms
+   ✓ maps an unsafe main path and opaque asset keys without losing their sources 7ms
+   ✓ maps a script collision and later file-prefix asset collision 5ms
+   ✓ retains source asset spelling separately from normalized graph paths 3ms
+   ✓ leaves Mach-O carriers with unreadable command framing unrecognized 1ms
+   ✓ rejects missing Mach-O load commands after a confirmed SEA section 2ms
+   ✓ rejects forged entries and changed carrier identity, then closes idempotently 2ms
+   ✓ reports a member that ends after the carrier recheck as an integrity failure 4ms
+   ✓ retires an unread 8-byte member through the shared reader factory 6ms
+   ✓ retires an unread 1048576-byte member through the shared reader factory 11ms
+   ✓ honors cancellation before admitting a carrier 2ms
+   ✓ settles preparation when the caller requests cancel during inventory construction 12ms
+   ✓ settles preparation when the caller requests close during inventory construction 11ms
+   ✓ keeps an incomplete __TEXT segment unrecognized before SEA admission 1ms
+   ✓ keeps an incomplete NODE_SEA segment unrecognized before SEA admission 1ms
+   ✓ retains SEA admission for a complete segment with a nonaligned command size 1ms
+   ✓ classifies four-byte thin magic 4277009102 without admitting a truncated SEA carrier 4ms
+   ✓ classifies four-byte thin magic 4277009103 without admitting a truncated SEA carrier 3ms
+   ✓ classifies four-byte thin magic 3472551422 without admitting a truncated SEA carrier 3ms
+   ✓ classifies four-byte thin magic 3489328638 without admitting a truncated SEA carrier 3ms
+   ✓ confirms SEA naming before rejecting an unrelated cyclic PE resource branch 2ms
+   ✓ rejects post-classification carrier mutation before publishing Node SEA facts: valid replacement 3ms
+   × rejects post-classification carrier mutation before publishing Node SEA facts: malformed blob 10ms
+   ✓ allows an uncancelled inventory after a cancelled SEA preparation 2ms
+   ✓ reports a truncated assets table as malformed through the reader 2ms
+   ✓ reports a truncated exec argv table as malformed through the reader 1ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 50 passed (51)
+   Start at  21:03:28
+   Duration  1.92s (transform 60%, tests 22%, import 16%, worker 1%)
+

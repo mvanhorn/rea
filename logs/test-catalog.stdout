@@ -1,0 +1,67 @@
+
+> rea-agents@6.9.0 test:focused
+> node scripts/run-development-tests.mjs focused tests/acceptance/localPathAdmissionCli.test.ts tests/acceptance/stableArtifactParserFailureCli.test.ts tests/acceptance/tools/localToolContracts.test.ts tests/boundary/cli/cliIntegerArguments.test.ts tests/boundary/mcp/absoluteLocalPathTools.test.ts
+
+
+   • turbo 2.11.7
+   • Running artifacts:skills
+   • Remote caching disabled
+
+metadata:check: cache hit, replaying logs 938dad9181fccb37
+metadata:check: 
+metadata:check: > rea-agents@6.9.0 metadata:check
+metadata:check: > node scripts/generate-package-metadata.mjs --check
+metadata:check: 
+metadata:check: (node:3414) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time
+metadata:check: (Use `node --trace-warnings ...` to show where the warning was created)
+compile: cache hit, replaying logs d14fb99bbb8ce50b
+compile: 
+compile: > rea-agents@6.9.0 compile
+compile: > node scripts/clean-build-output.mjs && node scripts/run-typescript.mjs -p tsconfig.build.json && node scripts/record-catalog-digests.mjs && node scripts/record-mcp-catalog.mjs && node scripts/record-cli-commands.mjs && node scripts/bundle-runtime.mjs
+compile: 
+compile: [33m[INEFFECTIVE_DYNAMIC_IMPORT] [0mdist/dotnet/ManagedStaticProvider.js is dynamically imported by dist/composition/auxiliaryAnalysisProviders.js but also statically imported by dist/composition/binary.js, dynamic import will not move module into another chunk.
+compile: 
+compile: [33m[INEFFECTIVE_DYNAMIC_IMPORT] [0mdist/dotnet/ManagedStaticProvider.js is dynamically imported by dist/composition/auxiliaryAnalysisProviders.js but also statically imported by dist/composition/binary.js, dynamic import will not move module into another chunk.
+compile: 
+artifacts:skills: cache hit, replaying logs b5bad1e7f617fb5d
+artifacts:skills: 
+artifacts:skills: > rea-agents@6.9.0 artifacts:skills
+artifacts:skills: > node scripts/generate-skill-metadata.mjs
+artifacts:skills: 
+artifacts:skills: (node:6480) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time
+artifacts:skills: (Use `node --trace-warnings ...` to show where the warning was created)
+
+ Tasks:    3 successful, 3 total
+Cached:    3 cached, 3 total
+  Time:    47ms >>> FULL TURBO
+
+
+ RUN  v5.0.3 /workspace
+
+ ✓ |acceptance| tests/acceptance/localPathAdmissionCli.test.ts (3 tests) 2339ms
+   ✓ rejects empty file selections before they can become the working directory 1314ms
+   ✓ rejects empty auxiliary selections and output destinations before reading inputs 993ms
+ ✓ |acceptance| tests/acceptance/stableArtifactParserFailureCli.test.ts (15 tests) 1340ms
+   ✓ inspect-python-pyc retains the completed file identity after format refusal 1117ms
+ ✓ |cli-boundary| tests/boundary/cli/cliIntegerArguments.test.ts (118 tests) 4982ms
+   ✓ CLI integer arguments (56)
+     ✓ rejects "" as an Android method overload index 1130ms
+     ✓ rejects "+1" as a Cutter expected generation 989ms
+   ✓ byte-entropy window options (15)
+     ✓ rejects "1.0" as a byte-entropy --offset value 978ms
+   ✓ pyc and BEAM limit options (26)
+     ✓ rejects "1e2" as inspect-go-binary --max-string-literals 961ms
+ ✓ |mcp-boundary| tests/boundary/mcp/absoluteLocalPathTools.test.ts (1 test) 217ms
+ ✓ |acceptance| tests/acceptance/tools/localToolContracts.test.ts (6 tests) 17138ms
+   ✓ keeps overall replay verification unknown when capture divergence is unknown 1943ms
+   ✓ rejects OS-invalid local inputs through the real advertised MCP contracts 1921ms
+   ✓ rejects malformed process choices through CLI and MCP before launching the command 5055ms
+   ✓ captures real process choices and composes a untruncated self-comparison 2591ms
+   ✓ captures real process choices and composes a truncated self-comparison 2632ms
+   ✓ accepts NUL as actual terminal input while preserving capture defaults 2994ms
+
+ Test Files  5 passed (5)
+      Tests  143 passed (143)
+   Start at  20:59:44
+   Duration  21.34s (tests 84%, transform 11%, import 5%)
+

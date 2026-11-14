@@ -1,0 +1,12 @@
+Node: v24.22.1 (/home/ubuntu/.nvm/versions/node/v24.22.1/bin/node)
+npm: 11.19.1
+Command: npm run test:local -- <file>
+Worktrees:
+  main  /tmp/rea-main  f3b697da5a698a5548afd3b19d044ec623bdda0b
+  feat  /workspace     2317e800f42262ecf913ab08a3a71ebb91206904
+npm ci: run on both trees with Node 24.22.1 before tests (exit 0)
+Files:
+  src/artifacts/NodeSeaArtifactReader.test.ts
+  src/artifacts/ZipArtifactReader.test.ts
+  src/artifacts/pyinstaller/PyInstallerBoundaries.test.ts
+The RPM change does not modify those test files or their readers.

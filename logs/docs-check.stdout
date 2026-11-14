@@ -1,0 +1,81 @@
+
+> rea-agents@6.9.0 docs:check
+> node scripts/check-dependency-install.mjs && node scripts/run-exclusive.mjs artifacts node scripts/run-turbo.mjs run docs:check:built && npm run test:local -- tests/conformance/readmeConsistency.test.ts
+
+
+   • turbo 2.11.7
+   • Running docs:check:built
+   • Remote caching disabled
+
+metadata:check: cache hit, replaying logs 938dad9181fccb37
+metadata:check: 
+metadata:check: > rea-agents@6.9.0 metadata:check
+metadata:check: > node scripts/generate-package-metadata.mjs --check
+metadata:check: 
+metadata:check: (node:3414) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time
+metadata:check: (Use `node --trace-warnings ...` to show where the warning was created)
+compile: cache hit, replaying logs d14fb99bbb8ce50b
+compile: 
+compile: > rea-agents@6.9.0 compile
+compile: > node scripts/clean-build-output.mjs && node scripts/run-typescript.mjs -p tsconfig.build.json && node scripts/record-catalog-digests.mjs && node scripts/record-mcp-catalog.mjs && node scripts/record-cli-commands.mjs && node scripts/bundle-runtime.mjs
+compile: 
+compile: [33m[INEFFECTIVE_DYNAMIC_IMPORT] [0mdist/dotnet/ManagedStaticProvider.js is dynamically imported by dist/composition/auxiliaryAnalysisProviders.js but also statically imported by dist/composition/binary.js, dynamic import will not move module into another chunk.
+compile: 
+compile: [33m[INEFFECTIVE_DYNAMIC_IMPORT] [0mdist/dotnet/ManagedStaticProvider.js is dynamically imported by dist/composition/auxiliaryAnalysisProviders.js but also statically imported by dist/composition/binary.js, dynamic import will not move module into another chunk.
+compile: 
+artifacts:product-catalog: cache hit, replaying logs ad6fa4b720653ff1
+artifacts:skills: cache hit, replaying logs b5bad1e7f617fb5d
+artifacts:product-catalog: 
+artifacts:product-catalog: > rea-agents@6.9.0 artifacts:product-catalog
+artifacts:product-catalog: > node scripts/generate-product-catalog.mjs
+artifacts:product-catalog: 
+artifacts:skills: 
+artifacts:skills: > rea-agents@6.9.0 artifacts:skills
+artifacts:skills: > node scripts/generate-skill-metadata.mjs
+artifacts:skills: 
+artifacts:skills: (node:6480) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time
+artifacts:skills: (Use `node --trace-warnings ...` to show where the warning was created)
+artifacts:managed-evidence: cache hit, replaying logs 35932726b1a67b75
+artifacts:managed-evidence: 
+artifacts:managed-evidence: > rea-agents@6.9.0 artifacts:managed-evidence
+artifacts:managed-evidence: > node scripts/generate-completion-ledger.mjs
+artifacts:managed-evidence: 
+artifacts:managed-evidence: (node:16769) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time
+artifacts:managed-evidence: (Use `node --trace-warnings ...` to show where the warning was created)
+artifacts:managed-evidence: {"manifest_id":"ecm_ffdb7a10558f96e818c9306cd18d431df1e942229af7eebedd3eacc236c6d7b6","ledger_id":"ecl_c01a4b9f5509ecc49314664a3c37e8ebe00406da496c6a0abc523339d0e86862","claims":13,"complete":false}
+docs:check:built: cache hit, replaying logs 04f10b5ab4f5aad9
+docs:check:built: 
+docs:check:built: > rea-agents@6.9.0 docs:check:built
+docs:check:built: > node scripts/generate-package-metadata.mjs --check && node scripts/generate-skill-metadata.mjs --check && node scripts/generate-cursor-plugin-skill.mjs --check && node scripts/generate-product-catalog.mjs --check && node scripts/generate-completion-ledger.mjs --check && node scripts/check-doc-facts.mjs && node scripts/generate-error-schema.mjs --check && npm run licenses:check
+docs:check:built: 
+docs:check:built: (node:16819) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time
+docs:check:built: (Use `node --trace-warnings ...` to show where the warning was created)
+docs:check:built: (node:16830) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time
+docs:check:built: (Use `node --trace-warnings ...` to show where the warning was created)
+docs:check:built: (node:16869) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time
+docs:check:built: (Use `node --trace-warnings ...` to show where the warning was created)
+docs:check:built: {"manifest_id":"ecm_ffdb7a10558f96e818c9306cd18d431df1e942229af7eebedd3eacc236c6d7b6","ledger_id":"ecl_c01a4b9f5509ecc49314664a3c37e8ebe00406da496c6a0abc523339d0e86862","claims":13,"complete":false}
+docs:check:built: 
+docs:check:built: > rea-agents@6.9.0 licenses:check
+docs:check:built: > node scripts/generate-third-party-inventory.mjs --check
+docs:check:built: 
+docs:check:built: {"locked_packages":966,"runtime_packages":175,"runtime_dependency_fingerprint":"0119b7e66d63524f25c35f294b3264a901b764282b7d3bd1d0b493a9143498d0"}
+
+ Tasks:    6 successful, 6 total
+Cached:    6 cached, 6 total
+  Time:    44ms >>> FULL TURBO
+
+
+> rea-agents@6.9.0 test:local
+> node scripts/run-development-tests.mjs local tests/conformance/readmeConsistency.test.ts
+
+
+ RUN  v5.0.3 /workspace
+
+ ✓ |conformance| tests/conformance/readmeConsistency.test.ts (10 tests) 183ms
+
+ Test Files  1 passed (1)
+      Tests  10 passed (10)
+   Start at  20:59:29
+   Duration  552ms (tests 76%, transform 12%, worker 8%, import 4%)
+
