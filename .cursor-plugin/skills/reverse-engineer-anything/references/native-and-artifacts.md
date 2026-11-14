@@ -329,7 +329,7 @@ path-derived member roles (`lib`, `ref`, `runtimes`, and the other NuGet folder
 conventions). Missing, ambiguous, or malformed `.nuspec` members succeed with
 inventory and limitations. Encrypted members are listed and not extracted.
 Roles are folder conventions, not restore-time asset selection. See
-[NuGet packages](https://github.com/morluto/rea/blob/main/docs/nuget-nupkg.md).
+[NuGet packages](https://github.com/morluto/rea/blob/main/docs/guides/managed/nuget-nupkg.md).
 
 ## SQLite snapshots
 

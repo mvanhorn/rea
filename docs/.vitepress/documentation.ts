@@ -208,6 +208,11 @@ export const documentationSections = [
         source: "guides/managed/managed-code-analysis.md",
         route: "/managed-code-analysis",
       },
+      {
+        text: "NuGet packages",
+        source: "guides/managed/nuget-nupkg.md",
+        route: "/nuget-nupkg",
+      },
     ],
   },
   {
@@ -629,11 +634,6 @@ export const documentationSections = [
         text: "Node.js single executable applications",
         source: "node-sea.md",
         route: "/node-sea",
-      },
-      {
-        text: "NuGet packages",
-        source: "nuget-nupkg.md",
-        route: "/nuget-nupkg",
       },
       {
         text: "PE Authenticode certificate tables",

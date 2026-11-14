@@ -562,7 +562,7 @@ rea inspect-nuget-nupkg /absolute/path/to/Demo.Package.1.2.3.nupkg --json
 The workflow reports package identity, license and repository fields as present,
 dependency groups with version ranges, and a ZIP contents inventory with
 path-derived folder roles. Missing or malformed `.nuspec` members still return
-the inventory with limitations. See [NuGet packages](../nuget-nupkg.md).
+the inventory with limitations. See [NuGet packages](../guides/managed/nuget-nupkg.md).
 
 Complete `rea decompile --json` Evidence can be saved and inspected through
 `inspect-analysis-view` with an inline source and

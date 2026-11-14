@@ -32,7 +32,7 @@ Synthetic fixtures cover a complete package, ungrouped dependencies and
 missing, ambiguous and malformed manifests. Tests cover non-ZIP refusal, the
 entry, file and `.nuspec` allowances, service path admission, and the domain
 schema. Limitation delivery is asserted through the parser-owned
-`NUPKG_LIMITATIONS` wording. The [usage guide](../../../nuget-nupkg.md)
+`NUPKG_LIMITATIONS` wording. The [usage guide](../../../guides/managed/nuget-nupkg.md)
 documents the result and limits.
 
 ## Out of scope

@@ -385,7 +385,7 @@ explicit path or endpoint and do not need it.
   spelled, and path-derived member roles. Missing, ambiguous, or malformed
   `.nuspec` members still return the inventory with limitations. Encrypted
   members are listed and not extracted. See the
-  [NuGet packages guide](https://github.com/morluto/rea/blob/main/docs/nuget-nupkg.md).
+  [NuGet packages guide](https://github.com/morluto/rea/blob/main/docs/guides/managed/nuget-nupkg.md).
 
 - Explicit local SQLite database snapshot: `inspect_sqlite_database`. Inspect
   with Node.js 24.x >=24.15 or 26+ providing native SQLite limits. Read schema
