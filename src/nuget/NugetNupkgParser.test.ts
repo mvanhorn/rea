@@ -379,6 +379,41 @@ it.for([true, false])(
   },
 );
 
+it("keeps a Zstandard dictionary refusal as an unsupported layout instead of a malformed package", async () => {
+  const bytes = await nugetNupkgFixture();
+  const refusal = Object.assign(new Error("Dictionary mismatch"), {
+    code: "ZSTD_error_dictionary_wrong",
+  });
+  const original = ZipReader.prototype.getEntriesGenerator;
+  const enumeration = vi
+    .spyOn(ZipReader.prototype, "getEntriesGenerator")
+    .mockImplementation(async function* (this: ZipReader<unknown>, options) {
+      for await (const entry of original.call(this, options)) {
+        if (entry.filename === "Demo.Package.nuspec" && !entry.directory) {
+          entry.compressionMethod = 93;
+          entry.getData = () => Promise.reject(refusal);
+        }
+        yield entry;
+      }
+      return true;
+    });
+  try {
+    const failure: unknown = await parseNugetNupkg(
+      bytes,
+      artifactOf(bytes),
+      defaults,
+    ).catch((cause: unknown) => cause);
+    expect(failure).toBeInstanceOf(NugetNupkgFormatFailure);
+    expect(failure).toMatchObject({ kind: "unsupported" });
+    expect((failure as Error).message).toContain("Zstandard dictionary");
+    expect(((failure as Error).cause as ArtifactReaderFailure).cause).toBe(
+      refusal,
+    );
+  } finally {
+    enumeration.mockRestore();
+  }
+});
+
 it("keeps a Zstandard decoder window refusal as a memory limit instead of a malformed package", async () => {
   const bytes = await nugetNupkgFixture();
   const refusal = Object.assign(new Error("Frame requires too much memory"), {

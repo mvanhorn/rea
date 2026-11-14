@@ -6,8 +6,9 @@ export class NugetNupkgFormatFailure extends Error {
   constructor(
     readonly kind: "malformed" | "unsupported",
     message: string,
+    options?: ErrorOptions,
   ) {
-    super(message);
+    super(message, options);
     this.name = "NugetNupkgFormatFailure";
   }
 }

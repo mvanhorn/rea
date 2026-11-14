@@ -150,11 +150,19 @@ const wrapZipFailure = (
     cause instanceof NugetNupkgCapacityFailure
   )
     throw cause;
-  // The shared ZIP reader owns native decoder resource refusals, such as a
-  // Zstandard window above its fixed allowance; they are not corrupt input.
+  // The shared ZIP reader owns native decoder classifications: a Zstandard
+  // window above its fixed allowance is a resource limit, and a decoder
+  // feature it cannot provide (a Zstandard dictionary) is an unsupported
+  // layout. Neither is corrupt input.
   const typed = typedZipFailure(cause, compressionMethod);
   if (typed instanceof ArtifactReaderFailure && typed.reason === "limit")
     throw typed;
+  if (typed instanceof ArtifactReaderFailure && typed.reason === "unavailable")
+    throw new NugetNupkgFormatFailure(
+      "unsupported",
+      `NuGet package ZIP uses an unsupported layout: ${typed.message}`,
+      { cause: typed },
+    );
   const message = cause instanceof Error ? cause.message : String(cause);
   if (ZIP_UNSUPPORTED_MESSAGES.has(message))
     throw new NugetNupkgFormatFailure(

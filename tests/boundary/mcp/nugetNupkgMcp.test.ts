@@ -117,3 +117,41 @@ mcpTest(
     }
   },
 );
+
+mcpTest(
+  "reports a Zstandard dictionary member as an unsupported target, not a malformed package",
+  async ({ mcp }) => {
+    const { client, session } = await connect(mcp);
+    const refusal = Object.assign(new Error("Dictionary mismatch"), {
+      code: "ZSTD_error_dictionary_wrong",
+    });
+    const original = ZipReader.prototype.getEntriesGenerator;
+    const enumeration = vi
+      .spyOn(ZipReader.prototype, "getEntriesGenerator")
+      .mockImplementation(async function* (this: ZipReader<unknown>, options) {
+        for await (const entry of original.call(this, options)) {
+          if (entry.filename === "Demo.Package.nuspec" && !entry.directory) {
+            entry.compressionMethod = 93;
+            entry.getData = () => Promise.reject(refusal);
+          }
+          yield entry;
+        }
+        return true;
+      });
+    try {
+      const root = await createTestTempDirectory("rea-nupkg-mcp-");
+      const path = join(root, "Demo.Package.nupkg");
+      await writeFile(path, await nugetNupkgFixture());
+      const response = await client.callTool({
+        name: "inspect_nuget_nupkg",
+        arguments: { path },
+      });
+      const { error } = parseMcpToolError(response);
+      expect(error.code).toBe("unsupported_target");
+      expect(error.message).toMatch(/Zstandard dictionary/u);
+    } finally {
+      enumeration.mockRestore();
+      await session.close();
+    }
+  },
+);
