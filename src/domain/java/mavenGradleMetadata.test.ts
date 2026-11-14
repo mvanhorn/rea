@@ -85,6 +85,16 @@ it("classifies requested versions without interpolating properties", () => {
   expect(requestedVersionKind("]1.0,2.0]", "gradle-module")).toBe("range");
   expect(requestedVersionKind("[1.0,2.0[", "gradle-module")).toBe("range");
   expect(requestedVersionKind("1.0]", "maven-pom")).toBe("literal");
+  expect(requestedVersionKind("1.+", "gradle-module")).toBe("dynamic");
+  expect(requestedVersionKind("+", "gradle-module")).toBe("dynamic");
+  expect(requestedVersionKind("latest.release", "gradle-module")).toBe(
+    "dynamic",
+  );
+  expect(requestedVersionKind("latest.integration", "gradle-module")).toBe(
+    "dynamic",
+  );
+  expect(requestedVersionKind("1.2.3", "gradle-module")).toBe("literal");
+  expect(requestedVersionKind("1.+", "maven-pom")).toBe("literal");
 });
 
 it("admits a complete POM report with unresolved parent and property references", () => {

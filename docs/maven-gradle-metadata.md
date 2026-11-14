@@ -45,7 +45,9 @@ dependency with `type` `pom` and `scope` `import` is a BOM import
 exclusions as present. `optional` is the interpreted boolean and
 `optional_spelling` keeps the text as written, so a `${property}` value stays
 visible and is listed in `unresolved` with `field` `optional`. `version_kind`
-is `literal`, `range`, `property`, or `missing`.
+is `literal`, `range`, `dynamic`, `property`, or `missing`; `dynamic` is
+Gradle's `+` prefix (`1.+`) or a `latest.<status>` selector
+(`latest.release`).
 
 For Gradle module metadata, `gradle` records `format_version`,
 `created_by_gradle`, and each variant's name, `org.gradle.category`,

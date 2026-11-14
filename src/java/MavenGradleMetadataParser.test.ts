@@ -384,6 +384,31 @@ it("classifies a Gradle exclusive-lower-bound request as a range", () => {
   });
 });
 
+it.each(["1.+", "latest.release"])(
+  "classifies a Gradle dynamic selector %s as dynamic, not literal",
+  (requires) => {
+    const report = parse(
+      JSON.stringify({
+        formatVersion: "1.1",
+        component: { group: "com.example", module: "demo", version: "1.0.0" },
+        variants: [
+          {
+            name: "apiElements",
+            dependencies: [
+              { group: "com.example", module: "lib", version: { requires } },
+            ],
+          },
+        ],
+      }),
+      "/artifacts/demo-1.0.0.module",
+    );
+    expect(report.dependencies[0]).toMatchObject({
+      version: requires,
+      version_kind: "dynamic",
+    });
+  },
+);
+
 it("keeps an empty relativePath and a property-spelled optional distinct from omission", () => {
   const report = parse(`<project>
   <parent>

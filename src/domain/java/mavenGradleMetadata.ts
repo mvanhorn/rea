@@ -39,18 +39,34 @@ export const mavenPropertyReferences = (value: string | null): string[] => {
   return [...references];
 };
 
+export const REQUESTED_VERSION_KINDS = [
+  "literal",
+  "range",
+  "dynamic",
+  "property",
+  "missing",
+] as const;
+export type RequestedVersionKind = (typeof REQUESTED_VERSION_KINDS)[number];
+
 /**
  * Classify a requested version as spelled for its document format, without
- * interpolating or resolving. Gradle also writes an exclusive lower bound as `]`.
+ * interpolating or resolving. Gradle also writes an exclusive lower bound as `]`,
+ * and selects a version dynamically for a `+` prefix (`1.+`, `+`) or a
+ * `latest.<status>` selector (`latest.release`).
  */
 export const requestedVersionKind = (
   value: string | null,
   format: MavenGradleMetadataFormat,
-): "literal" | "range" | "property" | "missing" => {
+): RequestedVersionKind => {
   if (value === null) return "missing";
   if (mavenPropertyReferences(value).length > 0) return "property";
   const rangeDelimiter = format === "gradle-module" ? /[[(\]]/u : /[[(]/u;
   if (rangeDelimiter.test(value)) return "range";
+  if (
+    format === "gradle-module" &&
+    (value.endsWith("+") || /^latest\.[^.]+$/u.test(value))
+  )
+    return "dynamic";
   return "literal";
 };
 
@@ -93,7 +109,7 @@ const dependencySchema = z.strictObject({
   group_id: nullableText,
   artifact_id: nullableText,
   version: nullableText,
-  version_kind: z.enum(["literal", "range", "property", "missing"]),
+  version_kind: z.enum(REQUESTED_VERSION_KINDS),
   gradle_version: gradleVersionSchema.nullable(),
   scope: nullableText,
   type: nullableText,
