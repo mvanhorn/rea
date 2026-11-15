@@ -6,17 +6,17 @@ Source-test feedback; compiled boundaries and real providers need explicit verif
 
  RUN  v5.0.3 /agent/repos/rea
 
- ✓ |adapters| src/artifacts/AndroidOtaPayloadArtifactReader.test.ts (8 tests) 120ms
- ✓ |adapters| src/artifacts/inventory/ArtifactGraphConstruction.test.ts (54 tests) 29ms
- ✓ |adapters| src/artifacts/artifactFormats.test.ts (4 tests) 4ms
- ✓ |domain| src/domain/firmware/androidOtaPayload.test.ts (13 tests) 15ms
- ✓ |domain| src/domain/artifactFormatRecognition.test.ts (7 tests) 3ms
- ✓ |services| src/application/binary/TargetFormatVocabularies.test.ts (41 tests) 46ms
- ✓ |adapters| src/artifacts/AndroidOtaPayloadArtifactReader.boundaries.test.ts (6 tests) 38ms
+ ✓ |adapters| src/artifacts/AndroidOtaPayloadArtifactReader.test.ts (8 tests) 119ms
+ ✓ |adapters| src/artifacts/artifactFormats.test.ts (4 tests) 5ms
+ ✓ |adapters| src/artifacts/inventory/ArtifactGraphConstruction.test.ts (54 tests) 37ms
+ ✓ |domain| src/domain/firmware/androidOtaPayload.test.ts (15 tests) 18ms
+ ✓ |domain| src/domain/artifactFormatRecognition.test.ts (7 tests) 2ms
+ ✓ |services| src/application/binary/TargetFormatVocabularies.test.ts (41 tests) 44ms
+ ✓ |adapters| src/artifacts/AndroidOtaPayloadArtifactReader.boundaries.test.ts (7 tests) 161ms
 
  Test Files  7 passed (7)
-      Tests  133 passed (133)
-   Start at  17:24:15
-   Duration  3.62s (transform 68%, import 27%, tests 4%, worker 1%)
+      Tests  136 passed (136)
+   Start at  17:50:13
+   Duration  3.60s (transform 64%, import 28%, tests 6%, worker 1%)
 
 TEST_LOCAL_EXIT=0

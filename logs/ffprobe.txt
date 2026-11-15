@@ -1,5 +1,5 @@
 ===== out.mp4 =====
-Input #0, mov,mp4,m4a,3gp,3g2,mj2, from 'out.mp4':
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from '/tmp/android-ota-demo/out.mp4':
   Metadata:
     minor_version   : 512
     major_brand     : isom
@@ -7,14 +7,14 @@ Input #0, mov,mp4,m4a,3gp,3g2,mj2, from 'out.mp4':
     hyperframes_version: 0.9.53
     hyperframes_renderer: hyperframes
     encoder         : Lavf60.16.100
-  Duration: 00:00:24.00, start: 0.000000, bitrate: 1059 kb/s
-  Stream #0:0[0x1](und): Video: h264 (High) (avc1 / 0x31637661), yuv420p(tv, bt709, progressive), 1920x1080 [SAR 1:1 DAR 16:9], 1057 kb/s, 30 fps, 30 tbr, 15360 tbn (default)
+  Duration: 00:00:24.00, start: 0.000000, bitrate: 302 kb/s
+  Stream #0:0[0x1](und): Video: h264 (High) (avc1 / 0x31637661), yuv420p(tv, bt709, progressive), 1920x1080 [SAR 1:1 DAR 16:9], 301 kb/s, 30 fps, 30 tbr, 15360 tbn (default)
     Metadata:
       handler_name    : VideoHandler
       vendor_id       : [0][0][0][0]
       encoder         : Lavc60.31.102 libx264
 
 ===== preview.gif =====
-Input #0, gif, from 'preview.gif':
-  Duration: 00:00:24.00, start: 0.000000, bitrate: 2185 kb/s
-  Stream #0:0: Video: gif, bgra, 720x405 [SAR 64:64 DAR 16:9], 12.50 fps, 12 tbr, 100 tbn
+Input #0, gif, from '/tmp/android-ota-demo/preview.gif':
+  Duration: 00:00:24.00, start: 0.000000, bitrate: 261 kb/s
+  Stream #0:0: Video: gif, bgra, 960x540 [SAR 64:64 DAR 16:9], 10 fps, 10 tbr, 100 tbn

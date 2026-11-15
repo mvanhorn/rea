@@ -1,7 +1,9 @@
 # Android OTA payload inspector demo
 
 Captured against a local `rea` CLI built from this change and, for the
-before case, a worktree of upstream `main` at `25b1c42ce`.
+before case, a worktree of upstream `main`. Current rebase base is
+`94bf2bdec`. The same CrAU v2 fixture is `unsupported binary format` on
+that tip.
 
 ## What was run
 
@@ -14,7 +16,8 @@ before case, a worktree of upstream `main` at `25b1c42ce`.
   hashes and operation counts, dynamic groups, apex_info, and
   `signatures_verified: false`.
 - **Extract:** REPLACE/ZERO reconstruction writes `boot.img` whose prefix
-  is `BOOTIMG`. A delta payload inventories `vendor.img` and extract fails
+  is `BOOTIMG`. `sha256sum` of that image matches the manifest
+  `hash_hex`. A delta payload inventories `vendor.img` and extract fails
   with `Inventoried source bytes are unavailable for vendor.img`.
 - **Refusals:** a v1 header is an unsupported-version failure. Bad magic
   stays an unsupported binary format.
@@ -37,7 +40,7 @@ GrapheneOS `bluejay-ota_update-2026111300.zip`:
 
 ## Media
 
-`out.mp4` is a 24 s, 1920×1080, 30 fps H.264 replay of those captured
-lines. `preview.gif` is derived from it (720×405, 12 fps, 24 s). The
+`out.mp4` is a 24 s, 1920×1080, 30 fps H.264 replay of trimmed captured
+lines. `preview.gif` is derived from it (960×540, 10 fps, 24 s). The
 on-screen label is `Animated replay of real captured command output`.
 See `logs/ffprobe.txt`.

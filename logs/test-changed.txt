@@ -1,132 +1,127 @@
-
 > rea-agents@6.9.0 test:changed
 > node scripts/run-development-tests.mjs changed --base upstream/main
 
-Source-test feedback from merge base 25b1c42ce45ad29f30fdb096dc444e0ace980723; compiled boundaries and real providers need explicit verification.
+Source-test feedback from merge base 94bf2bdecdfa686527f4b676f06575bee05af53f; compiled boundaries and real providers need explicit verification.
 
  RUN  v5.0.3 /agent/repos/rea
 
- ✓ |adapters| src/ghidra/GhidraProvider.behavior.test.ts (301 tests) 827ms
- ✓ |adapters| src/native/AppleDispatchMetadata.test.ts (118 tests) 127ms
- ✓ |adapters| src/adb/AdbProvider.test.ts (117 tests) 710ms
- ✓ |adapters| src/artifacts/ReleaseExposureReader.test.ts (278 tests) 4950ms
+ ✓ |adapters| src/ghidra/GhidraProvider.behavior.test.ts (301 tests) 766ms
+ ✓ |adapters| src/native/AppleDispatchMetadata.test.ts (118 tests) 125ms
+ ✓ |adapters| src/adb/AdbProvider.test.ts (117 tests) 718ms
+ ✓ |adapters| src/artifacts/ReleaseExposureReader.test.ts (278 tests) 4877ms
    ✓ ReleaseExposureReader limits (6)
-     ✓ counts members past the package entry cap and marks coverage unknown 1143ms
+     ✓ counts members past the package entry cap and marks coverage unknown 1160ms
    ✓ ReleaseExposureReader member allowances (7)
-     ✓ keeps a later source map readable after many large binary members 546ms
- ✓ |adapters| src/native/initializers/NativeInitializersParsers.test.ts (99 tests) 1617ms
+     ✓ keeps a later source map readable after many large binary members 599ms
+ ✓ |adapters| src/native/initializers/NativeInitializersParsers.test.ts (99 tests) 1486ms
    ✓ ELF incomplete inputs (5)
-     ✓ bounds a huge declared DT_INIT_ARRAYSZ by the slot budget 442ms
-   ✓ ELF section lookups (2)
-     ✓ resolves a full slot budget against a near-maximal section table in one pass 303ms
- ✓ |adapters| src/server/http/serveStreamableHttp.test.ts (77 tests) 1273ms
- ✓ |adapters| src/ida/IdaSessionClient.test.ts (90 tests) 7451ms
+     ✓ bounds a huge declared DT_INIT_ARRAYSZ by the slot budget 419ms
+ ✓ |adapters| src/server/http/serveStreamableHttp.test.ts (77 tests) 1256ms
+ ✓ |adapters| src/ida/IdaSessionClient.test.ts (90 tests) 7292ms
    ✓ attached IDA regex supervision (5)
-     ✓ bounds regex matching without caller cancellation and preserves subsequent searches 5042ms
+     ✓ bounds regex matching without caller cancellation and preserves subsequent searches 5032ms
    ✓ headless IDA transient busy health (6)
-     ✓ returns a retryable timeout naming the busy tool at the registration deadline 307ms
-     ✓ never invents a busy tool the worker did not report 309ms
-     ✓ reports free-form text from the worker as unknown instead of echoing it 305ms
-     ✓ reports an over-long name from the worker as unknown instead of echoing it 307ms
- ✓ |adapters| src/artifacts/apple/MachoLoadCommandReader.test.ts (67 tests) 122ms
- ✓ |adapters| src/frida/FridaInstrumentationManager.test.ts (66 tests) 2546ms
-   ✓ does not carry earlier script truncation into a complete later load 554ms
-   ✓ reports truncation when that script loses its own message 548ms
-   ✓ retains the newest contiguous messages across repeated budget evictions 1311ms
+     ✓ returns a retryable timeout naming the busy tool at the registration deadline 303ms
+     ✓ never invents a busy tool the worker did not report 304ms
+     ✓ reports free-form text from the worker as unknown instead of echoing it 304ms
+     ✓ reports an over-long name from the worker as unknown instead of echoing it 304ms
+ ✓ |adapters| src/frida/FridaInstrumentationManager.test.ts (66 tests) 2371ms
+   ✓ does not carry earlier script truncation into a complete later load 516ms
+   ✓ reports truncation when that script loses its own message 519ms
+   ✓ retains the newest contiguous messages across repeated budget evictions 1211ms
+ ✓ |adapters| src/artifacts/apple/MachoLoadCommandReader.test.ts (67 tests) 135ms
  ✓ |adapters| src/ghidra/GhidraInstallation.test.ts (125 tests | 1 skipped) 69ms
- ✓ |adapters| src/native/hardening/BinaryHardeningParsers.test.ts (78 tests) 604ms
- ✓ |adapters| src/artifacts/deno/DenoStandaloneArtifactReader.test.ts (96 tests) 532ms
- ✓ |adapters| src/apktool/ApktoolProvider.test.ts (72 tests) 3668ms
-   ✓ recovers later string pages and an exhausted XML admission on the same APK 333ms
- ✓ |adapters| src/artifacts/pyinstaller/PyInstallerArtifactReader.test.ts (42 tests) 853ms
-   ✓ lists a large file-backed PYZ and reads a selected module (outer compression: true) 337ms
- ✓ |adapters| src/wasm/WabtArtifactProvider.test.ts (60 tests) 14667ms
-   ✓ rejects malformed UTF-8 in WABT stdout while retaining literal replacement characters 690ms
-   ✓ rejects malformed UTF-8 in WABT stderr while retaining literal replacement characters 601ms
-   ✓ recovers the same complete artifact by changing only max_input_bytes 498ms
-   ✓ recovers the same complete artifact by changing only max_tool_bytes 381ms
-   ✓ recovers the same complete artifact by changing only max_output_bytes 381ms
-   ✓ recovers the same complete artifact by changing only max_interface_bytes 639ms
-   ✓ recovers the same complete artifact by changing only max_artifact_paths 333ms
-   ✓ keeps core WASM usable when optional name metadata is initially malformed 353ms
-   ✓ keeps core WASM usable when optional name metadata is partially decoded 326ms
-   ✓ keeps core WASM usable when optional name metadata is an inner map rejected by WABT 337ms
-   ✓ keeps core WASM usable when optional name metadata is a valid empty function-name map 334ms
-   ✓ keeps core WASM usable when optional name metadata is a valid name with an unattributed custo… 310ms
-   ✓ admits a compatible caller WABT release and records the observed banner 322ms
-   ✓ retries a retained input descriptor before admitting the next WABT operation 667ms
-   ✓ enforces a selected command deadline and completes a corrected retry after cleanup 396ms
-   ✓ owns private artifact bytes and retains success outcome 337ms
-   ✓ owns private artifact bytes and retains malformed outcome 306ms
-   ✓ owns private artifact bytes and retains malformed-close outcome 316ms
-   ✓ owns private artifact bytes and retains malformed-close-failure outcome 332ms
-   ✓ owns private artifact bytes and retains cancelled-close outcome 335ms
-   ✓ owns private artifact bytes and retains cancelled-close-failure outcome 319ms
-   ✓ owns private artifact bytes and retains cleanup outcome 337ms
-   ✓ owns private artifact bytes and retains malformed-wat outcome 335ms
-   ✓ owns private artifact bytes and retains wat-warning outcome 338ms
-   ✓ retains acquired file facts after producer output without claiming more module coverage 306ms
-   ✓ preserves finalization abort reason null through cleanup recovery 322ms
-   ✓ preserves finalization abort reason {"reason":"caller-owned object"} through cleanup recovery 328ms
-   ✓ preserves finalization abort reason undefined through cleanup recovery 321ms
- ✓ |adapters| src/browser/PlaywrightElectronActiveProvider.test.ts (39 tests) 7268ms
-   ✓ retains late cancellation beside a failed capture (cleanup fails: false) 546ms
-   ✓ classifies cancellation from ownership baseline without masking physical failure 572ms
-   ✓ retains process cleanup and blocks replacement capture until recovery 407ms
-   ✓ retains transport cleanup and blocks replacement capture until recovery 405ms
-   ✓ retains both cleanup and blocks replacement capture until recovery 456ms
- ✓ |adapters| src/artifacts/pyinstaller/PyInstallerFormatBoundaries.test.ts (71 tests) 684ms
- ✓ |adapters| src/server/environment/serveEnvironmentState.test.ts (28 tests) 3633ms
+ ✓ |adapters| src/native/hardening/BinaryHardeningParsers.test.ts (78 tests) 599ms
+ ✓ |adapters| src/artifacts/deno/DenoStandaloneArtifactReader.test.ts (96 tests) 527ms
+ ✓ |adapters| src/apktool/ApktoolProvider.test.ts (72 tests) 3320ms
+ ✓ |adapters| src/artifacts/pyinstaller/PyInstallerArtifactReader.test.ts (42 tests) 833ms
+   ✓ lists a large file-backed PYZ and reads a selected module (outer compression: true) 318ms
+ ✓ |adapters| src/browser/PlaywrightElectronActiveProvider.test.ts (39 tests) 6659ms
+   ✓ classifies cancellation from ownership baseline without masking physical failure 646ms
+   ✓ retains process cleanup and blocks replacement capture until recovery 368ms
+   ✓ retains transport cleanup and blocks replacement capture until recovery 393ms
+   ✓ retains both cleanup and blocks replacement capture until recovery 375ms
+ ✓ |adapters| src/wasm/WabtArtifactProvider.test.ts (60 tests) 14352ms
+   ✓ rejects malformed UTF-8 in WABT stdout while retaining literal replacement characters 660ms
+   ✓ rejects malformed UTF-8 in WABT stderr while retaining literal replacement characters 599ms
+   ✓ recovers the same complete artifact by changing only max_input_bytes 480ms
+   ✓ recovers the same complete artifact by changing only max_tool_bytes 350ms
+   ✓ recovers the same complete artifact by changing only max_output_bytes 348ms
+   ✓ recovers the same complete artifact by changing only max_interface_bytes 621ms
+   ✓ recovers the same complete artifact by changing only max_artifact_paths 331ms
+   ✓ keeps core WASM usable when optional name metadata is initially malformed 331ms
+   ✓ keeps core WASM usable when optional name metadata is partially decoded 319ms
+   ✓ keeps core WASM usable when optional name metadata is an inner map rejected by WABT 332ms
+   ✓ keeps core WASM usable when optional name metadata is a valid empty function-name map 325ms
+   ✓ keeps core WASM usable when optional name metadata is a valid name with an unattributed custo… 315ms
+   ✓ admits a compatible caller WABT release and records the observed banner 303ms
+   ✓ retries a retained input descriptor before admitting the next WABT operation 635ms
+   ✓ enforces a selected command deadline and completes a corrected retry after cleanup 391ms
+   ✓ owns private artifact bytes and retains success outcome 304ms
+   ✓ owns private artifact bytes and retains malformed outcome 309ms
+   ✓ owns private artifact bytes and retains malformed-close outcome 311ms
+   ✓ owns private artifact bytes and retains malformed-close-failure outcome 326ms
+   ✓ owns private artifact bytes and retains cancelled-close outcome 304ms
+   ✓ owns private artifact bytes and retains cancelled-close-failure outcome 314ms
+   ✓ owns private artifact bytes and retains cleanup outcome 322ms
+   ✓ owns private artifact bytes and retains malformed-wat outcome 316ms
+   ✓ owns private artifact bytes and retains wat-warning outcome 304ms
+   ✓ retains acquired file facts after producer output without claiming more module coverage 333ms
+   ✓ preserves finalization abort reason null through cleanup recovery 320ms
+   ✓ preserves finalization abort reason {"reason":"caller-owned object"} through cleanup recovery 321ms
+   ✓ preserves finalization abort reason undefined through cleanup recovery 344ms
+ ✓ |adapters| src/artifacts/pyinstaller/PyInstallerFormatBoundaries.test.ts (71 tests) 588ms
+ ✓ |adapters| src/server/environment/serveEnvironmentState.test.ts (28 tests) 3663ms
    ✓ state data plane response budget (2)
-     ✓ answers replies past the response budget with an error stating it instead of building the body 852ms
-     ✓ measures each reply before building it, so one past the budget is never serialized whole 731ms
+     ✓ answers replies past the response budget with an error stating it instead of building the body 929ms
+     ✓ measures each reply before building it, so one past the budget is never serialized whole 755ms
    ✓ repeated state reads (1)
-     ✓ reuses the encoded size of a state for refused repeated data/get calls 805ms
+     ✓ reuses the encoded size of a state for refused repeated data/get calls 775ms
    ✓ state data plane response budget reserve (1)
-     ✓ keeps room for every later refusal and the batch's framing, so the body never passes the budget 823ms
- ✓ |adapters| src/native/elf/ElfUnwindTables.test.ts (82 tests) 151ms
- ✓ |adapters| src/native/elf/ElfNoteParser.test.ts (69 tests) 60ms
- ✓ |adapters| src/native/pe/PeCertificateParser.test.ts (68 tests) 76ms
- ✓ |adapters| src/desktop/DebianPackageInventory.test.ts (30 tests) 200ms
- ❯ |adapters| src/artifacts/NodeSeaArtifactReader.test.ts (51 tests | 2 failed) 425ms
+     ✓ keeps room for every later refusal and the batch's framing, so the body never passes the budget 769ms
+ ✓ |adapters| src/native/elf/ElfUnwindTables.test.ts (82 tests) 165ms
+ ✓ |adapters| src/native/elf/ElfNoteParser.test.ts (69 tests) 57ms
+ ✓ |adapters| src/native/pe/PeCertificateParser.test.ts (68 tests) 77ms
+ ✓ |adapters| src/desktop/DebianPackageInventory.test.ts (30 tests) 170ms
+ ❯ |adapters| src/artifacts/NodeSeaArtifactReader.test.ts (51 tests | 1 failed) 371ms
    ✓ rechecks a lower SEA policy instead of reusing an earlier admitted decode 19ms
-   ✓ locates SEA after a long unrelated ELF note owner without admitting its text 12ms
-   ✓ applies selected aggregate work before yielding SEA members 4ms
+   ✓ locates SEA after a long unrelated ELF note owner without admitting its text 13ms
+   ✓ applies selected aggregate work before yielding SEA members 5ms
    ✓ inventories a mach-o Node SEA carrier 12ms
    ✓ inventories a elf Node SEA carrier 9ms
-   ✓ inventories a pe Node SEA carrier 11ms
-   ✓ accepts the __NODE_SEA segment spelling and a universal Mach-O slice 16ms
-   ✓ reads a 32-bit and a big-endian Mach-O section 20ms
+   ✓ inventories a pe Node SEA carrier 13ms
+   ✓ accepts the __NODE_SEA segment spelling and a universal Mach-O slice 13ms
+   ✓ reads a 32-bit and a big-endian Mach-O section 8ms
    ✓ classifies a main script without a JavaScript suffix as javascript-bundle 4ms
-   ✓ keeps a snapshot body opaque and retains the code path 7ms
+   ✓ keeps a snapshot body opaque and retains the code path 3ms
    ✓ reports a absent fuse as a contradiction 4ms
    ✓ reports a unset fuse as a contradiction 3ms
    ✓ reports disagreeing fuse sentinels 4ms
-   ✓ leaves a Mach-O, ELF, or PE without a SEA slot in its native format 13ms
-   ✓ scopes the large PE admission limit to SEA resources (PE32+: false) 8ms
+   ✓ leaves a Mach-O, ELF, or PE without a SEA slot in its native format 12ms
+   ✓ scopes the large PE admission limit to SEA resources (PE32+: false) 9ms
    ✓ scopes the large PE admission limit to SEA resources (PE32+: true) 2ms
-   ✓ trusts the PT_NOTE blob over a stale SHT_NOTE entry 3ms
+   ✓ trusts the PT_NOTE blob over a stale SHT_NOTE entry 4ms
    ✓ leaves a non-SEA PE with a cyclic resource tree to native classification 3ms
-   ✓ fails closed when the located blob is truncated, has a bad magic, or unknown flags 6ms
+   ✓ fails closed when the located blob is truncated, has a bad magic, or unknown flags 5ms
    ✓ fails closed when two different blobs are declared 3ms
    ✓ keeps one blob when the same bytes are declared twice 3ms
-   ✓ reports limited SEA recognition rather than absence above the ELF header policy 94ms
-   ✓ recovers SEA recognition after raising Mach-O load-command admission 2ms
-   ✓ reads repeated PT_NOTE declarations at most once per note the file holds 32ms
-   ✓ extracts the main script and assets without executing them 35ms
+   ✓ reports limited SEA recognition rather than absence above the ELF header policy 77ms
+   ✓ recovers SEA recognition after raising Mach-O load-command admission 1ms
+   ✓ reads repeated PT_NOTE declarations at most once per note the file holds 30ms
+   ✓ extracts the main script and assets without executing them 25ms
    ✓ rejects duplicate raw asset keys 2ms
-   ✓ maps an unsafe main path and opaque asset keys without losing their sources 8ms
+   ✓ maps an unsafe main path and opaque asset keys without losing their sources 6ms
    ✓ maps a script collision and later file-prefix asset collision 4ms
-   ✓ retains source asset spelling separately from normalized graph paths 4ms
+   ✓ retains source asset spelling separately from normalized graph paths 3ms
    ✓ leaves Mach-O carriers with unreadable command framing unrecognized 1ms
    ✓ rejects missing Mach-O load commands after a confirmed SEA section 3ms
    ✓ rejects forged entries and changed carrier identity, then closes idempotently 1ms
    ✓ reports a member that ends after the carrier recheck as an integrity failure 3ms
-   ✓ retires an unread 8-byte member through the shared reader factory 6ms
-   ✓ retires an unread 1048576-byte member through the shared reader factory 10ms
+   ✓ retires an unread 8-byte member through the shared reader factory 4ms
+   ✓ retires an unread 1048576-byte member through the shared reader factory 9ms
    ✓ honors cancellation before admitting a carrier 1ms
-   ✓ settles preparation when the caller requests cancel during inventory construction 13ms
-   ✓ settles preparation when the caller requests close during inventory construction 11ms
+   ✓ settles preparation when the caller requests cancel during inventory construction 15ms
+   ✓ settles preparation when the caller requests close during inventory construction 8ms
    ✓ keeps an incomplete __TEXT segment unrecognized before SEA admission 1ms
    ✓ keeps an incomplete NODE_SEA segment unrecognized before SEA admission 1ms
    ✓ retains SEA admission for a complete segment with a nonaligned command size 1ms
@@ -135,39 +130,69 @@ Source-test feedback from merge base 25b1c42ce45ad29f30fdb096dc444e0ace980723; c
    ✓ does not admit four-byte thin magic 3472551422 as Mach-O or a SEA carrier 2ms
    ✓ does not admit four-byte thin magic 3489328638 as Mach-O or a SEA carrier 2ms
    ✓ confirms SEA naming before rejecting an unrelated cyclic PE resource branch 1ms
-   × rejects post-classification carrier mutation before publishing Node SEA facts: valid replacement 7ms
-   × rejects post-classification carrier mutation before publishing Node SEA facts: malformed blob 8ms
-   ✓ allows an uncancelled inventory after a cancelled SEA preparation 1ms
+   ✓ rejects post-classification carrier mutation before publishing Node SEA facts: valid replacement 3ms
+   × rejects post-classification carrier mutation before publishing Node SEA facts: malformed blob 7ms
+   ✓ allows an uncancelled inventory after a cancelled SEA preparation 2ms
    ✓ reports a truncated assets table as malformed through the reader 1ms
    ✓ reports a truncated exec argv table as malformed through the reader 1ms
- ✓ |adapters| src/artifacts/pyinstaller/PyInstallerBoundaries.test.ts (33 tests) 637ms
-   ✓ rejects metadata expansion before retaining every repeated long container path 403ms
- ✓ |adapters| src/ida/IdaMcpConnection.test.ts (41 tests) 507ms
- ✓ |adapters| src/firmware/FirmwareReports.test.ts (35 tests) 41ms
- ✓ |adapters| src/doctorRuntime.test.ts (38 tests | 1 skipped) 2078ms
-   ✓ interrupts the Hopper display readiness check when doctor is cancelled: cancel=false 1609ms
- ✓ |adapters| src/process/ArtifactAnalysisResources.test.ts (29 tests) 1043ms
-   ✓ projects the specific reason and member evidence for retained cleanup 1005ms
- ✓ |adapters| src/browser/WebBundleAnalysisWorker.test.ts (36 tests) 14163ms
-   ✓ keeps a refused script's syntax facts and states the allowance the host sent 952ms
-   ✓ reuses one real owned worker for completed facts from consecutive scripts 471ms
-   ✓ keeps a code-0 exit pending while an inherited output pipe can still produce a frame 561ms
-   ✓ retains EOF without a terminal response when abort follows the close event 417ms
-   ✓ does not classify heap-marker stderr from a healthy worker as exhaustion 454ms
-   ✓ projects late stderr tails with completeness from the actual selection point 988ms
-   ✓ kills a hung owned child at the deadline and starts a fresh worker for the next script 983ms
-   ✓ contains child heap exhaustion and reuses the host for a later script 1228ms
-   ✓ cancels during the late ready handshake and retains failed cleanup until exact retry 1048ms
-   ✓ rejects invalid-utf8 worker result bytes with a matching descriptor 394ms
-   ✓ rejects bom worker result bytes with a matching descriptor 417ms
-   ✓ rejects malformed-json worker result bytes with a matching descriptor 490ms
-   ✓ preserves literal replacement characters in valid UTF-8 worker facts 494ms
-   ✓ retries independent browser workers once while an earlier exact owner remains stuck 2178ms
-   ✓ preserves typed ownership-admission facts from the recording worker launcher 446ms
-   ✓ preserves physical ownership-admission facts from the recording worker launcher 487ms
- ❯ |adapters| src/artifacts/ZipArtifactReader.test.ts (40 tests | 1 failed) 326ms
+ ❯ |adapters| src/artifacts/pyinstaller/PyInstallerBoundaries.test.ts (33 tests | 1 failed) 662ms
+   ✓ joins the pending descriptor read after a module prefix stop (success) 30ms
+   ✓ joins the pending descriptor read after a module prefix stop (io) 26ms
+   ✓ joins the pending descriptor read after a module prefix stop (caller cancellation) 15ms
+   ✓ joins the pending descriptor read after a module prefix stop (reader close) 17ms
+   ✓ settles independent private and carrier closes and retries only failed owners (carrier failure: false) 15ms
+   ✓ settles independent private and carrier closes and retries only failed owners (carrier failure: true) 7ms
+   × binds materialization to the inventoried digest and checks cached carrier freshness 5ms
+   ✓ names whether an opened PyInstaller entry is foreign or differs from inventory 2ms
+   ✓ retains changed-source evidence when an admitted carrier becomes unaddressable (ENOENT) 5ms
+   ✓ retains changed-source evidence when an admitted carrier becomes unaddressable (ENOTDIR) 3ms
+   ✓ bounds descriptor reads while hashing a selected stored member 10ms
+   ✓ joins pending native reads during cancellation/close (I/O failure: false) 3ms
+   ✓ joins pending native reads during cancellation/close (I/O failure: true) 2ms
+   ✓ preserves BOM characters in length-delimited UTF-8 fields 4ms
+   ✓ keeps runtime options as declarations with literal names and distinct source indices 3ms
+   ✓ rejects metadata expansion before retaining every repeated long container path 426ms
+   ✓ validates compressed member bounds through the stream (truncated: false) 3ms
+   ✓ validates compressed member bounds through the stream (truncated: true) 2ms
+   ✓ joins a late private-file close and retries its failed owner after cancellation 2ms
+   ✓ awaits private member close before completion (cancel: false, close failure: false) 7ms
+   ✓ awaits private member close before completion (cancel: false, close failure: true) 4ms
+   ✓ awaits private member close before completion (cancel: true, close failure: false) 7ms
+   ✓ awaits private member close before completion (cancel: true, close failure: true) 14ms
+   ✓ preserves a private-image read failure when its descriptor close also fails 4ms
+   ✓ shares owned carrier admission across callers and joins late admission (owner closes: false) 2ms
+   ✓ shares owned carrier admission across callers and joins late admission (owner closes: true) 1ms
+   ✓ isolates cancelled carrier parsing from a fresh inventory (concurrent: false) 2ms
+   ✓ isolates cancelled carrier parsing from a fresh inventory (concurrent: true) 2ms
+   ✓ isolates cancelled private image parsing from a fresh inventory (concurrent: false) 14ms
+   ✓ isolates cancelled private image parsing from a fresh inventory (concurrent: true) 6ms
+   ✓ does not charge a cancelled namespace projection against the next parse 17ms
+   ✓ keeps a physical parse failure primary despite simultaneous caller cancellation 2ms
+   ✓ retains failed cancelled-attempt cleanup and retries its exact private owner on close 2ms
+ ✓ |adapters| src/ida/IdaMcpConnection.test.ts (41 tests) 499ms
+ ✓ |adapters| src/firmware/FirmwareReports.test.ts (35 tests) 45ms
+ ✓ |adapters| src/doctorRuntime.test.ts (38 tests | 1 skipped) 2075ms
+   ✓ interrupts the Hopper display readiness check when doctor is cancelled: cancel=false 1508ms
+ ✓ |adapters| src/browser/WebBundleAnalysisWorker.test.ts (36 tests) 13459ms
+   ✓ keeps a refused script's syntax facts and states the allowance the host sent 462ms
+   ✓ reuses one real owned worker for completed facts from consecutive scripts 453ms
+   ✓ keeps a code-0 exit pending while an inherited output pipe can still produce a frame 538ms
+   ✓ retains EOF without a terminal response when abort follows the close event 416ms
+   ✓ does not classify heap-marker stderr from a healthy worker as exhaustion 503ms
+   ✓ projects late stderr tails with completeness from the actual selection point 998ms
+   ✓ kills a hung owned child at the deadline and starts a fresh worker for the next script 1059ms
+   ✓ contains child heap exhaustion and reuses the host for a later script 1186ms
+   ✓ cancels during the late ready handshake and retains failed cleanup until exact retry 1035ms
+   ✓ rejects invalid-utf8 worker result bytes with a matching descriptor 392ms
+   ✓ rejects bom worker result bytes with a matching descriptor 404ms
+   ✓ rejects malformed-json worker result bytes with a matching descriptor 382ms
+   ✓ preserves literal replacement characters in valid UTF-8 worker facts 414ms
+   ✓ retries independent browser workers once while an earlier exact owner remains stuck 2219ms
+   ✓ preserves typed ownership-admission facts from the recording worker launcher 438ms
+   ✓ preserves physical ownership-admission facts from the recording worker launcher 429ms
+ ❯ |adapters| src/artifacts/ZipArtifactReader.test.ts (40 tests | 1 failed) 320ms
    ❯ ZIP Zstandard method 93 (14)
-     ✓ streams exact bytes from a standard method-93 ZIP: {"type":"Buffer","data":[]} 21ms
+     ✓ streams exact bytes from a standard method-93 ZIP: {"type":"Buffer","data":[]} 19ms
      ✓ streams exact bytes from a standard method-93 ZIP: {"type":"Buffer","data":[90,115,116,97,110,100,97,114,100,32,90,73,80,32,101,118,105,100,101,110,99,101,58,32,99,97,102,195,169,10,90,115,116,97,110,100,97,114,100,32,90,73,80,32,101,118,105,100,101,110,99,101,58,32,99,97,102,195,169,10,90,115,116,97,110,100,97,114,100,32,90,73,80,32,101,118,105,100,101,110,99,101,58,32,99,97,102,195,169,10,90,115,116,97,110,100,97,114,100,32,90,73,80,32,101,118,105,100,101,110,99,101,58,32,99,97,102,195,169,10,90,115,116,97,110,100,97,114,100,32,90,73,80,32,101,118,105,100,101,110,99,101,58,32,99,97,102,195,169,10,90,115,116,97,110,100,97,114,100,32,90,73,80,32,101,118,105,100,101,110,99,101,58,32,99,97,102,195,169,10,90,115,116,97,110,100,97,114,100,32,90,73,80,32,101,118,105,100,101,110,99,101,58,32,99,97,102,195,169,10]} 5ms
      ✓ retains CRC validation for Zstandard entries 9ms
      ✓ retains declared output size validation for Zstandard entries 4ms
@@ -175,604 +200,614 @@ Source-test feedback from merge base 25b1c42ce45ad29f30fdb096dc444e0ace980723; c
      ✓ keeps unsupported ZIP method 94 unavailable 2ms
      ✓ reports bad frame as an archive fault 3ms
      × reports truncated frame as an archive fault 8ms
-     ✓ reports a failed Zstandard frame checksum as an archive fault 5ms
-     ✓ reports a required Zstandard dictionary as unavailable 4ms
+     ✓ reports a failed Zstandard frame checksum as an archive fault 4ms
+     ✓ reports a required Zstandard dictionary as unavailable 3ms
      ✓ keeps the native frameParameter_unsupported format fault and its cause 3ms
-     ✓ keeps the native corruption_detected format fault and its cause 3ms
-     ✓ keeps the native dictionary_corrupted format fault and its cause 3ms
+     ✓ keeps the native corruption_detected format fault and its cause 2ms
+     ✓ keeps the native dictionary_corrupted format fault and its cause 2ms
      ✓ retains the archive expansion budget for method-93 declarations 1ms
    ✓ ZIP Zstandard decoder window (1)
      ✓ reports a valid frame above the decoder window as a resource limit 5ms
    ✓ ZIP Zstandard member streams (2)
-     ✓ settles a streaming Zstandard read after abort and allows another read 75ms
-     ✓ settles a streaming Zstandard read after consumer-close and allows another read 64ms
+     ✓ settles a streaming Zstandard read after abort and allows another read 74ms
+     ✓ settles a streaming Zstandard read after consumer-close and allows another read 68ms
    ✓ ZipArtifactReader positional reads (5)
-     ✓ enumerates and extracts a real ZIP when each descriptor read returns a short prefix 13ms
+     ✓ enumerates and extracts a real ZIP when each descriptor read returns a short prefix 12ms
      ✓ reports premature EOF inside the admitted extent as an integrity failure 3ms
      ✓ keeps metadata allocation admission ahead of short reads 3ms
-     ✓ does not publish an entry cancelled during short metadata reads 5ms
-     ✓ rejects a changed admitted descriptor before reading ZIP bytes 3ms
+     ✓ does not publish an entry cancelled during short metadata reads 4ms
+     ✓ rejects a changed admitted descriptor before reading ZIP bytes 2ms
    ✓ refuses to open ZIP symlink entries even when unixMode is absent 5ms
    ✓ ZipArtifactReader decompression budget (4)
-     ✓ refuses an archive whose entries declare more than its size can justify 4ms
-     ✓ charges all declarations in one traversal before yielding an over-budget member 3ms
-     ✓ keeps repeated and interleaved metadata traversals independently charged 6ms
-     ✓ rejects under-declared member output before delivering its complete actual bytes 7ms
-   ✓ preserves the exact ZIP cancellation reason at enumeration and open: null 5ms
+     ✓ refuses an archive whose entries declare more than its size can justify 3ms
+     ✓ charges all declarations in one traversal before yielding an over-budget member 4ms
+     ✓ keeps repeated and interleaved metadata traversals independently charged 5ms
+     ✓ rejects under-declared member output before delivering its complete actual bytes 6ms
+   ✓ preserves the exact ZIP cancellation reason at enumeration and open: null 3ms
    ✓ preserves the exact ZIP cancellation reason at enumeration and open: {"caller":"opaque ZIP interruption"} 2ms
    ✓ ZipArtifactReader producer ownership (4)
-     ✓ joins late extraction settlement for an unread stream before closing its source 8ms
+     ✓ joins late extraction settlement for an unread stream before closing its source 10ms
      ✓ joins late extraction settlement for an abandoned stream before closing its source 5ms
-     ✓ joins late extraction settlement for an cancelled stream before closing its source 5ms
+     ✓ joins late extraction settlement for an cancelled stream before closing its source 6ms
      ✓ retires completed buffered output and retries a failed descriptor close 4ms
    ✓ joins an admitted ZIP enumeration before reader close completes 3ms
    ✓ joins the final member accounting read before closing its source 2ms
    ✓ joins a late ZIP producer and closes the source despite an enumeration cleanup failure 4ms
-   ✓ rejects ZIP carrier mutation after enumeration (borrowed=false) 5ms
+   ✓ rejects ZIP carrier mutation after enumeration (borrowed=false) 3ms
    ✓ rejects ZIP carrier mutation after enumeration (borrowed=true) 3ms
-   ✓ rejects ZIP carrier mutation while a directory traversal is paused 3ms
+   ✓ rejects ZIP carrier mutation while a directory traversal is paused 2ms
    ✓ rejects ZIP carrier mutation during member streaming 7ms
- ✓ |adapters| src/native/SignatureTargetBinding.test.ts (40 tests) 91ms
- ✓ |adapters| src/desktop/LinuxApplicationInventory.test.ts (39 tests) 2359ms
-   ✓ explicit executable traversal (2)
-     ✓ refuses a directory symlink as an executable while accepting a file symlink 379ms
- ✓ |adapters| src/electron/ElectronFuseProvider.test.ts (30 tests | 1 skipped) 106ms
- ✓ |adapters| src/artifacts/apple/KeyedArchiveReader.test.ts (36 tests) 1052ms
+ ✓ |adapters| src/process/ArtifactAnalysisResources.test.ts (29 tests) 1053ms
+   ✓ projects the specific reason and member evidence for retained cleanup 1005ms
+ ✓ |adapters| src/native/SignatureTargetBinding.test.ts (40 tests) 109ms
+ ✓ |adapters| src/desktop/LinuxApplicationInventory.test.ts (39 tests) 1828ms
+ ✓ |adapters| src/artifacts/apple/KeyedArchiveReader.test.ts (36 tests) 1091ms
    ✓ binary plist reference preflight (5)
-     ✓ rejects exponential shared-container expansion before decoding 787ms
- ✓ |adapters| src/native/NativeMachoInspection.test.ts (48 tests) 82ms
- ✓ |adapters| src/browser/CdpElectronInspection.test.ts (50 tests) 202ms
- ✓ |adapters| src/jeb/JebProvider.test.ts (44 tests) 43ms
- ✓ |adapters| src/ida/IdaNativeProtocol.test.ts (22 tests) 143ms
- ✓ |adapters| src/native/windows/WindowsShortcutParser.test.ts (57 tests) 50ms
- ✓ |adapters| src/hopper/HopperMachOImage.test.ts (24 tests) 85ms
- ✓ |adapters| src/dotnet/ManagedSignatureResolution.test.ts (74 tests) 389ms
- ✓ |adapters| src/artifacts/EspFlashImageArtifactReader.test.ts (22 tests) 468ms
- ✓ |adapters| src/artifacts/apple/AppleAssetCatalogAnalysis.test.ts (43 tests) 844ms
+     ✓ rejects exponential shared-container expansion before decoding 775ms
+ ✓ |adapters| src/electron/ElectronFuseProvider.test.ts (30 tests | 1 skipped) 113ms
+ ✓ |adapters| src/native/NativeMachoInspection.test.ts (48 tests) 94ms
+ ✓ |adapters| src/browser/CdpElectronInspection.test.ts (50 tests) 207ms
+ ✓ |adapters| src/jeb/JebProvider.test.ts (44 tests) 48ms
+ ✓ |adapters| src/ida/IdaNativeProtocol.test.ts (22 tests) 147ms
+ ✓ |adapters| src/native/windows/WindowsShortcutParser.test.ts (57 tests) 51ms
+ ✓ |adapters| src/hopper/HopperMachOImage.test.ts (24 tests) 84ms
+ ✓ |adapters| src/dotnet/ManagedSignatureResolution.test.ts (74 tests) 387ms
+ ✓ |adapters| src/artifacts/EspFlashImageArtifactReader.test.ts (22 tests) 519ms
+ ✓ |adapters| src/artifacts/apple/AppleAssetCatalogAnalysis.test.ts (43 tests) 898ms
    ✓ Apple asset catalog and Interface Builder concurrency (4)
      ✓ settles a cancelled assetutil run only after its process exits 559ms
- ✓ |adapters| src/native/pe/PeResourceParser.test.ts (50 tests) 60ms
- ✓ |adapters| src/ghidra/GhidraMipsProfile.test.ts (75 tests) 67ms
- ✓ |adapters| src/artifacts/MachOSliceArtifactReader.test.ts (20 tests | 1 skipped) 147ms
- ✓ |adapters| src/desktop/DesktopBuildDoctorFacts.test.ts (14 tests) 2196ms
-   ✓ uses the runtime PATH fallback for a registered empty runner 1623ms
- ✓ |adapters| src/native/pe/PeImportParser.test.ts (53 tests) 138ms
- ✓ |adapters| src/firmware/FirmwareCommand.test.ts (29 tests) 1179ms
-   ✓ retains root exit 7 while a handshaken descendant holds output (accepted: false, earlier cancellation: false, overflow: true) 474ms
- ✓ |adapters| src/native/AppleMachoSelection.test.ts (63 tests) 39ms
- ✓ |adapters| src/browser/PlaywrightElectronActiveActions.test.ts (25 tests) 42ms
- ✓ |adapters| src/native/elf/KernelBuildConfig.test.ts (36 tests) 462ms
- ✓ |adapters| src/ida/IdaOperationFailures.test.ts (34 tests) 122ms
+ ✓ |adapters| src/native/pe/PeResourceParser.test.ts (50 tests) 66ms
+ ✓ |adapters| src/ghidra/GhidraMipsProfile.test.ts (75 tests) 61ms
+ ✓ |adapters| src/artifacts/MachOSliceArtifactReader.test.ts (20 tests | 1 skipped) 156ms
+ ✓ |adapters| src/desktop/DesktopBuildDoctorFacts.test.ts (14 tests) 2182ms
+   ✓ uses the runtime PATH fallback for a registered empty runner 1665ms
+ ✓ |adapters| src/native/pe/PeImportParser.test.ts (53 tests) 135ms
+ ✓ |adapters| src/firmware/FirmwareCommand.test.ts (29 tests) 1221ms
+   ✓ retains root exit 7 while a handshaken descendant holds output (accepted: false, earlier cancellation: false, overflow: true) 505ms
+ ✓ |adapters| src/native/AppleMachoSelection.test.ts (63 tests) 45ms
+ ✓ |adapters| src/browser/PlaywrightElectronActiveActions.test.ts (25 tests) 36ms
+ ✓ |adapters| src/ida/IdaOperationFailures.test.ts (34 tests) 128ms
+ ✓ |adapters| src/native/elf/KernelBuildConfig.test.ts (36 tests) 424ms
  ✓ |adapters| src/artifacts/ArtifactResourceScope.test.ts (28 tests) 20ms
- ✓ |adapters| src/native/NativeUiObservation.test.ts (38 tests) 211ms
+ ✓ |adapters| src/native/NativeUiObservation.test.ts (38 tests) 202ms
  ✓ |adapters| src/flutter/DartElf.test.ts (51 tests) 26ms
- ✓ |adapters| src/artifacts/inventory/ArtifactGraphConstruction.test.ts (54 tests) 29ms
- ✓ |adapters| src/ghidra/GhidraRiscvProfile.test.ts (49 tests) 73ms
- ✓ |adapters| src/server/EvidenceMcpServer.test.ts (10 tests) 152ms
- ✓ |adapters| src/native/NativeMachoSourceProvider.test.ts (25 tests) 186ms
- ✓ |adapters| src/config.test.ts (96 tests) 72ms
- ✓ |adapters| src/go/GoStringLiterals.test.ts (27 tests) 338ms
- ✓ |adapters| src/process/OwnedLease.test.ts (16 tests) 176ms
- ✓ |adapters| src/providers/runOwned.deadline.test.ts (23 tests) 317ms
- ✓ |adapters| src/apkSignature/ApkSignatureProvider.test.ts (21 tests) 285ms
- ✓ |adapters| src/apktool/ApktoolConfiguration.test.ts (69 tests) 40ms
- ✓ |adapters| src/artifacts/UnityFsArtifactReader.boundaries.test.ts (27 tests) 333ms
- ✓ |adapters| src/electron/ElectronFuseCleanup.test.ts (17 tests) 101ms
- ✓ |adapters| src/hopper/HopperAnalysisProfile.test.ts (19 tests) 63ms
- ✓ |adapters| src/browser/IsolatedWebBundleAnalyzer.test.ts (12 tests) 127ms
+ ✓ |adapters| src/artifacts/inventory/ArtifactGraphConstruction.test.ts (54 tests) 31ms
+ ✓ |adapters| src/ghidra/GhidraRiscvProfile.test.ts (49 tests) 77ms
+ ✓ |adapters| src/native/NativeMachoSourceProvider.test.ts (25 tests) 150ms
+ ✓ |adapters| src/server/EvidenceMcpServer.test.ts (10 tests) 127ms
+ ✓ |adapters| src/config.test.ts (96 tests) 45ms
+ ✓ |adapters| src/go/GoStringLiterals.test.ts (27 tests) 357ms
+ ✓ |adapters| src/process/OwnedLease.test.ts (16 tests) 180ms
+ ✓ |adapters| src/providers/runOwned.deadline.test.ts (23 tests) 314ms
+ ✓ |adapters| src/apkSignature/ApkSignatureProvider.test.ts (21 tests) 292ms
+ ✓ |adapters| src/apktool/ApktoolConfiguration.test.ts (69 tests) 36ms
+ ✓ |adapters| src/artifacts/UnityFsArtifactReader.boundaries.test.ts (27 tests) 325ms
+ ✓ |adapters| src/electron/ElectronFuseCleanup.test.ts (17 tests) 102ms
+ ✓ |adapters| src/hopper/HopperAnalysisProfile.test.ts (19 tests) 69ms
+ ✓ |adapters| src/browser/IsolatedWebBundleAnalyzer.test.ts (12 tests) 128ms
  ✓ |adapters| src/ghidra/GhidraSnapshotCache.test.ts (28 tests) 269ms
- ✓ |adapters| src/ida/IdaContainment.test.ts (39 tests) 99ms
- ✓ |adapters| src/ghidra/GhidraDoctor.test.ts (29 tests) 1738ms
+ ✓ |adapters| src/ghidra/GhidraDoctor.test.ts (29 tests) 1694ms
    ✓ Ghidra doctor integration (8)
-     ✓ accepts a valid BYO Ghidra engine when Hopper is absent 1655ms
- ✓ |adapters| src/server/environment/serveEnvironment.test.ts (14 tests) 250ms
- ✓ |adapters| src/artifacts/FitArtifactReader.test.ts (29 tests) 254ms
- ✓ |adapters| src/artifacts/fit/FitStructure.test.ts (33 tests) 90ms
+     ✓ accepts a valid BYO Ghidra engine when Hopper is absent 1601ms
+ ✓ |adapters| src/ida/IdaContainment.test.ts (39 tests) 106ms
+ ✓ |adapters| src/server/environment/serveEnvironment.test.ts (14 tests) 243ms
+ ✓ |adapters| src/artifacts/FitArtifactReader.test.ts (29 tests) 270ms
+ ✓ |adapters| src/artifacts/fit/FitStructure.test.ts (33 tests) 91ms
  ✓ |adapters| src/artifacts/GodotPckArtifactReader.test.ts (40 tests) 218ms
- ✓ |adapters| src/server/DeferredEvidenceMcpServer.test.ts (17 tests) 116ms
- ✓ |adapters| src/desktop/BuildComputerLongRuns.test.ts (15 tests) 22ms
- ✓ |adapters| src/native/AppleSwiftVtables.test.ts (10 tests) 11ms
- ✓ |adapters| src/desktop/DesktopInspectionSampling.test.ts (6 tests) 37ms
- ✓ |adapters| src/process/RegexMatcher.test.ts (37 tests) 72ms
- ✓ |adapters| src/javascript/sourceMaps/SourceMapCommand.test.ts (15 tests) 996ms
-   ✓ classifies the same nonzero exit without cancellation 460ms
+ ✓ |adapters| src/server/DeferredEvidenceMcpServer.test.ts (17 tests) 112ms
+ ✓ |adapters| src/desktop/BuildComputerLongRuns.test.ts (15 tests) 21ms
+ ✓ |adapters| src/native/AppleSwiftVtables.test.ts (10 tests) 12ms
+ ✓ |adapters| src/desktop/DesktopInspectionSampling.test.ts (6 tests) 39ms
+ ✓ |adapters| src/process/RegexMatcher.test.ts (37 tests) 75ms
+ ✓ |adapters| src/javascript/sourceMaps/SourceMapCommand.test.ts (15 tests) 972ms
+   ✓ classifies the same nonzero exit without cancellation 452ms
  ✓ |adapters| src/artifacts/WxapkgArtifactReader.boundaries.test.ts (19 tests) 530ms
- ✓ |adapters| src/windows/WindowsPrivateRuntime.test.ts (22 tests) 1189ms
+ ✓ |adapters| src/windows/WindowsPrivateRuntime.test.ts (22 tests) 1178ms
    ✓ Windows private runtime cleanup retry (9)
-     ✓ retains the exact final native error and owner when conflicts persist 904ms
- ✓ |adapters| src/ghidra/GhidraLanguageOverride.test.ts (32 tests) 71ms
- ✓ |adapters| src/ida/IdaProvider.test.ts (17 tests) 194ms
- ✓ |adapters| src/apktool/ApktoolWorkspace.lifecycle.test.ts (17 tests) 65ms
- ✓ |adapters| src/ghidra/extensions/GhidraExtensions.test.ts (21 tests) 59ms
- ✓ |adapters| src/artifacts/extraction/ArtifactExtraction.test.ts (12 tests) 127ms
- ✓ |adapters| src/ghidra/GhidraLoadImageValues.test.ts (52 tests) 62ms
- ✓ |adapters| src/hopper/HopperProvider.test.ts (15 tests) 31ms
- ✓ |adapters| src/hopper/HopperCallerReconciliation.test.ts (11 tests) 44ms
- ✓ |adapters| src/browser/history/playwrightTrace/PlaywrightTraceDecoder.test.ts (18 tests) 394ms
- ✓ |adapters| src/ghidra/GhidraRequestQueue.test.ts (27 tests) 20ms
- ✓ |adapters| src/apktool/ApktoolCommandRecovery.test.ts (18 tests) 83ms
- ✓ |adapters| src/ghidra/GhidraCheckpoint.test.ts (18 tests) 136ms
- ✓ |adapters| src/browser/history/CaptureFailures.test.ts (24 tests) 24ms
- ✓ |adapters| src/ghidra/GhidraDolLoadImage.test.ts (14 tests) 94ms
- ✓ |adapters| src/artifacts/WxapkgArtifactReader.test.ts (33 tests) 121ms
- ✓ |adapters| src/process/OwnedCommand.test.ts (15 tests) 91ms
- ✓ |adapters| src/javascript/recovery/WakaruCommand.test.ts (20 tests) 2370ms
+     ✓ retains the exact final native error and owner when conflicts persist 903ms
+ ✓ |adapters| src/ghidra/GhidraLanguageOverride.test.ts (32 tests) 105ms
+ ✓ |adapters| src/ida/IdaProvider.test.ts (17 tests) 193ms
+ ✓ |adapters| src/apktool/ApktoolWorkspace.lifecycle.test.ts (17 tests) 61ms
+ ✓ |adapters| src/ghidra/extensions/GhidraExtensions.test.ts (21 tests) 57ms
+ ✓ |adapters| src/artifacts/extraction/ArtifactExtraction.test.ts (12 tests) 128ms
+ ✓ |adapters| src/ghidra/GhidraLoadImageValues.test.ts (52 tests) 60ms
+ ✓ |adapters| src/hopper/HopperProvider.test.ts (15 tests) 29ms
+ ✓ |adapters| src/hopper/HopperCallerReconciliation.test.ts (11 tests) 36ms
+ ✓ |adapters| src/browser/history/playwrightTrace/PlaywrightTraceDecoder.test.ts (18 tests) 350ms
+ ✓ |adapters| src/ghidra/GhidraRequestQueue.test.ts (27 tests) 19ms
+ ✓ |adapters| src/apktool/ApktoolCommandRecovery.test.ts (18 tests) 44ms
+ ✓ |adapters| src/browser/history/CaptureFailures.test.ts (24 tests) 23ms
+ ✓ |adapters| src/ghidra/GhidraCheckpoint.test.ts (18 tests) 121ms
+ ✓ |adapters| src/ghidra/GhidraDolLoadImage.test.ts (14 tests) 66ms
+ ✓ |adapters| src/artifacts/WxapkgArtifactReader.test.ts (33 tests) 78ms
+ ✓ |adapters| src/process/OwnedCommand.test.ts (15 tests) 104ms
+ ✓ |adapters| src/javascript/recovery/WakaruCommand.test.ts (20 tests) 2360ms
    ✓ enforces the shared deadline while exited output streams remain open 1102ms
    ✓ honors cancellation while waiting for output after exit 1102ms
- ✓ |adapters| src/browser/ElectronFileScope.cleanup.test.ts (10 tests) 87ms
+ ✓ |adapters| src/browser/ElectronFileScope.cleanup.test.ts (10 tests) 89ms
  ✓ |adapters| src/kuna/KunaCopy.test.ts (13 tests) 51ms
- ✓ |adapters| src/desktop/DesktopApplicationSession.test.ts (14 tests) 3532ms
+ ✓ |adapters| src/desktop/DesktopApplicationSession.test.ts (14 tests) 3379ms
    ✓ runDesktopSession natural exit (2)
-     ✓ keeps watching a worker whose launcher exited before it was sampled 1143ms
-     ✓ does not take samples whose window list was unreadable as the application having exited 350ms
+     ✓ keeps watching a worker whose launcher exited before it was sampled 1119ms
+     ✓ does not take samples whose window list was unreadable as the application having exited 321ms
    ✓ runDesktopSession diagnostics (3)
-     ✓ gives each checkpoint the titles the app's own windows have shown so far 1184ms
- ✓ |adapters| src/native/AppleSwiftNominalTypes.test.ts (11 tests) 41ms
- ✓ |adapters| src/javascript/sourceMaps/SourceMapDecoder.test.ts (9 tests) 140ms
- ✓ |adapters| src/native/elf/KernelModuleParser.test.ts (26 tests) 138ms
- ✓ |adapters| src/artifacts/HexRecordArtifactReader.test.ts (18 tests) 314ms
+     ✓ gives each checkpoint the titles the app's own windows have shown so far 1135ms
+ ✓ |adapters| src/native/AppleSwiftNominalTypes.test.ts (11 tests) 37ms
+ ✓ |adapters| src/javascript/sourceMaps/SourceMapDecoder.test.ts (9 tests) 158ms
+ ✓ |adapters| src/artifacts/HexRecordArtifactReader.test.ts (18 tests) 276ms
+ ✓ |adapters| src/native/elf/KernelModuleParser.test.ts (26 tests) 111ms
  ✓ |adapters| src/artifacts/apple/machoContainer.test.ts (21 tests) 14ms
- ✓ |adapters| src/hopper/HopperCleanup.test.ts (12 tests) 26ms
+ ✓ |adapters| src/hopper/HopperCleanup.test.ts (12 tests) 42ms
  ✓ |adapters| src/ghidra/GhidraAnalysisSeeds.test.ts (30 tests) 43ms
- ✓ |adapters| src/hopper/HopperTargetLease.test.ts (16 tests) 347ms
- ✓ |adapters| src/artifacts/apple/InterfaceBuilderDecodeBudget.test.ts (20 tests) 88ms
- ✓ |adapters| src/javascript/analysis/JavaScriptAnalysisWorker.inspection.test.ts (9 tests) 72ms
- ✓ |adapters| src/server/BundleResourcesMcp.test.ts (2 tests) 2089ms
-   ✓ routes bundle resource MCP calls with null executable identity and retained Evidence 1961ms
- ✓ |adapters| src/artifacts/EspImageArtifactReader.test.ts (12 tests) 381ms
- ✓ |adapters| src/setupEnvironment.test.ts (14 tests) 1837ms
-   ✓ preserves the explicit ILSpy path undefined without inventing an unset value 1615ms
- ✓ |adapters| src/native/pe/PeLoadConfigParser.test.ts (81 tests) 223ms
+ ✓ |adapters| src/hopper/HopperTargetLease.test.ts (16 tests) 339ms
+ ✓ |adapters| src/artifacts/apple/InterfaceBuilderDecodeBudget.test.ts (20 tests) 80ms
+ ✓ |adapters| src/javascript/analysis/JavaScriptAnalysisWorker.inspection.test.ts (9 tests) 79ms
+ ✓ |adapters| src/server/BundleResourcesMcp.test.ts (2 tests) 2328ms
+   ✓ routes bundle resource MCP calls with null executable identity and retained Evidence 2169ms
+ ✓ |adapters| src/artifacts/EspImageArtifactReader.test.ts (12 tests) 316ms
+ ✓ |adapters| src/setupEnvironment.test.ts (14 tests) 2027ms
+   ✓ preserves the explicit ILSpy path undefined without inventing an unset value 1780ms
  ✓ |adapters| src/erlang/BeamParser.test.ts (25 tests) 20ms
- ✓ |adapters| src/artifacts/bun/BunModuleGraph.test.ts (25 tests) 91ms
+ ✓ |adapters| src/native/pe/PeLoadConfigParser.test.ts (81 tests) 217ms
+ ✓ |adapters| src/artifacts/bun/BunModuleGraph.test.ts (25 tests) 78ms
  ✓ |adapters| src/artifacts/extraction/EmbeddedArtifactExtraction.test.ts (24 tests) 218ms
- ✓ |adapters| src/artifacts/ZipMemberRegion.test.ts (15 tests) 76ms
- ✓ |adapters| src/process/ProcessOwnership.descriptorCancellation.test.ts (5 tests) 48ms
+ ✓ |adapters| src/artifacts/ZipMemberRegion.test.ts (15 tests) 57ms
  ✓ |adapters| src/native/parsers/lipo.test.ts (33 tests) 15ms
- ✓ |adapters| src/providers/runOwned.lifecycle.test.ts (34 tests) 17ms
- ✓ |adapters| src/artifacts/bun/BunStandaloneArtifactReader.test.ts (9 tests) 90ms
- ✓ |adapters| src/electron/ElectronFuseReaderCleanup.test.ts (7 tests) 43ms
- ✓ |adapters| src/rust/RustAuditableReader.test.ts (23 tests) 237ms
- ✓ |adapters| src/providers/OwnedCommandCleanup.test.ts (15 tests) 26ms
- ✓ |adapters| src/inspector/V8InspectorCaptureProjection.test.ts (6 tests) 45ms
- ✓ |adapters| src/native/NativeMachoOperand.test.ts (7 tests) 76ms
- ✓ |adapters| src/hopper/HopperMachOImage.copyLifecycle.test.ts (6 tests) 36ms
- ✓ |adapters| src/hopper/HopperRegexSearch.test.ts (22 tests) 103ms
- ✓ |adapters| src/native/exports/NativeExportsView.test.ts (15 tests) 47ms
- ✓ |adapters| src/artifacts/UImageArtifactReader.test.ts (15 tests) 70ms
- ✓ |adapters| src/javascript/recovery/RecoveryFiles.ownership.test.ts (10 tests) 38ms
- ✓ |adapters| src/wasm/WabtFailures.test.ts (25 tests) 18ms
- ✓ |adapters| src/artifacts/NtfsMftArtifactReader.test.ts (10 tests) 64ms
- ✓ |adapters| src/browser/ElectronCaptureCleanup.test.ts (10 tests) 20ms
+ ✓ |adapters| src/process/ProcessOwnership.descriptorCancellation.test.ts (5 tests) 49ms
+ ✓ |adapters| src/providers/runOwned.lifecycle.test.ts (34 tests) 27ms
+ ✓ |adapters| src/artifacts/bun/BunStandaloneArtifactReader.test.ts (9 tests) 83ms
+ ✓ |adapters| src/rust/RustAuditableReader.test.ts (23 tests) 231ms
+ ✓ |adapters| src/electron/ElectronFuseReaderCleanup.test.ts (7 tests) 35ms
+ ✓ |adapters| src/providers/OwnedCommandCleanup.test.ts (15 tests) 35ms
+ ✓ |adapters| src/inspector/V8InspectorCaptureProjection.test.ts (6 tests) 43ms
+ ✓ |adapters| src/native/NativeMachoOperand.test.ts (7 tests) 81ms
+ ✓ |adapters| src/hopper/HopperMachOImage.copyLifecycle.test.ts (6 tests) 34ms
+ ✓ |adapters| src/hopper/HopperRegexSearch.test.ts (22 tests) 102ms
+ ✓ |adapters| src/native/exports/NativeExportsView.test.ts (15 tests) 46ms
+ ✓ |adapters| src/artifacts/UImageArtifactReader.test.ts (15 tests) 68ms
+ ✓ |adapters| src/javascript/recovery/RecoveryFiles.ownership.test.ts (10 tests) 33ms
+ ✓ |adapters| src/wasm/WabtFailures.test.ts (25 tests) 17ms
+ ✓ |adapters| src/artifacts/NtfsMftArtifactReader.test.ts (10 tests) 62ms
+ ✓ |adapters| src/browser/ElectronCaptureCleanup.test.ts (10 tests) 19ms
  ✓ |adapters| src/hopper/HopperReplyContracts.test.ts (36 tests) 27ms
- ✓ |adapters| src/browser/history/protobuf/ProtobufCapture.test.ts (17 tests) 35ms
- ✓ |adapters| src/artifacts/deno/DenoVirtualFs.test.ts (18 tests) 265ms
- ✓ |adapters| src/process/OwnedWorkerRuntime.test.ts (7 tests) 5297ms
-   ✓ resolves a bound cleanup error after shared pending-owner retry succeeds 1034ms
-   ✓ retains pending ownership when best-effort stdin.end throws after an incomplete stop 1029ms
-   ✓ binds a late cleanup projection to its released root epoch after runtime reuse 2085ms
-   ✓ routes shared cleanup retry through the registered higher-level owner 1027ms
- ✓ |adapters| src/evm/EvmoleFailures.test.ts (20 tests) 14ms
- ✓ |adapters| src/artifacts/pyinstaller/PyInstallerAdmission.test.ts (10 tests) 75ms
- ✓ |adapters| src/desktop/LibraryPackageInventory.test.ts (10 tests) 484ms
-   ✓ recovers a 513-library closure with the caller-selected capture policy 306ms
- ✓ |adapters| src/process/LinuxResourceLimits.test.ts (15 tests) 29ms
- ✓ |adapters| src/inspector/JavaScriptRuntimeScope.cancellation.test.ts (5 tests) 53ms
- ✓ |adapters| src/artifacts/UnityFsArtifactReader.test.ts (24 tests) 73ms
- ✓ |adapters| src/desktop/ScreenJudgeProcess.test.ts (6 tests) 72ms
- ✓ |adapters| src/ghidra/GhidraPeProfile.test.ts (44 tests) 17ms
- ✓ |adapters| src/ghidra/GhidraJavaProbe.test.ts (32 tests) 432ms
- ✓ |adapters| src/desktop/AptRepositoryInventory.test.ts (6 tests) 66ms
- ✓ |adapters| src/artifacts/nodeSea/NodeSeaBlob.test.ts (26 tests) 29ms
- ✓ |adapters| src/browser/history/playwrightTrace/PlaywrightTraceLifecycle.test.ts (7 tests) 270ms
- ✓ |adapters| src/config/captureDecoderHeap.test.ts (16 tests) 381ms
- ✓ |adapters| src/ida/IdaWorkspaceThinning.test.ts (11 tests) 64ms
- ✓ |adapters| src/native/pwntools/PwntoolsFailures.test.ts (19 tests) 16ms
- ✓ |adapters| src/process/OwnedCommandPreparation.test.ts (11 tests) 19ms
- ✓ |adapters| src/inspector/V8InspectorProvider.closeOwnership.test.ts (1 test) 69ms
- ✓ |adapters| src/config/debuggerSessionLimits.test.ts (11 tests) 19ms
- ✓ |adapters| src/ghidra/GhidraDolProfile.test.ts (14 tests) 77ms
- ✓ |adapters| src/desktop/BuildSecretFiles.cleanup.test.ts (9 tests) 39ms
- ✓ |adapters| src/desktop/DesktopContentStore.test.ts (9 tests) 37ms
- ✓ |adapters| src/desktop/DesktopBuildOwnedCommand.test.ts (6 tests) 20ms
- ✓ |adapters| src/firmware/FirmwareDeadline.test.ts (12 tests) 18ms
- ✓ |adapters| src/javascript/recovery/RecoveryFiles.test.ts (10 tests | 1 skipped) 38ms
- ✓ |adapters| src/sqlite/SqliteDatabaseSnapshotLimits.test.ts (5 tests) 19ms
- ✓ |adapters| src/artifacts/ArtifactEmbeddedFormatProbes.test.ts (6 tests) 40ms
+ ✓ |adapters| src/browser/history/protobuf/ProtobufCapture.test.ts (17 tests) 28ms
+ ✓ |adapters| src/artifacts/deno/DenoVirtualFs.test.ts (18 tests) 220ms
+ ✓ |adapters| src/process/OwnedWorkerRuntime.test.ts (7 tests) 5312ms
+   ✓ resolves a bound cleanup error after shared pending-owner retry succeeds 1035ms
+   ✓ retains pending ownership when best-effort stdin.end throws after an incomplete stop 1031ms
+   ✓ binds a late cleanup projection to its released root epoch after runtime reuse 2076ms
+   ✓ routes shared cleanup retry through the registered higher-level owner 1047ms
+ ✓ |adapters| src/evm/EvmoleFailures.test.ts (20 tests) 20ms
+ ✓ |adapters| src/artifacts/pyinstaller/PyInstallerAdmission.test.ts (10 tests) 76ms
+ ✓ |adapters| src/desktop/LibraryPackageInventory.test.ts (10 tests) 451ms
+ ✓ |adapters| src/process/LinuxResourceLimits.test.ts (15 tests) 31ms
+ ✓ |adapters| src/artifacts/UnityFsArtifactReader.test.ts (24 tests) 74ms
+ ✓ |adapters| src/inspector/JavaScriptRuntimeScope.cancellation.test.ts (5 tests) 45ms
+ ✓ |adapters| src/desktop/ScreenJudgeProcess.test.ts (6 tests) 70ms
+ ✓ |adapters| src/ghidra/GhidraPeProfile.test.ts (44 tests) 11ms
+ ✓ |adapters| src/ghidra/GhidraJavaProbe.test.ts (32 tests) 394ms
+ ✓ |adapters| src/desktop/AptRepositoryInventory.test.ts (6 tests) 46ms
+ ✓ |adapters| src/artifacts/nodeSea/NodeSeaBlob.test.ts (26 tests) 36ms
+ ✓ |adapters| src/browser/history/playwrightTrace/PlaywrightTraceLifecycle.test.ts (7 tests) 194ms
+ ✓ |adapters| src/config/captureDecoderHeap.test.ts (16 tests) 321ms
+ ✓ |adapters| src/ida/IdaWorkspaceThinning.test.ts (11 tests) 47ms
+ ✓ |adapters| src/native/pwntools/PwntoolsFailures.test.ts (19 tests) 11ms
+ ✓ |adapters| src/process/OwnedCommandPreparation.test.ts (11 tests) 15ms
+ ✓ |adapters| src/inspector/V8InspectorProvider.closeOwnership.test.ts (1 test) 62ms
+ ✓ |adapters| src/config/debuggerSessionLimits.test.ts (11 tests) 16ms
+ ✓ |adapters| src/ghidra/GhidraDolProfile.test.ts (14 tests) 54ms
+ ✓ |adapters| src/desktop/BuildSecretFiles.cleanup.test.ts (9 tests) 26ms
+ ✓ |adapters| src/desktop/DesktopContentStore.test.ts (9 tests) 29ms
+ ✓ |adapters| src/desktop/DesktopBuildOwnedCommand.test.ts (6 tests) 19ms
+ ✓ |adapters| src/firmware/FirmwareDeadline.test.ts (12 tests) 16ms
+ ✓ |adapters| src/javascript/recovery/RecoveryFiles.test.ts (10 tests | 1 skipped) 34ms
+ ✓ |adapters| src/sqlite/SqliteDatabaseSnapshotLimits.test.ts (5 tests) 15ms
+ ✓ |adapters| src/artifacts/ArtifactEmbeddedFormatProbes.test.ts (6 tests) 26ms
  ✓ |adapters| src/native/AppleSwiftRelativePointer.test.ts (12 tests) 10ms
- ✓ |adapters| src/desktop/AgentEnvSolveHelper.test.ts (7 tests) 3733ms
+ ✓ |adapters| src/desktop/AgentEnvSolveHelper.test.ts (7 tests) 3651ms
    ✓ runSolveHelper (3)
-     ✓ stops a cancelled solve whose helper ignores SIGTERM within its stop grace 1469ms
-     ✓ records a helper stopped at its deadline without a report as a failed solve of unknown cost, its cleanup known 1432ms
- ✓ |adapters| src/ghidra/GhidraLoadImageAttest.test.ts (12 tests) 34ms
- ✓ |adapters| src/artifacts/DfuSeArtifactReader.test.ts (6 tests) 108ms
+     ✓ stops a cancelled solve whose helper ignores SIGTERM within its stop grace 1428ms
+     ✓ records a helper stopped at its deadline without a report as a failed solve of unknown cost, its cleanup known 1410ms
+ ✓ |adapters| src/ghidra/GhidraLoadImageAttest.test.ts (12 tests) 36ms
+ ✓ |adapters| src/artifacts/DfuSeArtifactReader.test.ts (6 tests) 126ms
  ✓ |adapters| src/ghidra/GhidraSessionError.test.ts (11 tests) 8ms
- ✓ |adapters| src/browser/WebBundleAnalysisWorkerReadCompletion.test.ts (4 tests) 2898ms
-   ✓ retains completed facts and resolves a result-file lease through another cleanup consumer 1479ms
-   ✓ keeps a physical result read failure primary before late cancellation and close failure: false 446ms
-   ✓ keeps a physical result read failure primary before late cancellation and close failure: true 475ms
-   ✓ retains validated completed facts when cancellation arrives at result descriptor close 497ms
- ✓ |adapters| src/artifacts/inventory/ArtifactInventoryFinalization.test.ts (14 tests) 126ms
- ✓ |adapters| src/desktop/DesktopBuildSetupHost.test.ts (7 tests) 152ms
- ✓ |adapters| src/browser/CdpAgentHints.integration.test.ts (20 tests) 154ms
- ✓ |adapters| src/ghidra/GhidraSessionValues.test.ts (33 tests) 15ms
- ✓ |adapters| src/server/registerGuidedWorkflowTool.test.ts (9 tests) 1929ms
-   ✓ preserves prompt identity while catalog identity includes the added tool 1842ms
- ✓ |adapters| src/artifacts/pyinstaller/PyzArchive.test.ts (18 tests) 67ms
- ✓ |adapters| src/server/shutdownRegistration.test.ts (10 tests) 13ms
- ✓ |adapters| src/artifacts/inventory/ArtifactOccurrenceIdentity.test.ts (8 tests) 160ms
- ✓ |adapters| src/desktop/DesktopInspectionTermination.test.ts (2 tests) 123ms
- ✓ |adapters| src/ghidra/GhidraClientWire.test.ts (9 tests) 12ms
- ✓ |adapters| src/providers/AnalysisClientFailure.test.ts (10 tests) 10ms
- ✓ |adapters| src/artifacts/AndroidOtaPayloadArtifactReader.test.ts (8 tests) 89ms
- ✓ |adapters| src/native/NativeMachoSource.test.ts (8 tests) 36ms
- ✓ |adapters| src/providers/runOwned.test.ts (9 tests) 9ms
- ✓ |adapters| src/server/ProgressiveToolCatalog.test.ts (11 tests) 165ms
- ✓ |adapters| src/pcap/PcapNativeBound.test.ts (8 tests) 20ms
- ✓ |adapters| src/artifacts/apple/AppleAssetCatalogResourceCoverage.test.ts (10 tests) 129ms
- ✓ |adapters| src/native/metadata/PeImage.test.ts (27 tests) 27ms
+ ✓ |adapters| src/browser/WebBundleAnalysisWorkerReadCompletion.test.ts (4 tests) 2827ms
+   ✓ retains completed facts and resolves a result-file lease through another cleanup consumer 1456ms
+   ✓ keeps a physical result read failure primary before late cancellation and close failure: false 468ms
+   ✓ keeps a physical result read failure primary before late cancellation and close failure: true 469ms
+   ✓ retains validated completed facts when cancellation arrives at result descriptor close 434ms
+ ✓ |adapters| src/artifacts/inventory/ArtifactInventoryFinalization.test.ts (14 tests) 142ms
+ ✓ |adapters| src/desktop/DesktopBuildSetupHost.test.ts (7 tests) 132ms
+ ✓ |adapters| src/browser/CdpAgentHints.integration.test.ts (20 tests) 152ms
+ ✓ |adapters| src/ghidra/GhidraSessionValues.test.ts (33 tests) 14ms
+ ✓ |adapters| src/server/registerGuidedWorkflowTool.test.ts (9 tests) 1940ms
+   ✓ preserves prompt identity while catalog identity includes the added tool 1843ms
+ ✓ |adapters| src/artifacts/pyinstaller/PyzArchive.test.ts (18 tests) 51ms
+ ✓ |adapters| src/artifacts/inventory/ArtifactOccurrenceIdentity.test.ts (8 tests) 157ms
+ ✓ |adapters| src/server/shutdownRegistration.test.ts (10 tests) 12ms
+ ✓ |adapters| src/desktop/DesktopInspectionTermination.test.ts (2 tests) 124ms
+ ✓ |adapters| src/ghidra/GhidraClientWire.test.ts (9 tests) 13ms
+ ✓ |adapters| src/providers/AnalysisClientFailure.test.ts (10 tests) 12ms
+ ✓ |adapters| src/artifacts/AndroidOtaPayloadArtifactReader.test.ts (8 tests) 100ms
+ ✓ |adapters| src/native/NativeMachoSource.test.ts (8 tests) 38ms
+ ✓ |adapters| src/providers/runOwned.test.ts (9 tests) 10ms
+ ✓ |adapters| src/server/ProgressiveToolCatalog.test.ts (11 tests) 148ms
+ ✓ |adapters| src/artifacts/apple/AppleAssetCatalogResourceCoverage.test.ts (10 tests) 125ms
+ ✓ |adapters| src/pcap/PcapNativeBound.test.ts (8 tests) 21ms
+ ✓ |adapters| src/native/metadata/PeImage.test.ts (27 tests) 17ms
  ✓ |adapters| src/artifacts/ArtifactOperationFailure.test.ts (11 tests | 1 skipped) 9ms
- ✓ |adapters| src/process/ProcessInspectionCleanup.test.ts (8 tests) 56ms
- ✓ |adapters| src/apktool/ApktoolVersionProbe.test.ts (11 tests) 17ms
- ✓ |adapters| src/ida/IdaStartupFailures.test.ts (6 tests) 26ms
- ✓ |adapters| src/android/JadxJavaProbe.test.ts (5 tests) 62ms
- ✓ |adapters| src/gpu/PtxKernels.test.ts (31 tests) 12ms
- ✓ |adapters| src/firmware/FirmwareNestedCoverage.test.ts (5 tests) 80ms
- ✓ |adapters| src/inspector/V8InspectorEndpoint.test.ts (7 tests) 51ms
- ✓ |adapters| src/native/pe/PeResourcesProvider.test.ts (6 tests) 254ms
- ✓ |adapters| src/ida/IdaCalleeRelationships.test.ts (7 tests) 42ms
- ✓ |adapters| src/inspector/V8InspectorProvider.partial.test.ts (4 tests) 74ms
- ✓ |adapters| src/artifacts/UImageArtifactReader.boundaries.test.ts (22 tests) 80ms
- ✓ |adapters| src/desktop/DebianPackageFile.test.ts (7 tests) 34ms
- ✓ |adapters| src/browser/CdpDiscoveryTargets.test.ts (14 tests) 53ms
- ✓ |adapters| src/artifacts/ArtifactPaths.test.ts (20 tests) 315ms
- ✓ |adapters| src/config/regexWorkerHeapRequest.test.ts (14 tests) 23ms
- ✓ |adapters| src/config/bridgeMaxRequestBytes.test.ts (17 tests) 23ms
- ✓ |adapters| src/ghidra/GhidraDosSnapshot.test.ts (11 tests) 55ms
- ✓ |adapters| src/javascript/recovery/WakaruReport.test.ts (6 tests) 26ms
- ✓ |adapters| src/desktop/GpgvKeyCheck.test.ts (7 tests) 43ms
- ✓ |adapters| src/browser/history/HistoricalCaptureBudgets.test.ts (5 tests) 3568ms
-   ✓ recovers the same complete capture by changing only max_input_bytes 849ms
-   ✓ recovers the same complete capture by changing only max_reply_bytes 895ms
-   ✓ recovers the same complete capture by changing only max_nesting_depth 825ms
-   ✓ keeps concurrent capture policies independent 385ms
-   ✓ reserves reply and Evidence nesting before accepting a deep capture policy 613ms
- ✓ |adapters| src/native/NativeMacOSProviderInput.test.ts (9 tests) 72ms
- ✓ |adapters| src/browser/assets/ScriptCaptureAdapters.test.ts (8 tests) 48ms
- ✓ |adapters| src/artifacts/ArtifactSourceResolution.test.ts (12 tests) 50ms
- ✓ |adapters| src/config/regexMatchingDeadline.test.ts (13 tests) 19ms
- ✓ |adapters| src/ida/IdaWorkspaceOwnership.test.ts (7 tests) 41ms
- ✓ |adapters| src/ida/IdaMcpWindowsLaunch.test.ts (7 tests) 63ms
- ✓ |adapters| src/native/elf/ElfNotesProvider.test.ts (6 tests) 42ms
- ✓ |adapters| src/artifacts/deno/DenoSectionLayout.test.ts (9 tests) 11ms
- ✓ |adapters| src/server/runDerivedOperation.test.ts (9 tests) 12ms
- ✓ |adapters| src/artifacts/NativeDmgProtocol.test.ts (4 tests) 30ms
- ✓ |adapters| src/browser/CdpBrowserProvider.admission.test.ts (4 tests) 31ms
+ ✓ |adapters| src/process/ProcessInspectionCleanup.test.ts (8 tests) 38ms
+ ✓ |adapters| src/apktool/ApktoolVersionProbe.test.ts (11 tests) 15ms
+ ✓ |adapters| src/ida/IdaStartupFailures.test.ts (6 tests) 21ms
+ ✓ |adapters| src/android/JadxJavaProbe.test.ts (5 tests) 67ms
+ ✓ |adapters| src/gpu/PtxKernels.test.ts (31 tests) 11ms
+ ✓ |adapters| src/firmware/FirmwareNestedCoverage.test.ts (5 tests) 73ms
+ ✓ |adapters| src/inspector/V8InspectorEndpoint.test.ts (7 tests) 55ms
+ ✓ |adapters| src/native/pe/PeResourcesProvider.test.ts (6 tests) 256ms
+ ✓ |adapters| src/ida/IdaCalleeRelationships.test.ts (7 tests) 39ms
+ ✓ |adapters| src/inspector/V8InspectorProvider.partial.test.ts (4 tests) 77ms
+ ✓ |adapters| src/artifacts/UImageArtifactReader.boundaries.test.ts (22 tests) 120ms
+ ✓ |adapters| src/desktop/DebianPackageFile.test.ts (7 tests) 45ms
+ ✓ |adapters| src/browser/CdpDiscoveryTargets.test.ts (14 tests) 50ms
+ ✓ |adapters| src/artifacts/ArtifactPaths.test.ts (20 tests) 310ms
+ ✓ |adapters| src/config/regexWorkerHeapRequest.test.ts (14 tests) 22ms
+ ✓ |adapters| src/config/bridgeMaxRequestBytes.test.ts (17 tests) 25ms
+ ✓ |adapters| src/ghidra/GhidraDosSnapshot.test.ts (11 tests) 56ms
+ ✓ |adapters| src/javascript/recovery/WakaruReport.test.ts (6 tests) 32ms
+ ✓ |adapters| src/desktop/GpgvKeyCheck.test.ts (7 tests) 42ms
+ ✓ |adapters| src/browser/history/HistoricalCaptureBudgets.test.ts (5 tests) 3388ms
+   ✓ recovers the same complete capture by changing only max_input_bytes 593ms
+   ✓ recovers the same complete capture by changing only max_reply_bytes 933ms
+   ✓ recovers the same complete capture by changing only max_nesting_depth 828ms
+   ✓ keeps concurrent capture policies independent 395ms
+   ✓ reserves reply and Evidence nesting before accepting a deep capture policy 638ms
+ ✓ |adapters| src/native/NativeMacOSProviderInput.test.ts (9 tests) 65ms
+ ✓ |adapters| src/browser/assets/ScriptCaptureAdapters.test.ts (8 tests) 53ms
+ ✓ |adapters| src/artifacts/ArtifactSourceResolution.test.ts (12 tests) 64ms
+ ✓ |adapters| src/ida/IdaWorkspaceOwnership.test.ts (7 tests) 37ms
+ ✓ |adapters| src/config/regexMatchingDeadline.test.ts (13 tests) 22ms
+ ✓ |adapters| src/ida/IdaMcpWindowsLaunch.test.ts (7 tests) 64ms
+ ✓ |adapters| src/native/elf/ElfNotesProvider.test.ts (6 tests) 48ms
+ ✓ |adapters| src/artifacts/deno/DenoSectionLayout.test.ts (9 tests) 12ms
+ ✓ |adapters| src/server/runDerivedOperation.test.ts (9 tests) 10ms
+ ✓ |adapters| src/artifacts/NativeDmgProtocol.test.ts (4 tests) 35ms
+ ✓ |adapters| src/browser/CdpBrowserProvider.admission.test.ts (4 tests) 32ms
  ✓ |adapters| src/browser/WebArtifactCleanup.test.ts (7 tests) 11ms
- ✓ |adapters| src/server/environment/stateIntake.test.ts (9 tests) 277ms
- ✓ |adapters| src/browser/PlaywrightElectronActiveFuses.test.ts (9 tests) 29ms
- ✓ |adapters| src/ghidra/GhidraTemporaryDirectory.test.ts (9 tests) 24ms
+ ✓ |adapters| src/browser/PlaywrightElectronActiveFuses.test.ts (9 tests) 25ms
+ ✓ |adapters| src/server/environment/stateIntake.test.ts (9 tests) 285ms
+ ✓ |adapters| src/ghidra/GhidraTemporaryDirectory.test.ts (9 tests) 29ms
  ✓ |adapters| src/electron/ElectronFuseCompletion.test.ts (8 tests) 37ms
- ✓ |adapters| src/ghidra/GhidraLaunchFailure.test.ts (3 tests) 24ms
- ✓ |adapters| src/artifacts/apple/KeyedArchiveReadFailure.test.ts (7 tests) 45ms
- ✓ |adapters| src/browser/history/HistoricalCaptureReply.test.ts (11 tests) 211ms
- ✓ |adapters| src/ghidra/GhidraPowerPcProfile.test.ts (10 tests) 35ms
- ✓ |adapters| src/hopper/HopperNameInventory.test.ts (6 tests) 15ms
- ✓ |adapters| src/gpu/GpuInventory.test.ts (9 tests) 36ms
- ✓ |adapters| src/desktop/DconfDatabaseReader.test.ts (9 tests) 84ms
- ✓ |adapters| src/artifacts/apple/InterfaceBuilderFinalization.test.ts (6 tests) 63ms
- ✓ |adapters| src/apktool/ApktoolDecodeTimeout.test.ts (1 test) 47ms
+ ✓ |adapters| src/ghidra/GhidraLaunchFailure.test.ts (3 tests) 28ms
+ ✓ |adapters| src/artifacts/apple/KeyedArchiveReadFailure.test.ts (7 tests) 52ms
+ ✓ |adapters| src/browser/history/HistoricalCaptureReply.test.ts (11 tests) 217ms
+ ✓ |adapters| src/ghidra/GhidraPowerPcProfile.test.ts (10 tests) 26ms
+ ✓ |adapters| src/hopper/HopperNameInventory.test.ts (6 tests) 17ms
+ ✓ |adapters| src/gpu/GpuInventory.test.ts (9 tests) 40ms
+ ✓ |adapters| src/desktop/DconfDatabaseReader.test.ts (9 tests) 92ms
+ ✓ |adapters| src/artifacts/apple/InterfaceBuilderFinalization.test.ts (6 tests) 67ms
+ ✓ |adapters| src/apktool/ApktoolDecodeTimeout.test.ts (1 test) 43ms
  ✓ |adapters| src/native/NativeCommandAnalysisError.test.ts (5 tests) 7ms
  ✓ |adapters| src/javascript/analysis/JavaScriptAnalysisSourceTransfer.test.ts (6 tests) 14ms
  ✓ |adapters| src/native/parsers/demangle.test.ts (11 tests) 7ms
- ✓ |adapters| src/native/NativeCommandPreparation.test.ts (4 tests) 63ms
- ✓ |adapters| src/native/NativeCommandDeadline.test.ts (7 tests) 50ms
- ✓ |adapters| src/javascript/analysis/JavaScriptAnalysisTransfer.worker.test.ts (6 tests) 3570ms
-   ✓ authenticates the physical worker transfer at the source-analysis port: valid 828ms
-   ✓ authenticates the physical worker transfer at the source-analysis port: utf8 530ms
-   ✓ authenticates the physical worker transfer at the source-analysis port: length 526ms
-   ✓ authenticates the physical worker transfer at the source-analysis port: hash 566ms
-   ✓ authenticates the physical worker transfer at the source-analysis port: utf8-late-abort 607ms
-   ✓ authenticates the physical worker transfer at the source-analysis port: utf8-cleanup-retry 512ms
+ ✓ |adapters| src/native/NativeCommandPreparation.test.ts (4 tests) 35ms
+ ✓ |adapters| src/javascript/analysis/JavaScriptAnalysisTransfer.worker.test.ts (6 tests) 3197ms
+   ✓ authenticates the physical worker transfer at the source-analysis port: valid 585ms
+   ✓ authenticates the physical worker transfer at the source-analysis port: utf8 519ms
+   ✓ authenticates the physical worker transfer at the source-analysis port: length 522ms
+   ✓ authenticates the physical worker transfer at the source-analysis port: hash 525ms
+   ✓ authenticates the physical worker transfer at the source-analysis port: utf8-late-abort 528ms
+   ✓ authenticates the physical worker transfer at the source-analysis port: utf8-cleanup-retry 517ms
  ✓ |adapters| src/desktop/HomeStateWalker.test.ts (7 tests) 23ms
+ ✓ |adapters| src/native/NativeCommandDeadline.test.ts (7 tests) 45ms
  ✓ |adapters| src/config/mcpStartupBudgets.test.ts (14 tests) 17ms
- ✓ |adapters| src/ida/IdaDoctor.test.ts (5 tests) 20ms
+ ✓ |adapters| src/ida/IdaDoctor.test.ts (5 tests) 19ms
  ✓ |adapters| src/ghidra/GhidraJavaProbe.preparation.test.ts (3 tests) 36ms
  ✓ |adapters| src/artifacts/inventory/scanReader.test.ts (9 tests) 15ms
- ✓ |adapters| src/server/McpInputCapacity.test.ts (5 tests) 56ms
- ✓ |adapters| src/providers/classifyProviderFailure.test.ts (5 tests) 9ms
- ✓ |adapters| src/native/AppleObjcClassCoverage.test.ts (6 tests) 39ms
- ✓ |adapters| src/v8/V8CodeCacheProvider.test.ts (9 tests) 5ms
- ✓ |adapters| src/artifacts/pyinstaller/PyInstallerAdmissionBoundaries.test.ts (4 tests) 171ms
- ✓ |adapters| src/ida/IdaMcpEnvironment.test.ts (2 tests) 162ms
- ✓ |adapters| src/artifacts/Uf2ArtifactReader.test.ts (4 tests) 39ms
- ✓ |adapters| src/browser/WebBundleAnalysisWorkerStartup.test.ts (4 tests) 32ms
- ✓ |adapters| src/cliJsonPaths.test.ts (14 tests) 11ms
+ ✓ |adapters| src/server/McpInputCapacity.test.ts (5 tests) 59ms
+ ✓ |adapters| src/artifacts/AndroidOtaPayloadArtifactReader.boundaries.test.ts (7 tests) 193ms
+ ✓ |adapters| src/native/AppleObjcClassCoverage.test.ts (6 tests) 37ms
+ ✓ |adapters| src/providers/classifyProviderFailure.test.ts (5 tests) 8ms
+ ✓ |adapters| src/v8/V8CodeCacheProvider.test.ts (9 tests) 6ms
+ ✓ |adapters| src/artifacts/pyinstaller/PyInstallerAdmissionBoundaries.test.ts (4 tests) 167ms
+ ✓ |adapters| src/ida/IdaMcpEnvironment.test.ts (2 tests) 163ms
+ ✓ |adapters| src/artifacts/Uf2ArtifactReader.test.ts (4 tests) 37ms
+ ✓ |adapters| src/cliJsonPaths.test.ts (14 tests) 14ms
+ ✓ |adapters| src/browser/WebBundleAnalysisWorkerStartup.test.ts (4 tests) 37ms
  ✓ |adapters| src/adb/AdbPushProbeEvidence.test.ts (2 tests) 20ms
  ✓ |adapters| src/browser/CdpElectronScriptMetadata.test.ts (2 tests) 11ms
- ✓ |adapters| src/wasm/WabtRuntime.test.ts (2 tests) 8ms
- ✓ |adapters| src/artifacts/ArtifactFileSource.test.ts (3 tests) 15ms
- ✓ |adapters| src/native/pe/PeCertificatesProvider.test.ts (6 tests) 53ms
+ ✓ |adapters| src/wasm/WabtRuntime.test.ts (2 tests) 7ms
+ ✓ |adapters| src/artifacts/ArtifactFileSource.test.ts (3 tests) 13ms
+ ✓ |adapters| src/native/pe/PeCertificatesProvider.test.ts (6 tests) 52ms
  ✓ |adapters| src/hopper/HopperProviderDiscovery.test.ts (5 tests | 1 skipped) 9ms
  ✓ |adapters| src/artifacts/AsarHeader.test.ts (5 tests) 7ms
- ✓ |adapters| src/artifacts/apple/PlistDecodeInvariant.test.ts (4 tests) 47ms
+ ✓ |adapters| src/artifacts/apple/PlistDecodeInvariant.test.ts (4 tests) 48ms
  ✓ |adapters| src/reference/ReferenceSourceReader.test.ts (5 tests) 5ms
  ✓ |adapters| src/artifacts/ArtifactTraversalObservation.test.ts (6 tests) 5ms
- ✓ |adapters| src/artifacts/AndroidOtaPayloadArtifactReader.boundaries.test.ts (6 tests) 51ms
- ✓ |adapters| src/server/registerArtifactComparisonTool.test.ts (2 tests) 72ms
- ✓ |adapters| src/firmware/FirmwareSourceAdmission.test.ts (4 tests) 27ms
+ ✓ |adapters| src/firmware/FirmwareSourceAdmission.test.ts (4 tests) 21ms
  ✓ |adapters| src/ghidra/GhidraDosComLoadImage.test.ts (14 tests) 23ms
- ✓ |adapters| src/artifacts/NativeDmgRootObservation.test.ts (5 tests) 60ms
- ✓ |adapters| src/browser/history/SazCapture.test.ts (4 tests) 92ms
- ✓ |adapters| src/process/SharedStartupAttempt.test.ts (6 tests) 7ms
- ✓ |adapters| src/desktop/BuildSecretFiles.test.ts (4 tests) 25ms
- ✓ |adapters| src/artifacts/apple/KeyedArchiveRawRefusal.test.ts (3 tests) 22ms
- ✓ |adapters| src/artifacts/apple/KeyedArchiveHostDenial.test.ts (1 test) 41ms
+ ✓ |adapters| src/server/registerArtifactComparisonTool.test.ts (2 tests) 47ms
+ ✓ |adapters| src/artifacts/NativeDmgRootObservation.test.ts (5 tests) 50ms
+ ✓ |adapters| src/browser/history/SazCapture.test.ts (4 tests) 89ms
+ ✓ |adapters| src/desktop/BuildSecretFiles.test.ts (4 tests) 13ms
+ ✓ |adapters| src/process/SharedStartupAttempt.test.ts (6 tests) 6ms
+ ✓ |adapters| src/artifacts/apple/KeyedArchiveRawRefusal.test.ts (3 tests) 23ms
  ✓ |adapters| src/ghidra/GhidraRawProfileDigest.test.ts (2 tests) 15ms
- ✓ |adapters| src/native/NativeCallObservation.test.ts (5 tests) 18ms
+ ✓ |adapters| src/artifacts/apple/KeyedArchiveHostDenial.test.ts (1 test) 37ms
+ ✓ |adapters| src/native/NativeCallObservation.test.ts (5 tests) 24ms
  ✓ |adapters| src/native/NativeMachoVtoolRefusal.test.ts (6 tests) 26ms
  ✓ |adapters| src/config/hopperCallerScanBudget.test.ts (3 tests) 9ms
- ✓ |adapters| src/electron/ElectronFuseArchitecture.test.ts (20 tests) 95ms
- ✓ |adapters| src/gpu/AmdGpuMetadata.test.ts (12 tests) 219ms
- ✓ |adapters| src/artifacts/AsarHeaderIdentity.test.ts (9 tests) 40ms
- ✓ |adapters| src/artifacts/MachOSliceArchitecture.test.ts (31 tests) 62ms
- ✓ |adapters| src/browser/ElectronFileScope.nodes.test.ts (1 test) 32ms
- ✓ |adapters| src/server/JavaScriptRouteAdvertisedSchema.test.ts (1 test) 177ms
- ✓ |adapters| src/artifacts/deno/DenoStandaloneArtifactReader.boundaries.test.ts (10 tests) 87ms
- ✓ |adapters| src/server/environment/environmentCapacity.test.ts (3 tests) 102ms
- ✓ |adapters| src/desktop/ScreenJudgeProcess.integration.test.ts (2 tests) 219ms
+ ✓ |adapters| src/gpu/AmdGpuMetadata.test.ts (12 tests) 210ms
+ ✓ |adapters| src/electron/ElectronFuseArchitecture.test.ts (20 tests) 80ms
+ ✓ |adapters| src/artifacts/AsarHeaderIdentity.test.ts (9 tests) 41ms
+ ✓ |adapters| src/artifacts/MachOSliceArchitecture.test.ts (31 tests) 78ms
+ ✓ |adapters| src/browser/ElectronFileScope.nodes.test.ts (1 test) 27ms
+ ✓ |adapters| src/server/JavaScriptRouteAdvertisedSchema.test.ts (1 test) 153ms
+ ❯ |adapters| src/artifacts/deno/DenoStandaloneArtifactReader.boundaries.test.ts (10 tests | 1 failed) 93ms
+   ✓ stored member lifecycle (8)
+     ✓ does not complete paused inventory after its reader closes 47ms
+     ✓ retires fully buffered, unconsumed member bytes on cancel 11ms
+     ✓ retires fully buffered, unconsumed member bytes on close 3ms
+     ✓ joins a member's outstanding positional read before descriptor closure 5ms
+     ✓ retains failed descriptor cleanup for retry 3ms
+     ✓ joins final freshness validation during cancel 5ms
+     ✓ joins final freshness validation during cancel-with-validation-error 3ms
+     ✓ joins final freshness validation during close 3ms
+   × rejects carrier mutation between physical member reads 9ms
+   ✓ keeps already validated buffered bytes when the carrier changes after production 3ms
+ ✓ |adapters| src/server/environment/environmentCapacity.test.ts (3 tests) 94ms
+ ✓ |adapters| src/desktop/ScreenJudgeProcess.integration.test.ts (2 tests) 217ms
  ✓ |adapters| src/desktop/HostFileRead.test.ts (5 tests) 10ms
  ✓ |adapters| src/native/elf/ElfNoteCoreProfile.test.ts (7 tests) 13ms
  ✓ |adapters| src/evm/EvmoleInterfaceProvider.test.ts (3 tests) 12ms
- ✓ |adapters| src/dotnet/ManagedCliHeaderRange.test.ts (4 tests) 34ms
- ✓ |adapters| src/native/NativePlistResourceRoot.test.ts (2 tests) 61ms
+ ✓ |adapters| src/dotnet/ManagedCliHeaderRange.test.ts (4 tests) 45ms
+ ✓ |adapters| src/native/NativePlistResourceRoot.test.ts (2 tests) 41ms
  ✓ |adapters| src/browser/WebBundleAnalysisWorkerCapacity.test.ts (1 test) 4ms
- ✓ |adapters| src/ida/IdaReferenceCoverage.test.ts (5 tests) 31ms
- ✓ |adapters| src/artifacts/AsarEntryStream.test.ts (5 tests) 116ms
- ✓ |adapters| src/native/NativeMachoSelectedSlice.test.ts (1 test) 8ms
- ✓ |adapters| src/apktool/ApktoolCommandCleanup.test.ts (3 tests) 15ms
- ✓ |adapters| src/server/EvidenceFileDiagnosticsMcp.test.ts (1 test) 927ms
-   ✓ delivers a bounded file validation error through inspect_analysis_view 925ms
+ ✓ |adapters| src/artifacts/AsarEntryStream.test.ts (5 tests) 114ms
+ ✓ |adapters| src/ida/IdaReferenceCoverage.test.ts (5 tests) 46ms
+ ✓ |adapters| src/native/NativeMachoSelectedSlice.test.ts (1 test) 7ms
+ ✓ |adapters| src/apktool/ApktoolCommandCleanup.test.ts (3 tests) 14ms
+ ✓ |adapters| src/server/EvidenceFileDiagnosticsMcp.test.ts (1 test) 923ms
+   ✓ delivers a bounded file validation error through inspect_analysis_view 922ms
  ✓ |adapters| src/artifacts/ArtifactPreparation.test.ts (4 tests) 5ms
  ✓ |adapters| src/desktop/BuildSecretFiles.concurrent.test.ts (1 test) 13ms
- ✓ |adapters| src/browser/ElectronCaptureCleanup.boundary.test.ts (1 test) 103ms
+ ✓ |adapters| src/browser/ElectronCaptureCleanup.boundary.test.ts (1 test) 108ms
  ✓ |adapters| src/inspector/V8InspectorAdmission.test.ts (3 tests) 3ms
- ✓ |adapters| src/process/WorkerCleanupRegistry.test.ts (3 tests) 5ms
- ✓ |adapters| src/apktool/ApktoolVersionProbe.lifecycle.test.ts (1 test) 138ms
+ ✓ |adapters| src/process/WorkerCleanupRegistry.test.ts (3 tests) 4ms
+ ✓ |adapters| src/apktool/ApktoolVersionProbe.lifecycle.test.ts (1 test) 122ms
  ✓ |adapters| src/go/GoBinaryImage.mapping.test.ts (3 tests) 8ms
  ✓ |adapters| src/ghidra/GhidraDisabledAnalyzers.test.ts (9 tests) 11ms
- ✓ |adapters| src/artifacts/apple/MachoFileReads.test.ts (1 test) 48ms
- ✓ |adapters| src/native/initializers/ElfInitializerRelocationCoverage.test.ts (6 tests) 3ms
- ✓ |adapters| src/ida/IdaMcpOwnedCleanup.test.ts (1 test) 5023ms
-   ✓ keeps a failed handshake's incomplete cleanup observable with the redacted server tail 5022ms
+ ✓ |adapters| src/artifacts/apple/MachoFileReads.test.ts (1 test) 49ms
+ ✓ |adapters| src/native/initializers/ElfInitializerRelocationCoverage.test.ts (6 tests) 4ms
+ ✓ |adapters| src/ida/IdaMcpOwnedCleanup.test.ts (1 test) 5021ms
+   ✓ keeps a failed handshake's incomplete cleanup observable with the redacted server tail 5020ms
  ✓ |adapters| src/server/ToolResultDelivery.partialRetention.test.ts (4 tests) 8ms
- ✓ |adapters| src/ghidra/GhidraLauncherEnvironment.test.ts (7 tests) 5ms
- ✓ |adapters| src/artifacts/artifactFormats.test.ts (4 tests) 8ms
+ ✓ |adapters| src/ghidra/GhidraLauncherEnvironment.test.ts (7 tests) 6ms
+ ✓ |adapters| src/artifacts/artifactFormats.test.ts (4 tests) 4ms
  ✓ |adapters| src/artifacts/SafeOutputTreeAdmission.test.ts (5 tests) 4ms
- ✓ |adapters| src/native/apple/AppleIpsProvider.test.ts (1 test) 20ms
+ ✓ |adapters| src/native/apple/AppleIpsProvider.test.ts (1 test) 24ms
  ✓ |adapters| src/android/JadxWorkspaceRoot.test.ts (1 test) 6ms
- ✓ |adapters| src/artifacts/ReleaseExposureReader.probeCleanup.test.ts (1 test) 44ms
- ✓ |adapters| src/desktop/DebianPackageFileCleanup.test.ts (1 test) 6ms
- ✓ |adapters| src/artifacts/pyinstaller/PyInstallerPrivateImageBaseline.test.ts (1 test) 21ms
- ✓ |adapters| src/artifacts/ReleaseExposureReader.invariant.test.ts (1 test) 30ms
+ ✓ |adapters| src/artifacts/ReleaseExposureReader.probeCleanup.test.ts (1 test) 42ms
+ ✓ |adapters| src/desktop/DebianPackageFileCleanup.test.ts (1 test) 7ms
+ ✓ |adapters| src/artifacts/pyinstaller/PyInstallerPrivateImageBaseline.test.ts (1 test) 18ms
+ ✓ |adapters| src/artifacts/ReleaseExposureReader.invariant.test.ts (1 test) 32ms
  ✓ |adapters| src/firmware/FirmwareStagingBudget.test.ts (4 tests) 3ms
- ✓ |adapters| src/desktop/AgentEnvComputerHelper.cleanup.test.ts (1 test) 8ms
- ✓ |adapters| src/reference/ReferenceSourceReaderFile.test.ts (3 tests) 3ms
- ✓ |adapters| src/config/bridgeMaxReplyBytes.test.ts (3 tests) 7ms
- ✓ |adapters| src/hopper/HopperImageCopy.test.ts (1 test) 10ms
- ✓ |adapters| src/native/metadata/Il2cppContainer.test.ts (4 tests) 13ms
- ✓ |adapters| src/native/pe/PeUnsupportedTargets.test.ts (8 tests) 25ms
+ ✓ |adapters| src/desktop/AgentEnvComputerHelper.cleanup.test.ts (1 test) 7ms
+ ✓ |adapters| src/reference/ReferenceSourceReaderFile.test.ts (3 tests) 4ms
+ ✓ |adapters| src/config/bridgeMaxReplyBytes.test.ts (3 tests) 8ms
+ ✓ |adapters| src/hopper/HopperImageCopy.test.ts (1 test) 11ms
+ ✓ |adapters| src/native/metadata/Il2cppContainer.test.ts (4 tests) 15ms
+ ✓ |adapters| src/native/pe/PeUnsupportedTargets.test.ts (8 tests) 32ms
  ✓ |adapters| src/gpu/CudaInfo.test.ts (5 tests) 50ms
- ✓ |adapters| src/mcpDoctor.cleanup.test.ts (1 test) 74ms
- ✓ |adapters| src/cliBundleResource.test.ts (1 test) 444ms
-   ✓ inspects a keyless app bundle through the public CLI and preserves resource provenance 443ms
- ✓ |adapters| src/native/AppleDispatchMetadata.failure.test.ts (9 tests) 5ms
- ✓ |adapters| src/artifacts/apple/InterfaceBuilderHostLimit.test.ts (2 tests) 21ms
+ ✓ |adapters| src/mcpDoctor.cleanup.test.ts (1 test) 79ms
+ ✓ |adapters| src/cliBundleResource.test.ts (1 test) 435ms
+   ✓ inspects a keyless app bundle through the public CLI and preserves resource provenance 434ms
+ ✓ |adapters| src/native/AppleDispatchMetadata.failure.test.ts (9 tests) 6ms
+ ✓ |adapters| src/artifacts/apple/InterfaceBuilderHostLimit.test.ts (2 tests) 25ms
  ✓ |adapters| src/apkSignature/apkSignatureFailures.test.ts (5 tests) 5ms
  ✓ |adapters| src/artifacts/ArtifactProviderCleanup.test.ts (1 test) 5ms
  ✓ |adapters| src/artifacts/ArtifactReader.test.ts (5 tests) 4ms
  ❯ |adapters| src/gpu/GpuPayloadCodec.test.ts (4 tests | 1 failed) 16ms
    ✓ requires all declared zlib input bytes to belong to the codec stream 5ms
    ✓ requires all declared zstd input bytes to belong to the codec stream 1ms
-   ✓ retains completed zlib input accounting before trailing container bytes 3ms
+   ✓ retains completed zlib input accounting before trailing container bytes 2ms
    × retains completed zstd input accounting before trailing container bytes 6ms
  ✓ |adapters| src/hopper/bridgeBootstrapLimit.test.ts (3 tests) 2ms
- ✓ |adapters| src/native/NativeUiHelperRuntime.test.ts (2 tests) 7ms
- ✓ |adapters| src/native/NativeMacOSProvider.invariant.test.ts (1 test) 36ms
- ✓ |adapters| src/native/pwntools/PwntoolsResourceLimits.test.ts (2 tests) 8ms
- ✓ |adapters| src/desktop/X11WindowObserver.test.ts (2 tests) 33ms
- ✓ |adapters| src/cliObservationOptions.test.ts (17 tests) 9ms
+ ✓ |adapters| src/native/NativeMacOSProvider.invariant.test.ts (1 test) 43ms
+ ✓ |adapters| src/native/NativeUiHelperRuntime.test.ts (2 tests) 11ms
+ ✓ |adapters| src/native/pwntools/PwntoolsResourceLimits.test.ts (2 tests) 7ms
+ ✓ |adapters| src/desktop/X11WindowObserver.test.ts (2 tests) 32ms
+ ✓ |adapters| src/cliObservationOptions.test.ts (17 tests) 10ms
  ✓ |adapters| src/ghidra/GhidraCheckpointRecovery.test.ts (2 tests) 3ms
  ✓ |adapters| src/android/JadxJavaProbe.invariant.test.ts (1 test) 4ms
  ✓ |adapters| src/cliHostInputs.test.ts (3 tests) 7ms
  ✓ |adapters| src/artifacts/pyinstaller/PyInstallerFileAdmission.test.ts (1 test) 4ms
- ✓ |adapters| src/desktop/HostQuery.test.ts (2 tests) 29ms
+ ✓ |adapters| src/desktop/HostQuery.test.ts (2 tests) 26ms
  ✓ |adapters| src/gpu/Lz4Block.test.ts (7 tests) 5ms
- ✓ |adapters| src/go/GoMachoImage.alignment.test.ts (3 tests) 5ms
- ✓ |adapters| src/dotnet/ManagedSnapshot.test.ts (2 tests) 7ms
+ ✓ |adapters| src/go/GoMachoImage.alignment.test.ts (3 tests) 4ms
+ ✓ |adapters| src/dotnet/ManagedSnapshot.test.ts (2 tests) 3ms
  ✓ |adapters| src/config/analysisSettingAdmission.test.ts (1 test) 11ms
- ✓ |adapters| src/artifacts/EspFlashImageArtifactReader.boundaries.test.ts (8 tests) 92ms
+ ✓ |adapters| src/artifacts/EspFlashImageArtifactReader.boundaries.test.ts (8 tests) 85ms
  ✓ |adapters| src/artifacts/ArtifactHash.test.ts (1 test) 5ms
  ✓ |adapters| src/nativeDeadlineFlags.test.ts (1 test) 471ms
    ✓ advertises the native deadline flags separately from objdump and rizin 470ms
- ✓ |adapters| src/artifacts/EspImageArtifactReader.boundaries.test.ts (8 tests) 68ms
- ✓ |adapters| src/artifacts/GodotPckArtifactReader.boundaries.test.ts (8 tests) 74ms
+ ✓ |adapters| src/artifacts/EspImageArtifactReader.boundaries.test.ts (8 tests) 59ms
+ ✓ |adapters| src/artifacts/GodotPckArtifactReader.boundaries.test.ts (8 tests) 82ms
+ ✓ |adapters| src/artifacts/NodeSeaArtifactReader.boundaries.test.ts (8 tests) 59ms
  ✓ |adapters| src/ghidra/GhidraProviderCapabilities.test.ts (1 test) 2ms
- ✓ |adapters| src/artifacts/NodeSeaArtifactReader.boundaries.test.ts (8 tests) 65ms
  ✓ |composition| tests/composition/reverseProviderLaunchErrors.test.ts (42 tests) 212ms
- ✓ |composition| tests/composition/analysis-sessions/binarySession.test.ts (54 tests) 277ms
+ ✓ |composition| tests/composition/analysis-sessions/binarySession.test.ts (54 tests) 260ms
  ✓ |composition| tests/composition/analysis-sessions/managedApplicationGraph.test.ts (25 tests) 279ms
- ✓ |composition| tests/composition/directAnalysisCleanup.test.ts (36 tests) 273ms
- ✓ |composition| tests/composition/reverseEngineeringEdgeCases.test.ts (67 tests) 1115ms
-   ✓ interrupts a pending stat on deadline and observes its eventual rejection 1002ms
- ✓ |composition| tests/composition/reverseEngineering.test.ts (33 tests) 567ms
- ✓ |composition| tests/composition/sourcePublicationOneShot.test.ts (9 tests) 35ms
- ✓ |composition| tests/composition/analysis-sessions/binarySessionCleanupRetry.test.ts (13 tests) 74ms
- ✓ |composition| tests/composition/analysis-sessions/providerBinding.test.ts (5 tests) 20ms
+ ✓ |composition| tests/composition/directAnalysisCleanup.test.ts (36 tests) 276ms
+ ✓ |composition| tests/composition/reverseEngineeringEdgeCases.test.ts (67 tests) 1116ms
+   ✓ interrupts a pending stat on deadline and observes its eventual rejection 1003ms
+ ✓ |composition| tests/composition/reverseEngineering.test.ts (33 tests) 563ms
+ ✓ |composition| tests/composition/sourcePublicationOneShot.test.ts (9 tests) 53ms
+ ✓ |composition| tests/composition/analysis-sessions/providerBinding.test.ts (5 tests) 25ms
+ ✓ |composition| tests/composition/idaProvider.test.ts (9 tests) 51ms
+ ✓ |composition| tests/composition/analysis-sessions/binarySessionCleanupRetry.test.ts (13 tests) 68ms
  ✓ |composition| tests/composition/reverseEngineeringCommandPort.test.ts (9 tests) 11ms
- ✓ |composition| tests/composition/directAnalysisFactories.test.ts (20 tests) 59ms
- ✓ |composition| tests/composition/directAnalysisXrefs.test.ts (24 tests) 72ms
+ ✓ |composition| tests/composition/directAnalysisXrefs.test.ts (24 tests) 56ms
  ✓ |composition| tests/composition/reverseEngineeringAdmission.test.ts (11 tests) 26ms
- ✓ |composition| tests/composition/analysis-sessions/compositeProvider.test.ts (4 tests) 6ms
- ✓ |composition| tests/composition/webCaptureDeliveryRedaction.test.ts (7 tests) 191ms
- ✓ |composition| tests/composition/idaProvider.test.ts (9 tests) 63ms
- ✓ |composition| tests/composition/reverseEngineeringCancellation.test.ts (1 test) 126ms
- ✓ |composition| tests/composition/analysis-sessions/investigationRecords.test.ts (3 tests) 18ms
- ✓ |composition| tests/composition/callPathGraphOracle.test.ts (2 tests) 130ms
- ✓ |composition| tests/composition/reverseEngineeringUnknownFailures.test.ts (7 tests) 8ms
- ✓ |composition| tests/composition/objdumpSelectedDisassembly.test.ts (21 tests) 14ms
- ✓ |composition| tests/composition/analysis-sessions/backwardCallerEvidence.test.ts (1 test) 11ms
+ ✓ |composition| tests/composition/analysis-sessions/compositeProvider.test.ts (4 tests) 5ms
+ ✓ |composition| tests/composition/webCaptureDeliveryRedaction.test.ts (7 tests) 184ms
+ ✓ |composition| tests/composition/directAnalysisFactories.test.ts (20 tests) 62ms
+ ✓ |composition| tests/composition/reverseEngineeringCancellation.test.ts (1 test) 124ms
+ ✓ |composition| tests/composition/analysis-sessions/investigationRecords.test.ts (3 tests) 13ms
+ ✓ |composition| tests/composition/callPathGraphOracle.test.ts (2 tests) 135ms
+ ✓ |composition| tests/composition/reverseEngineeringUnknownFailures.test.ts (7 tests) 7ms
+ ✓ |composition| tests/composition/objdumpSelectedDisassembly.test.ts (21 tests) 18ms
+ ✓ |composition| tests/composition/analysis-sessions/backwardCallerEvidence.test.ts (1 test) 5ms
  ✓ |composition| tests/composition/analysis-sessions/nativeArchitectureIdentity.test.ts (2 tests) 4ms
  ✓ |composition| tests/composition/resolveWindowsProviderExecutable.test.ts (7 tests) 2ms
- ✓ |composition| tests/composition/liveToolFactories.test.ts (3 tests) 7ms
- ✓ |composition| tests/composition/analysis-sessions/binarySessionAsarSelectedPath.test.ts (1 test) 33ms
- ✓ |composition| tests/composition/browserScenarioStartupRedaction.test.ts (7 tests) 23ms
+ ✓ |composition| tests/composition/liveToolFactories.test.ts (3 tests) 5ms
+ ✓ |composition| tests/composition/analysis-sessions/binarySessionAsarSelectedPath.test.ts (1 test) 26ms
  ✓ |composition| tests/composition/evmModuleContract.test.ts (2 tests) 2ms
- ✓ |composition| tests/composition/directAnalysisLimitations.test.ts (1 test) 15ms
+ ✓ |composition| tests/composition/directAnalysisLimitations.test.ts (1 test) 3ms
+ ✓ |composition| tests/composition/browserScenarioStartupRedaction.test.ts (7 tests) 19ms
  ✓ |composition| tests/composition/callPathParserOperation.test.ts (1 test) 2ms
  ✓ |composition| tests/composition/localToolsMcpCleanup.test.ts (1 test) 2ms
- ✓ |conformance| tests/conformance/providers/managed/managedNativeVerification.test.ts (45 tests) 139ms
- ✓ |conformance| tests/conformance/readiness/report/reconstructionReadiness.test.ts (41 tests) 148ms
- ✓ |conformance| tests/conformance/formats/mzPeAdmission.test.ts (12 tests) 32ms
- ✓ |conformance| tests/conformance/providerCompletion.test.ts (6 tests) 45ms
- ✓ |conformance| tests/conformance/capabilityDeclarations.test.ts (8 tests) 10ms
- ✓ |conformance| tests/conformance/ida/providerContracts.test.ts (28 tests) 79ms
- ✓ |conformance| tests/conformance/contracts/targetContentProvenance.test.ts (23 tests) 5ms
- ✓ |conformance| tests/conformance/contracts/mcpOutputSchemaProfile.test.ts (9 tests) 3ms
- ✓ |conformance| tests/conformance/contracts/mcpInputSchemaProfile.test.ts (8 tests) 1ms
+ ✓ |conformance| tests/conformance/readiness/report/reconstructionReadiness.test.ts (41 tests) 143ms
+ ✓ |conformance| tests/conformance/providers/managed/managedNativeVerification.test.ts (45 tests) 146ms
+ ✓ |conformance| tests/conformance/formats/mzPeAdmission.test.ts (12 tests) 30ms
+ ✓ |conformance| tests/conformance/providerCompletion.test.ts (6 tests) 41ms
+ ✓ |conformance| tests/conformance/capabilityDeclarations.test.ts (8 tests) 12ms
+ ✓ |conformance| tests/conformance/ida/providerContracts.test.ts (28 tests) 110ms
+ ✓ |conformance| tests/conformance/contracts/targetContentProvenance.test.ts (23 tests) 8ms
+ ✓ |conformance| tests/conformance/package/environmentBundlePackagePin.test.ts (2 tests) 135ms
+ ✓ |conformance| tests/conformance/contracts/mcpOutputSchemaProfile.test.ts (9 tests) 4ms
  ✓ |conformance| tests/conformance/artifactComparisonDocs.test.ts (1 test) 1ms
- ✓ |conformance| tests/conformance/package/environmentBundlePackagePin.test.ts (2 tests) 99ms
- ✓ |domain| src/domain/analysisView/EnvironmentStateWriteSimulation.test.ts (132 tests) 593ms
- ✓ |domain| src/domain/analysisView/environmentStateWrites.test.ts (116 tests) 662ms
- ✓ |domain| src/domain/analysisView/environmentStateView.test.ts (100 tests) 1291ms
-   ✓ counts each change of a line's membership across a write against the budget 336ms
-   ✓ releases a planning pass a rewrite cut discards before extracting the state again 464ms
- ✓ |domain| src/domain/webBundleAnalyzer.test.ts (84 tests) 1369ms
+ ✓ |conformance| tests/conformance/contracts/mcpInputSchemaProfile.test.ts (8 tests) 3ms
+ ✓ |domain| src/domain/analysisView/EnvironmentStateWriteSimulation.test.ts (132 tests) 596ms
+ ✓ |domain| src/domain/analysisView/environmentStateWrites.test.ts (116 tests) 637ms
+ ✓ |domain| src/domain/analysisView/environmentStateView.test.ts (100 tests) 1248ms
+   ✓ counts each change of a line's membership across a write against the budget 317ms
+   ✓ releases a planning pass a rewrite cut discards before extracting the state again 454ms
+ ✓ |domain| src/domain/functionComparison.test.ts (77 tests) 153ms
+ ✓ |domain| src/domain/webBundleAnalyzer.test.ts (84 tests) 1380ms
    ✓ web bundle analyzer (4)
-     ✓ analyzes AST nodes after the former fixed node ceiling 537ms
+     ✓ analyzes AST nodes after the former fixed node ceiling 551ms
    ✓ web bundle endpoint candidate classification (2)
-     ✓ deduplicates repeated candidate sites while keeping script, value and detector identity 469ms
- ✓ |domain| src/domain/functionComparison.test.ts (77 tests) 155ms
- ✓ |domain| src/domain/analysisView/analysisView.test.ts (44 tests) 194ms
- ✓ |domain| src/domain/analysisView/environmentManifestView.test.ts (42 tests) 275ms
- ✓ |domain| src/domain/apple/appleApplication.test.ts (52 tests) 128ms
- ✓ |domain| src/domain/analysisView/environmentStateDerivedWrites.test.ts (57 tests) 233ms
- ✓ |domain| src/domain/apple/interfaceBuilderGraph.test.ts (32 tests) 845ms
+     ✓ deduplicates repeated candidate sites while keeping script, value and detector identity 457ms
+ ✓ |domain| src/domain/analysisView/analysisView.test.ts (44 tests) 175ms
+ ✓ |domain| src/domain/analysisView/environmentManifestView.test.ts (42 tests) 283ms
+ ✓ |domain| src/domain/apple/appleApplication.test.ts (52 tests) 150ms
+ ✓ |domain| src/domain/analysisView/environmentStateDerivedWrites.test.ts (57 tests) 253ms
+ ✓ |domain| src/domain/apple/interfaceBuilderGraph.test.ts (32 tests) 920ms
    ✓ Interface Builder parser bounds (1)
-     ✓ reports connections discarded by the parser's hard ceiling 689ms
- ✓ |domain| src/domain/analysisView/webNetworkCaptureView.test.ts (63 tests) 129ms
+     ✓ reports connections discarded by the parser's hard ceiling 758ms
+ ✓ |domain| src/domain/analysisView/webNetworkCaptureView.test.ts (63 tests) 133ms
  ✓ |domain| src/domain/inputIssueProjection.test.ts (32 tests) 25ms
  ✓ |domain| src/domain/evidence.test.ts (41 tests) 57ms
- ✓ |domain| src/domain/reconstructionVerification.test.ts (25 tests) 124ms
- ✓ |domain| src/domain/analysisView/il2cppMetadataView.test.ts (48 tests) 34ms
- ✓ |domain| src/domain/artifactComparison.test.ts (40 tests) 54ms
- ✓ |domain| src/domain/reconstructionVerification.functionSources.test.ts (69 tests) 321ms
- ✓ |domain| src/contracts/toolInputReferences.test.ts (40 tests) 1653ms
-   ✓ preserves the complete inline Evidence contract before deferred authentication in draft-2020-12 631ms
-   ✓ preserves the complete inline Evidence contract before deferred authentication in draft-07 490ms
- ✓ |domain| src/domain/analysisSnapshot.test.ts (17 tests) 85ms
- ✓ |domain| src/domain/releaseExposure.test.ts (24 tests) 15ms
- ✓ |domain| src/domain/javascript/sourceToBundleComparison.test.ts (30 tests) 45ms
- ✓ |domain| src/domain/analysisView/webNetworkApiSurfaceView.test.ts (23 tests) 401ms
- ✓ |domain| src/domain/reconstructionCoverage.test.ts (30 tests) 80ms
- ✓ |domain| src/domain/staticRuntimeCorrelation.test.ts (14 tests) 25ms
- ✓ |domain| src/domain/analysisErrorCleanup.test.ts (24 tests) 14ms
- ✓ |domain| src/domain/native/nativeInvestigationGraph.test.ts (21 tests) 15ms
- ✓ |domain| src/domain/javascript/javascriptApplicationAnalysisSteps.test.ts (25 tests) 173ms
- ✓ |domain| src/domain/analysisView/webBundleView.test.ts (24 tests) 56ms
- ✓ |domain| src/domain/javascript/javascriptApplicationVersionComparison.test.ts (12 tests) 71ms
- ✓ |domain| src/domain/explicitSensitiveFailure.test.ts (29 tests) 10ms
- ✓ |domain| src/domain/javascript/javascriptFeatureSeed.array_members.test.ts (45 tests) 51ms
- ✓ |domain| src/domain/changedBehavior.test.ts (18 tests) 85ms
- ✓ |domain| src/domain/analysisView/machoView.test.ts (9 tests) 39ms
- ✓ |domain| src/domain/analysisView/scenarioCaptureRecords.test.ts (14 tests) 25ms
- ✓ |domain| src/domain/apple/interfaceBuilderKeyedArchive.test.ts (49 tests) 17ms
- ✓ |domain| src/domain/callPath.test.ts (42 tests) 2359ms
+ ✓ |domain| src/domain/reconstructionVerification.test.ts (25 tests) 123ms
+ ✓ |domain| src/domain/analysisView/il2cppMetadataView.test.ts (48 tests) 40ms
+ ✓ |domain| src/domain/artifactComparison.test.ts (40 tests) 52ms
+ ✓ |domain| src/domain/reconstructionVerification.functionSources.test.ts (69 tests) 300ms
+ ✓ |domain| src/contracts/toolInputReferences.test.ts (40 tests) 1507ms
+   ✓ preserves the complete inline Evidence contract before deferred authentication in draft-2020-12 572ms
+   ✓ preserves the complete inline Evidence contract before deferred authentication in draft-07 469ms
+ ✓ |domain| src/domain/analysisSnapshot.test.ts (17 tests) 129ms
+ ✓ |domain| src/domain/releaseExposure.test.ts (24 tests) 16ms
+ ✓ |domain| src/domain/javascript/sourceToBundleComparison.test.ts (30 tests) 47ms
+ ✓ |domain| src/domain/analysisView/webNetworkApiSurfaceView.test.ts (23 tests) 407ms
+ ✓ |domain| src/domain/reconstructionCoverage.test.ts (30 tests) 86ms
+ ✓ |domain| src/domain/staticRuntimeCorrelation.test.ts (14 tests) 27ms
+ ✓ |domain| src/domain/analysisErrorCleanup.test.ts (24 tests) 16ms
+ ✓ |domain| src/domain/native/nativeInvestigationGraph.test.ts (21 tests) 16ms
+ ✓ |domain| src/domain/javascript/javascriptApplicationAnalysisSteps.test.ts (25 tests) 177ms
+ ✓ |domain| src/domain/analysisView/webBundleView.test.ts (24 tests) 47ms
+ ✓ |domain| src/domain/javascript/javascriptApplicationVersionComparison.test.ts (12 tests) 62ms
+ ✓ |domain| src/domain/explicitSensitiveFailure.test.ts (29 tests) 9ms
+ ✓ |domain| src/domain/javascript/javascriptFeatureSeed.array_members.test.ts (45 tests) 31ms
+ ✓ |domain| src/domain/changedBehavior.test.ts (18 tests) 82ms
+ ✓ |domain| src/domain/analysisView/machoView.test.ts (9 tests) 37ms
+ ✓ |domain| src/domain/analysisView/scenarioCaptureRecords.test.ts (14 tests) 40ms
+ ✓ |domain| src/domain/apple/interfaceBuilderKeyedArchive.test.ts (49 tests) 16ms
+ ✓ |domain| src/domain/callPath.test.ts (42 tests) 2467ms
    ✓ call path topology and capacity (8)
-     ✓ reconstructs a deep function chain without exhausting the call stack 2017ms
+     ✓ reconstructs a deep function chain without exhausting the call stack 2073ms
 stderr | src/contracts/inputObservationPresentation.test.ts > observes reference sibling semantics in draft-07
 DEPRECATED: option ignoreKeywordsWithRef. 
 $ref: keywords ignored in schema at path "#"
 DEPRECATED: option ignoreKeywordsWithRef. 
 $ref: keywords ignored in schema at path "#"
 
- ✓ |domain| src/contracts/inputObservationPresentation.test.ts (27 tests) 448ms
- ✓ |domain| src/contracts/toolOutputReferences.test.ts (36 tests) 249ms
- ✓ |domain| src/domain/analysisView/environmentStateScenarioTiming.test.ts (10 tests) 85ms
- ✓ |domain| src/domain/native/objcSwiftMetadata.test.ts (22 tests) 11ms
- ✓ |domain| src/domain/analysisView/javascriptRoutesView.test.ts (13 tests) 271ms
- ✓ |domain| src/domain/analysisView/managedMemberView.test.ts (8 tests) 15ms
- ✓ |domain| src/domain/analysisView/artifactInventoryView.test.ts (14 tests) 10ms
- ✓ |domain| src/domain/firmware/androidOtaPayload.test.ts (13 tests) 10ms
- ✓ |domain| src/domain/analysisView/environmentStateWriteAddress.test.ts (16 tests) 81ms
- ✓ |domain| src/domain/analysisView/interfaceBuilderView.test.ts (8 tests) 11ms
- ✓ |domain| src/domain/analysisView/environmentStateFormWrites.test.ts (24 tests) 115ms
- ✓ |domain| src/domain/analysisView/androidSymbolView.test.ts (10 tests) 60ms
- ✓ |domain| src/domain/javascript/staticObservedEndpoints.test.ts (12 tests) 21ms
- ✓ |domain| src/contracts/evidenceInputConformance.test.ts (6 tests) 53ms
- ✓ |domain| src/contracts/tupleSchemaParity.test.ts (32 tests) 469ms
- ✓ |domain| src/domain/artifactInventoryEvidence.test.ts (20 tests) 17ms
- ✓ |domain| src/domain/bundleComparison.test.ts (7 tests) 64ms
+ ✓ |domain| src/contracts/inputObservationPresentation.test.ts (27 tests) 476ms
+ ✓ |domain| src/contracts/toolOutputReferences.test.ts (36 tests) 250ms
+ ✓ |domain| src/domain/firmware/androidOtaPayload.test.ts (15 tests) 11ms
+ ✓ |domain| src/domain/analysisView/environmentStateScenarioTiming.test.ts (10 tests) 69ms
+ ✓ |domain| src/domain/native/objcSwiftMetadata.test.ts (22 tests) 10ms
+ ✓ |domain| src/domain/analysisView/javascriptRoutesView.test.ts (13 tests) 325ms
+ ✓ |domain| src/domain/analysisView/managedMemberView.test.ts (8 tests) 18ms
+ ✓ |domain| src/domain/analysisView/artifactInventoryView.test.ts (14 tests) 12ms
+ ✓ |domain| src/domain/analysisView/environmentStateWriteAddress.test.ts (16 tests) 83ms
+ ✓ |domain| src/domain/analysisView/interfaceBuilderView.test.ts (8 tests) 10ms
+ ✓ |domain| src/domain/analysisView/environmentStateFormWrites.test.ts (24 tests) 114ms
+ ✓ |domain| src/domain/analysisView/androidSymbolView.test.ts (10 tests) 56ms
+ ✓ |domain| src/domain/javascript/staticObservedEndpoints.test.ts (12 tests) 19ms
+ ✓ |domain| src/contracts/evidenceInputConformance.test.ts (6 tests) 66ms
+ ✓ |domain| src/contracts/tupleSchemaParity.test.ts (32 tests) 513ms
+ ✓ |domain| src/domain/artifactInventoryEvidence.test.ts (20 tests) 15ms
+ ✓ |domain| src/domain/bundleComparison.test.ts (7 tests) 75ms
  ✓ |domain| src/domain/analysisView/goBinaryView.test.ts (18 tests) 15ms
  ✓ |domain| src/domain/analysisView/androidPackageView.test.ts (6 tests) 76ms
- ✓ |domain| src/domain/analysisView/environmentStateWriteBlame.test.ts (9 tests) 45ms
- ✓ |domain| src/domain/analysisView/environmentStateVariedCalls.test.ts (20 tests) 78ms
- ✓ |domain| src/domain/analysisView/environmentStateCreateCalls.test.ts (14 tests) 45ms
- ✓ |domain| src/domain/analysisView/WebNetworkApiSurfaceAccumulator.test.ts (14 tests) 746ms
- ✓ |domain| src/domain/analysisView/environmentCoverageView.test.ts (6 tests) 59ms
- ✓ |domain| src/domain/reconstructionCoverageEvidence.test.ts (29 tests) 66ms
+ ✓ |domain| src/domain/analysisView/environmentStateWriteBlame.test.ts (9 tests) 48ms
+ ✓ |domain| src/domain/analysisView/environmentStateVariedCalls.test.ts (20 tests) 83ms
+ ✓ |domain| src/domain/analysisView/environmentStateCreateCalls.test.ts (14 tests) 48ms
+ ✓ |domain| src/domain/analysisView/WebNetworkApiSurfaceAccumulator.test.ts (14 tests) 756ms
+ ✓ |domain| src/domain/analysisView/environmentCoverageView.test.ts (6 tests) 55ms
+ ✓ |domain| src/domain/reconstructionCoverageEvidence.test.ts (29 tests) 63ms
  ✓ |domain| src/domain/javascript/javascriptFeatureTraversal.test.ts (4 tests) 9ms
- ✓ |domain| src/contracts/outputSchemaDefinitions.test.ts (14 tests) 347ms
+ ✓ |domain| src/contracts/outputSchemaDefinitions.test.ts (14 tests) 372ms
  ✓ |domain| src/domain/analysisView/environmentStateWriteReferences.test.ts (9 tests) 19ms
- ✓ |domain| src/domain/javascript/javascriptNativeExportFacts.test.ts (9 tests) 14ms
- ✓ |domain| src/domain/analysisView/rustBinaryView.test.ts (8 tests) 12ms
- ✓ |domain| src/domain/analysisView/EnvironmentManifestAccumulator.test.ts (7 tests) 326ms
-   ✓ retains repeated observed values, statuses and query names once across many samples 309ms
+ ✓ |domain| src/domain/javascript/javascriptNativeExportFacts.test.ts (9 tests) 21ms
+ ✓ |domain| src/domain/analysisView/rustBinaryView.test.ts (8 tests) 13ms
+ ✓ |domain| src/domain/analysisView/EnvironmentManifestAccumulator.test.ts (7 tests) 316ms
+   ✓ retains repeated observed values, statuses and query names once across many samples 306ms
  ✓ |domain| src/domain/analysisView/nativeInventoryView.test.ts (6 tests) 9ms
  ✓ |domain| src/contracts/fridaToolContracts.test.ts (6 tests) 5ms
  ✓ |domain| src/domain/analysisView/protobufCaptureView.test.ts (2 tests) 10ms
  ✓ |domain| src/contracts/sessionPathInputs.test.ts (17 tests | 3 skipped) 3ms
- ✓ |domain| src/domain/analysisView/environmentStateResponseMembers.test.ts (7 tests) 22ms
+ ✓ |domain| src/domain/analysisView/environmentStateResponseMembers.test.ts (7 tests) 18ms
  ✓ |domain| src/domain/analysisView/environmentStateListCounters.test.ts (9 tests) 29ms
  ✓ |domain| src/contracts/toolEffects.test.ts (9 tests) 4ms
- ✓ |domain| src/domain/apple/appleAssetCatalog.test.ts (4 tests) 5ms
+ ✓ |domain| src/domain/apple/appleAssetCatalog.test.ts (4 tests) 6ms
  ✓ |domain| src/domain/analysisView/pcapCaptureView.test.ts (4 tests) 8ms
  ✓ |domain| src/contracts/workflowInputContracts.test.ts (7 tests) 6ms
- ✓ |domain| src/domain/analysisView/environmentStateWriteViews.test.ts (17 tests) 79ms
+ ✓ |domain| src/domain/analysisView/environmentStateWriteViews.test.ts (17 tests) 71ms
  ✓ |domain| src/domain/residualUnknown.test.ts (5 tests) 3ms
- ✓ |domain| src/domain/analysisView/environmentStateMadeValues.test.ts (9 tests) 54ms
- ✓ |domain| src/domain/unboundedWorkflowCollections.test.ts (2 tests) 68ms
- ✓ |domain| src/domain/analysisView/environmentStateItemWrites.test.ts (9 tests) 54ms
- ✓ |domain| src/contracts/analysisDetail.test.ts (1 test) 844ms
-   ✓ advertises only that operation's summary from analysis detail outputs 843ms
- ✓ |domain| src/domain/analysisView/environmentStateLaterReads.test.ts (15 tests) 61ms
- ✓ |domain| src/domain/native/binaryHardening.test.ts (4 tests) 3ms
- ✓ |domain| src/domain/analysisView/environmentStateWriteEffects.test.ts (9 tests) 24ms
- ✓ |domain| src/domain/analysisView/recordedArrayView.test.ts (4 tests) 13ms
- ✓ |domain| src/domain/evidenceSteps.test.ts (5 tests) 11ms
- ✓ |domain| src/domain/evidenceRecordSummary.test.ts (5 tests) 3ms
- ✓ |domain| src/domain/artifactGraph.test.ts (2 tests) 1ms
- ✓ |domain| src/domain/comparisonEvidenceResult.test.ts (5 tests) 3ms
- ✓ |domain| src/contracts/toolFamilies.test.ts (5 tests) 4ms
- ✓ |domain| src/domain/analysisView/artifactAvailabilityView.test.ts (7 tests) 15ms
- ✓ |domain| src/domain/webMcpDiscovery.test.ts (5 tests) 3ms
- ✓ |domain| src/contracts/bytecodeDeliveryContracts.test.ts (4 tests) 76ms
- ✓ |domain| src/domain/artifactFormatRecognition.test.ts (7 tests) 3ms
- ✓ |domain| src/domain/evidenceBundle.test.ts (12 tests) 6212ms
+ ✓ |domain| src/domain/analysisView/environmentStateMadeValues.test.ts (9 tests) 57ms
+ ✓ |domain| src/domain/unboundedWorkflowCollections.test.ts (2 tests) 70ms
+ ✓ |domain| src/domain/analysisView/environmentStateItemWrites.test.ts (9 tests) 52ms
+ ✓ |domain| src/domain/evidenceBundle.test.ts (12 tests) 6240ms
    ✓ evidenceBundleForTarget relationship pruning (2)
-     ✓ projects a valid graph with more than 125,000 dependents 6197ms
- ✓ |domain| src/domain/analysisView/procedurePseudocodeView.test.ts (3 tests) 4ms
+     ✓ projects a valid graph with more than 125,000 dependents 6223ms
+ ✓ |domain| src/domain/analysisView/environmentStateLaterReads.test.ts (15 tests) 45ms
+ ✓ |domain| src/domain/native/binaryHardening.test.ts (4 tests) 4ms
+ ✓ |domain| src/domain/analysisView/environmentStateWriteEffects.test.ts (9 tests) 26ms
+ ✓ |domain| src/domain/analysisView/recordedArrayView.test.ts (4 tests) 20ms
+ ✓ |domain| src/contracts/analysisDetail.test.ts (1 test) 847ms
+   ✓ advertises only that operation's summary from analysis detail outputs 847ms
+ ✓ |domain| src/domain/evidenceRecordSummary.test.ts (5 tests) 3ms
+ ✓ |domain| src/domain/evidenceSteps.test.ts (5 tests) 12ms
+ ✓ |domain| src/domain/artifactGraph.test.ts (2 tests) 1ms
+ ✓ |domain| src/domain/comparisonEvidenceResult.test.ts (5 tests) 2ms
+ ✓ |domain| src/domain/analysisView/artifactAvailabilityView.test.ts (7 tests) 13ms
+ ✓ |domain| src/domain/webMcpDiscovery.test.ts (5 tests) 3ms
+ ✓ |domain| src/contracts/toolFamilies.test.ts (5 tests) 4ms
+ ✓ |domain| src/domain/artifactFormatRecognition.test.ts (7 tests) 2ms
+ ✓ |domain| src/contracts/bytecodeDeliveryContracts.test.ts (4 tests) 66ms
+ ✓ |domain| src/domain/analysisView/procedurePseudocodeView.test.ts (3 tests) 3ms
  ✓ |domain| src/domain/javascript/javascriptExportShapeComparisonSchemas.test.ts (4 tests) 4ms
  ✓ |domain| src/domain/analysisView/gpuCodeObjectsView.test.ts (3 tests) 4ms
- ✓ |domain| src/contracts/canonicalBase64Metadata.test.ts (2 tests) 40ms
- ✓ |domain| src/domain/managed/managedReconstruction.test.ts (2 tests) 3ms
- ✓ |domain| src/contracts/javascriptRouteDeliveryContracts.test.ts (6 tests) 111ms
+ ✓ |domain| src/contracts/canonicalBase64Metadata.test.ts (2 tests) 38ms
+ ✓ |domain| src/domain/managed/managedReconstruction.test.ts (2 tests) 2ms
+ ✓ |domain| src/contracts/javascriptRouteDeliveryContracts.test.ts (6 tests) 130ms
  ✓ |domain| src/domain/reconstructionUnknowns.test.ts (2 tests) 1ms
- ✓ |domain| src/domain/evidenceSubject.test.ts (2 tests) 13ms
+ ✓ |domain| src/domain/evidenceSubject.test.ts (2 tests) 12ms
  ✓ |domain| src/domain/evidenceFormat.test.ts (5 tests) 2ms
  ✓ |domain| src/contracts/gamecubeDolContracts.test.ts (6 tests) 2ms
- ✓ |domain| src/contracts/advertisedInputExamples.test.ts (3 tests) 86ms
- ✓ |domain| src/contracts/toolSchemaMetadata.test.ts (2 tests) 26ms
+ ✓ |domain| src/contracts/advertisedInputExamples.test.ts (3 tests) 85ms
+ ✓ |domain| src/contracts/toolSchemaMetadata.test.ts (2 tests) 24ms
  ✓ |domain| src/domain/artifactInventoryOutput.test.ts (2 tests) 1ms
  ✓ |domain| src/domain/javascript/javascriptFeatureSeed.test.ts (2 tests) 6ms
  ✓ |domain| src/domain/native/nativeInitializers.test.ts (2 tests) 2ms
@@ -780,310 +815,316 @@ $ref: keywords ignored in schema at path "#"
  ✓ |domain| src/contracts/jeb/jebToolContracts.test.ts (3 tests) 1ms
  ✓ |domain| src/domain/absoluteAnalysisInputPaths.test.ts (8 tests) 1ms
  ✓ |domain| src/domain/mobileApplicationGraphProjection.test.ts (1 test) 0ms
- ✓ |domain| src/domain/managed/managedNativeVerificationSource.test.ts (1 test) 5ms
- ✓ |domain| src/contracts/enhancedInputs.test.ts (1 test) 12ms
+ ✓ |domain| src/domain/managed/managedNativeVerificationSource.test.ts (1 test) 6ms
+ ✓ |domain| src/contracts/enhancedInputs.test.ts (1 test) 13ms
  ✓ |domain| src/contracts/browserToolContracts.test.ts (1 test) 4ms
  ✓ |domain| src/contracts/native/binaryDiagnosticsToolContracts.test.ts (2 tests) 1ms
- ✓ |domain| src/domain/reconstructionObligationLedgerSchemas.test.ts (1 test) 206ms
- ✓ |evaluation| tests/evaluation/model-evals/codexAgentEval.test.ts (26 tests) 23ms
+ ✓ |domain| src/domain/reconstructionObligationLedgerSchemas.test.ts (1 test) 219ms
+ ✓ |evaluation| tests/evaluation/model-evals/codexAgentEval.test.ts (26 tests) 24ms
  ✓ |evaluation| tests/evaluation/model-evals/agentEvaluationScenarios.test.ts (11 tests) 2ms
  ✓ |evaluation| tests/evaluation/package/packageSetupSupport.test.ts (6 tests) 1ms
- ✓ |evaluation| tests/evaluation/model-evals/knownAnswerEvaluation.test.ts (67 tests) 190ms
- ✓ |services| src/application/releaseExposure/ReleaseExposureService.test.ts (261 tests) 343ms
- ✓ |services| src/application/decompileDirectory/decompileAll.test.ts (75 tests) 675ms
- ✓ |services| src/application/desktop/DesktopApplicationExport.test.ts (64 tests) 1914ms
- ✓ |services| src/application/binary/AnalysisProviderRegistry.test.ts (47 tests) 33ms
- ✓ |services| src/application/environment/environmentStateWriteAnswer.test.ts (89 tests) 822ms
- ✓ |services| src/application/native/NativeValueTrace.test.ts (55 tests) 1541ms
+ ✓ |evaluation| tests/evaluation/model-evals/knownAnswerEvaluation.test.ts (67 tests) 185ms
+ ✓ |services| src/application/releaseExposure/ReleaseExposureService.test.ts (261 tests) 345ms
+ ✓ |services| src/application/decompileDirectory/decompileAll.test.ts (75 tests) 679ms
+ ✓ |services| src/application/desktop/DesktopApplicationExport.test.ts (64 tests) 1884ms
+ ✓ |services| src/application/binary/AnalysisProviderRegistry.test.ts (47 tests) 31ms
+ ✓ |services| src/application/environment/environmentStateWriteAnswer.test.ts (89 tests) 802ms
+ ✓ |services| src/application/native/NativeValueTrace.test.ts (55 tests) 1580ms
    ✓ native value parameter-use node membership (3)
-     ✓ retains only parameter uses whose parameter nodes fit the node budget 724ms
- ✓ |services| src/application/binary/AnalysisSnapshotCache.test.ts (47 tests) 1139ms
+     ✓ retains only parameter uses whose parameter nodes fit the node budget 748ms
+ ✓ |services| src/application/binary/AnalysisSnapshotCache.test.ts (47 tests) 1166ms
    ✓ analysis snapshot cache capacity (1)
-     ✓ shares capacity across query kinds while allowing replacements and fresh partitions 1063ms
- ✓ |services| src/application/analysisView/AnalysisViewService.test.ts (69 tests) 3115ms
-   ✓ keeps retained admission and payload ownership for a large capture when only its display path changes 507ms
-   ✓ refuses an object-dense borrowed capture before making a full schema clone 880ms
-   ✓ keeps inline-envelope admission live alongside capture validation and grouping 579ms
-   ✓ admits raw_result and parameters before authenticating a portable capture 356ms
-(node:14967) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+     ✓ shares capacity across query kinds while allowing replacements and fresh partitions 1093ms
+ ✓ |services| src/application/analysisView/AnalysisViewService.test.ts (69 tests) 3166ms
+   ✓ keeps retained admission and payload ownership for a large capture when only its display path changes 506ms
+   ✓ refuses an object-dense borrowed capture before making a full schema clone 887ms
+   ✓ keeps inline-envelope admission live alongside capture validation and grouping 573ms
+   ✓ admits raw_result and parameters before authenticating a portable capture 370ms
+   ✓ inspectAnalysisView scenario parents (1)
+     ✓ accepts from a file a scenario capture whose response bodies exceed the inline budget 302ms
+(node:30615) ExperimentalWarning: SQLite is an experimental feature and might change at any time
 (Use `node --trace-warnings ...` to show where the warning was created)
- ✓ |services| src/application/desktop/DesktopApplicationState.test.ts (50 tests) 340ms
- ✓ |services| src/application/Doctor.test.ts (91 tests | 1 skipped) 1668ms
+ ✓ |services| src/application/desktop/DesktopApplicationState.test.ts (50 tests) 322ms
+ ✓ |services| src/application/Doctor.test.ts (91 tests | 1 skipped) 1730ms
    ✓ doctor Hopper startup timeout (18)
-     ✓ checks timeout 0 with Hopper present=true and an available peer 1627ms
- ✓ |services| src/application/native/NativeFunctionMatchingService.test.ts (30 tests) 5934ms
-   ✓ charges a borrowed retained inventory for its emitted members, not its resident payload 592ms
-   ✓ matches 20,000 retained Ghidra-shaped rows per side and refuses an oversized side before parsing its rows 3442ms
-   ✓ enforces the caller-resolved representation allowance and names its setting 1490ms
- ✓ |services| src/application/binary/BinarySessionBundleResources.test.ts (23 tests) 1227ms
- ✓ |services| src/application/frida/FridaInstrumentationService.test.ts (37 tests) 25ms
- ✓ |services| src/application/CapabilityInventory.test.ts (58 tests) 162ms
- ✓ |services| src/application/Setup.recovery.test.ts (51 tests) 70ms
- ✓ |services| src/application/environment/environmentCompare.test.ts (52 tests) 548ms
- ✓ |services| src/application/native/EnhancedNativeInvestigation.test.ts (43 tests) 80ms
+     ✓ checks timeout 0 with Hopper present=true and an available peer 1690ms
+ ✓ |services| src/application/native/NativeFunctionMatchingService.test.ts (30 tests) 6124ms
+   ✓ charges a borrowed retained inventory for its emitted members, not its resident payload 614ms
+   ✓ matches 20,000 retained Ghidra-shaped rows per side and refuses an oversized side before parsing its rows 3555ms
+   ✓ enforces the caller-resolved representation allowance and names its setting 1528ms
+ ✓ |services| src/application/binary/BinarySessionBundleResources.test.ts (23 tests) 1247ms
+ ✓ |services| src/application/frida/FridaInstrumentationService.test.ts (37 tests) 26ms
+ ✓ |services| src/application/CapabilityInventory.test.ts (58 tests) 179ms
+ ✓ |services| src/application/Setup.recovery.test.ts (51 tests) 125ms
+ ✓ |services| src/application/environment/environmentCompare.test.ts (52 tests) 566ms
+ ✓ |services| src/application/native/EnhancedNativeInvestigation.test.ts (43 tests) 83ms
  ✓ |services| src/application/binary/BinarySessionStatus.test.ts (22 tests) 39ms
- ✓ |services| src/application/desktop/DesktopExportWithheld.test.ts (16 tests) 534ms
- ✓ |services| src/application/environment/environmentBuild.test.ts (24 tests) 841ms
- ✓ |services| src/application/McpClientRegistration.test.ts (26 tests) 197ms
- ✓ |services| src/application/desktop/DesktopApplicationCapture.test.ts (32 tests) 12261ms
+ ✓ |services| src/application/desktop/DesktopExportWithheld.test.ts (16 tests) 524ms
+ ✓ |services| src/application/desktop/DesktopApplicationCapture.test.ts (32 tests) 12327ms
    ✓ captureDesktopApplication on Linux (4)
-     ✓ records the window, a requested checkpoint and the state change with its content 1734ms
-     ✓ keeps the checkpoints taken before a cancellation and closes the application 716ms
-     ✓ ends when the application exits and records what it wrote on the way out 1643ms
+     ✓ records the window, a requested checkpoint and the state change with its content 1733ms
+     ✓ keeps the checkpoints taken before a cancellation and closes the application 717ms
+     ✓ ends when the application exits and records what it wrote on the way out 1652ms
    ✓ captureDesktopApplication acknowledgements on Linux (1)
-     ✓ acknowledges each checkpoint once it is taken, with its counts, and a refused name 1778ms
+     ✓ acknowledges each checkpoint once it is taken, with its counts, and a refused name 1769ms
    ✓ captureDesktopApplication process release on Linux (2)
-     ✓ asks the process group and token carriers outside it to exit before killing them 2286ms
-     ✓ stops the application gracefully and removes retained content when the session fails 729ms
+     ✓ asks the process group and token carriers outside it to exit before killing them 2301ms
+     ✓ stops the application gracefully and removes retained content when the session fails 712ms
    ✓ captureDesktopApplication window reads on Linux (1)
-     ✓ keeps watching through window samples it could not read and names them 2204ms
- ✓ |services| src/application/WorkflowEvidence.test.ts (28 tests) 35ms
- ✓ |services| src/application/environment/environmentCompareDiff.test.ts (68 tests) 14ms
- ✓ |services| src/application/Setup.configuration.test.ts (31 tests) 33ms
- ✓ |services| src/application/Setup.planning.test.ts (35 tests) 41ms
- ✓ |services| src/application/McpRegistrationCatalog.test.ts (37 tests) 1138ms
-   ✓ resolves selected-environment paths and scopes without external catalog readers 1075ms
- ✓ |services| src/application/environment/environmentState.test.ts (34 tests) 2557ms
+     ✓ keeps watching through window samples it could not read and names them 2218ms
+ ✓ |services| src/application/environment/environmentBuild.test.ts (24 tests) 881ms
+ ✓ |services| src/application/WorkflowEvidence.test.ts (28 tests) 31ms
+ ✓ |services| src/application/environment/environmentCompareDiff.test.ts (68 tests) 10ms
+ ✓ |services| src/application/Setup.configuration.test.ts (31 tests) 78ms
+ ✓ |services| src/application/McpClientRegistration.test.ts (26 tests) 188ms
+ ✓ |services| src/application/Setup.planning.test.ts (35 tests) 69ms
+ ✓ |services| src/application/McpRegistrationCatalog.test.ts (37 tests) 932ms
+   ✓ resolves selected-environment paths and scopes without external catalog readers 864ms
+ ✓ |services| src/application/environment/environmentState.test.ts (34 tests) 2504ms
    ✓ served collection history (2)
-     ✓ does not charge a deleted loaded collection again at the history limit 1330ms
+     ✓ does not charge a deleted loaded collection again at the history limit 1291ms
    ✓ deriveEnvironmentState (3)
-     ✓ projects the authenticated capture as retained Evidence, so a capture inline admission refuses still yields its state 339ms
+     ✓ projects the authenticated capture as retained Evidence, so a capture inline admission refuses still yields its state 352ms
    ✓ EnvironmentStateStore (5)
-     ✓ refuses a document that data/get would write back past what data/add loads 338ms
- ✓ |services| src/application/binary/BinarySessionInvestigation.test.ts (24 tests) 92ms
- ✓ |services| src/application/desktop/DesktopTaskExport.test.ts (32 tests) 1478ms
- ✓ |services| src/application/AnalysisContextQueries.test.ts (31 tests) 25ms
- ✓ |services| src/application/environment/environmentStateAnswer.test.ts (22 tests) 298ms
+     ✓ refuses a document that data/get would write back past what data/add loads 364ms
+ ✓ |services| src/application/desktop/DesktopTaskExport.test.ts (32 tests) 1662ms
+   ✓ exportDesktopApplication with a task's readers (5)
+     ✓ runs a reader on the seed as the bundle ships it and on the end, keeps the task and ships the reader 304ms
+     ✓ refuses {"name":"note-milk","prompt":"Write down that I need milk, and mark the second note.","checks":[{"kind":"lines_absent","file":".local/share/notes/notes.db","reader":"version","lines":["version v3"]}],"readers":[{"id":"version","file":".local/share/notes/notes.db","argv":["python3","-c","import sys; print('REA version ' + open(sys.argv[1], 'rb').read().split(b'\\0')[-1].decode())","{file}"],"output":"lines"}]} with what its reader read and writes no bundle 382ms
+ ✓ |services| src/application/binary/BinarySessionInvestigation.test.ts (24 tests) 94ms
+ ✓ |services| src/application/AnalysisContextQueries.test.ts (31 tests) 12ms
+ ✓ |services| src/application/environment/environmentStateAnswer.test.ts (22 tests) 267ms
  ✓ |services| src/application/LinuxHopper.test.ts (62 tests) 16ms
- ✓ |services| src/application/environment/environmentStateWriteReview.test.ts (38 tests) 293ms
- ✓ |services| src/application/WebNetworkCaptureService.test.ts (43 tests) 23ms
- ✓ |services| src/application/environment/environmentTools.test.ts (23 tests) 70ms
- ✓ |services| src/application/binaryDiagnostics/ByteEntropyService.test.ts (24 tests) 132ms
- ✓ |services| src/application/analysisView/BrowserScenarioViews.test.ts (14 tests) 1143ms
-   ✓ summarizes every three-digit status bucket within the advertised output contract 1038ms
- ✓ |services| src/application/environment/environmentStateBulkAnswer.test.ts (30 tests) 595ms
+ ✓ |services| src/application/environment/environmentStateWriteReview.test.ts (38 tests) 280ms
+ ✓ |services| src/application/WebNetworkCaptureService.test.ts (43 tests) 24ms
+ ✓ |services| src/application/environment/environmentTools.test.ts (23 tests) 71ms
+ ✓ |services| src/application/binaryDiagnostics/ByteEntropyService.test.ts (24 tests) 97ms
+ ✓ |services| src/application/analysisView/BrowserScenarioViews.test.ts (14 tests) 1380ms
+   ✓ summarizes every three-digit status bucket within the advertised output contract 1278ms
+ ✓ |services| src/application/environment/environmentStateBulkAnswer.test.ts (30 tests) 621ms
    ✓ served bulk write queries and capacity (2)
-     ✓ refuses a bulk update the state cannot hold, leaving every entity as it was 416ms
- ✓ |services| src/application/environment/environmentBundle.test.ts (18 tests) 73ms
+     ✓ refuses a bulk update the state cannot hold, leaving every entity as it was 432ms
+ ✓ |services| src/application/environment/environmentBundle.test.ts (18 tests) 82ms
  ✓ |services| src/application/binary/DeferredAnalysisClient.test.ts (18 tests) 10ms
- ✓ |services| src/application/binary/BinarySessionLiveness.test.ts (14 tests) 3784ms
-   ✓ keeps unbound observations out of persisted target snapshots 317ms
-   ✓ BinarySession open liveness (9)
-     ✓ reuses the retained client while the child stays live 303ms
-     ✓ treats an uncharacterized operation failure as dead 338ms
-     ✓ retires a retained client whose startup never completed 343ms
-     ✓ reports cancellation without touching the session when aborted mid-probe 462ms
- ✓ |services| src/application/native/NativeCallRoutes.test.ts (13 tests) 8ms
+ ✓ |services| src/application/environment/environmentBundleWrite.test.ts (14 tests) 476ms
+ ✓ |services| src/application/native/NativeCallRoutes.test.ts (13 tests) 7ms
  ✓ |services| src/application/Update.test.ts (38 tests) 8ms
- ✓ |services| src/application/analysisView/NativeObservationViews.test.ts (15 tests) 58ms
- ✓ |services| src/application/environment/environmentBundleWrite.test.ts (14 tests) 471ms
- ✓ |services| src/application/environment/environmentReplay.test.ts (22 tests) 155ms
- ✓ |services| src/application/desktop/DesktopBuildSolves.test.ts (23 tests) 100ms
- ✓ |services| src/application/ReconstructionObligationLedger.closure.test.ts (11 tests) 94ms
- ✓ |services| src/application/javascript/JavaScriptArtifactGraphStructure.test.ts (19 tests) 149ms
- ✓ |services| src/application/apiContract/ApiContractService.test.ts (17 tests) 173ms
- ✓ |services| src/application/McpClientRegistration.formats.test.ts (24 tests | 1 skipped) 159ms
- ✓ |services| src/application/javascript/JavaScriptArtifactGraphElectronCoverage.test.ts (19 tests) 189ms
- ✓ |services| src/application/WebModuleTraceService.test.ts (29 tests) 26ms
- ✓ |services| src/application/artifacts/ArtifactComparisonEvidence.test.ts (26 tests) 56ms
- ✓ |services| src/application/AnalysisSettings.test.ts (10 tests) 17ms
- ✓ |services| src/application/GuidanceAccess.test.ts (14 tests) 21ms
- ✓ |services| src/application/environment/environmentBuildReport.test.ts (25 tests) 69ms
- ✓ |services| src/application/EnhancedTools.objcClasses.test.ts (14 tests) 19ms
- ✓ |services| src/application/desktop/DesktopBuildWitness.test.ts (9 tests) 59ms
- ✓ |services| src/application/BrowserObservationService.test.ts (17 tests) 25ms
- ✓ |services| src/application/ReconstructionObligationCandidates.test.ts (6 tests) 42ms
- ✓ |services| src/application/investigation/EvidenceLedger.residualUnknown.test.ts (10 tests) 2265ms
+ ✓ |services| src/application/analysisView/NativeObservationViews.test.ts (15 tests) 48ms
+ ✓ |services| src/application/environment/environmentReplay.test.ts (22 tests) 176ms
+ ✓ |services| src/application/binary/BinarySessionLiveness.test.ts (14 tests) 4109ms
+   ✓ keeps unbound observations out of persisted target snapshots 301ms
+   ✓ BinarySession open liveness (9)
+     ✓ reuses the retained client while the child stays live 407ms
+     ✓ starts a fresh client when the retained child died 373ms
+     ✓ treats an uncharacterized operation failure as dead 329ms
+     ✓ retires a retained client whose startup never completed 302ms
+     ✓ probes instantiated children through health when snapshots are absent 317ms
+     ✓ does not instantiate a child to answer health before first use 340ms
+     ✓ reports cancellation without touching the session when aborted mid-probe 482ms
+ ✓ |services| src/application/desktop/DesktopBuildSolves.test.ts (23 tests) 104ms
+ ✓ |services| src/application/ReconstructionObligationLedger.closure.test.ts (11 tests) 109ms
+ ✓ |services| src/application/javascript/JavaScriptArtifactGraphStructure.test.ts (19 tests) 178ms
+ ✓ |services| src/application/apiContract/ApiContractService.test.ts (17 tests) 146ms
+ ✓ |services| src/application/McpClientRegistration.formats.test.ts (24 tests | 1 skipped) 122ms
+ ✓ |services| src/application/javascript/JavaScriptArtifactGraphElectronCoverage.test.ts (19 tests) 230ms
+ ✓ |services| src/application/WebModuleTraceService.test.ts (29 tests) 31ms
+ ✓ |services| src/application/artifacts/ArtifactComparisonEvidence.test.ts (26 tests) 60ms
+ ✓ |services| src/application/AnalysisSettings.test.ts (10 tests) 18ms
+ ✓ |services| src/application/GuidanceAccess.test.ts (14 tests) 23ms
+ ✓ |services| src/application/environment/environmentBuildReport.test.ts (25 tests) 67ms
+ ✓ |services| src/application/EnhancedTools.objcClasses.test.ts (14 tests) 14ms
+ ✓ |services| src/application/desktop/DesktopBuildWitness.test.ts (9 tests) 71ms
+ ✓ |services| src/application/BrowserObservationService.test.ts (17 tests) 31ms
+ ✓ |services| src/application/ReconstructionObligationCandidates.test.ts (6 tests) 54ms
+ ✓ |services| src/application/investigation/EvidenceLedger.residualUnknown.test.ts (10 tests) 2542ms
    ✓ residual unknown dependency histories (4)
-     ✓ imports a valid dependency chain deeper than the JavaScript call stack 2246ms
- ✓ |services| src/application/investigation/InvestigationRetention.test.ts (11 tests) 9ms
- ✓ |services| src/application/analysisView/evidenceFileSource.test.ts (11 tests) 247ms
- ✓ |services| src/application/SetupCleanupOwner.test.ts (17 tests) 6ms
- ✓ |services| src/application/desktop/DesktopArchiveTask.test.ts (11 tests) 1410ms
- ✓ |services| src/application/environment/environmentSource.test.ts (18 tests) 100ms
- ✓ |services| src/application/javascript/ElectronActiveObservationService.test.ts (17 tests) 87ms
- ✓ |services| src/application/DesktopBuildDoctor.test.ts (23 tests) 1347ms
-   ✓ rea doctor --provider desktop_build (2)
-     ✓ requires the build checks in order and reports the rest 1338ms
- ✓ |services| src/application/desktop/DesktopTaskDraftNotes.test.ts (10 tests) 71ms
+     ✓ imports a valid dependency chain deeper than the JavaScript call stack 2521ms
+ ✓ |services| src/application/investigation/InvestigationRetention.test.ts (11 tests) 10ms
+ ✓ |services| src/application/desktop/DesktopArchiveTask.test.ts (11 tests) 1402ms
+ ✓ |services| src/application/SetupCleanupOwner.test.ts (17 tests) 7ms
+ ✓ |services| src/application/analysisView/evidenceFileSource.test.ts (11 tests) 251ms
+ ✓ |services| src/application/DesktopBuildDoctor.test.ts (23 tests) 8ms
+ ✓ |services| src/application/javascript/ElectronActiveObservationService.test.ts (17 tests) 50ms
+ ✓ |services| src/application/environment/environmentSource.test.ts (18 tests) 106ms
+ ✓ |services| src/application/desktop/DesktopTaskDraftNotes.test.ts (10 tests) 100ms
  ✓ |services| src/application/javascript/ElectronObservationService.test.ts (17 tests) 10ms
- ✓ |services| src/application/desktop/DesktopBuildComputers.cleanup.test.ts (7 tests) 11ms
- ✓ |services| src/application/wasm/WasmInterfaceComparisonService.test.ts (13 tests) 109ms
- ✓ |services| src/application/WebRuntimeService.test.ts (23 tests) 16ms
- ✓ |services| src/application/desktop/DesktopCaptureFailure.test.ts (15 tests) 23ms
- ✓ |services| src/application/BrowserScenarioCaptureService.test.ts (18 tests) 19ms
- ✓ |services| src/application/binaryDiagnostics/ElfUnwindRangesService.test.ts (39 tests) 41ms
+ ✓ |services| src/application/desktop/DesktopBuildComputers.cleanup.test.ts (7 tests) 12ms
+ ✓ |services| src/application/wasm/WasmInterfaceComparisonService.test.ts (13 tests) 114ms
+ ✓ |services| src/application/WebRuntimeService.test.ts (23 tests) 17ms
+ ✓ |services| src/application/desktop/DesktopCaptureFailure.test.ts (15 tests) 28ms
+ ✓ |services| src/application/BrowserScenarioCaptureService.test.ts (18 tests) 21ms
+ ✓ |services| src/application/binaryDiagnostics/ElfUnwindRangesService.test.ts (39 tests) 43ms
  ✓ |services| src/application/javascript/JavaScriptRuntimeObservationService.test.ts (14 tests) 7ms
- ✓ |services| src/application/investigation/EvidenceLedger.test.ts (11 tests) 1864ms
-   ✓ evidence ledger metadata imports (3)
-     ✓ retains more than ten thousand inline evidence records 951ms
-     ✓ retains inline evidence larger than the former session byte quota 901ms
- ✓ |services| src/application/environment/environmentExport.test.ts (9 tests) 308ms
+ ✓ |services| src/application/environment/environmentExport.test.ts (9 tests) 271ms
+ ✓ |services| src/application/desktop/DesktopGzipDocument.test.ts (7 tests) 260ms
  ✓ |services| src/application/javascript/JavaScriptEvidenceInputs.test.ts (10 tests) 68ms
  ✓ |services| src/application/wasm/WasmArtifactService.test.ts (60 tests) 22ms
- ✓ |services| src/application/ReconstructionObligationLedger.authority.test.ts (29 tests) 60ms
- ✓ |services| src/application/LinuxHopperPackageRuntime.test.ts (19 tests) 14ms
+ ✓ |services| src/application/ReconstructionObligationLedger.authority.test.ts (29 tests) 63ms
+ ✓ |services| src/application/LinuxHopperPackageRuntime.test.ts (19 tests) 10ms
  ✓ |services| src/application/EvidenceRequestResolution.test.ts (12 tests) 8ms
- ✓ |services| src/application/Setup.desktopBuild.test.ts (14 tests) 17ms
- ✓ |services| src/application/binaryDiagnostics/NativeInitializersService.test.ts (22 tests) 27ms
- ✓ |services| src/application/desktop/DesktopGzipDocument.test.ts (7 tests) 379ms
- ✓ |services| src/application/apiContract/GraphqlContractService.test.ts (11 tests) 77ms
- ✓ |services| src/application/analysisView/NativeLoadImageViews.test.ts (10 tests) 32ms
- ✓ |services| src/application/desktop/DesktopExportIdentity.test.ts (12 tests) 311ms
- ✓ |services| src/application/WebSourceLocationService.test.ts (24 tests) 27ms
- ✓ |services| src/application/binaryDiagnostics/AppleIpsService.test.ts (26 tests) 12ms
- ✓ |services| src/application/go/GoBinaryService.test.ts (13 tests) 6ms
- ✓ |services| src/application/ntfs/NtfsJournalPaging.test.ts (8 tests) 30ms
- ✓ |services| src/application/McpClientRegistration.layers.test.ts (6 tests) 87ms
- ✓ |services| src/application/binaryDiagnostics/BinaryHardeningService.test.ts (18 tests) 7ms
- ✓ |services| src/application/environment/environmentStateWriteRefusals.test.ts (12 tests) 999ms
+ ✓ |services| src/application/Setup.desktopBuild.test.ts (14 tests) 34ms
+ ✓ |services| src/application/binaryDiagnostics/NativeInitializersService.test.ts (22 tests) 28ms
+ ✓ |services| src/application/investigation/EvidenceLedger.test.ts (11 tests) 1717ms
+   ✓ evidence ledger metadata imports (3)
+     ✓ retains more than ten thousand inline evidence records 865ms
+     ✓ retains inline evidence larger than the former session byte quota 840ms
+ ✓ |services| src/application/desktop/DesktopExportIdentity.test.ts (12 tests) 259ms
+ ✓ |services| src/application/analysisView/NativeLoadImageViews.test.ts (10 tests) 30ms
+ ✓ |services| src/application/apiContract/GraphqlContractService.test.ts (11 tests) 92ms
+ ✓ |services| src/application/WebSourceLocationService.test.ts (24 tests) 34ms
+ ✓ |services| src/application/binaryDiagnostics/AppleIpsService.test.ts (26 tests) 13ms
+ ✓ |services| src/application/go/GoBinaryService.test.ts (13 tests) 9ms
+ ✓ |services| src/application/ntfs/NtfsJournalPaging.test.ts (8 tests) 33ms
+ ✓ |services| src/application/McpClientRegistration.layers.test.ts (6 tests) 43ms
+ ✓ |services| src/application/binaryDiagnostics/BinaryHardeningService.test.ts (18 tests) 8ms
+ ✓ |services| src/application/binary/BinarySessionRestoration.test.ts (7 tests) 717ms
+ ✓ |services| src/application/environment/environmentStateWriteRefusals.test.ts (12 tests) 1078ms
    ✓ the state size limit (2)
-     ✓ refuses a create that would take data/get past what data/add loads 918ms
- ✓ |services| src/application/binary/BinarySessionRestoration.test.ts (7 tests) 698ms
- ✓ |services| src/application/il2cpp/Il2cppMetadataService.test.ts (14 tests) 56ms
- ✓ |services| src/application/binaryDiagnostics/BinaryLayoutService.test.ts (32 tests) 17ms
- ✓ |services| src/application/EnhancedToolSelectorOrigin.test.ts (12 tests) 11ms
- ✓ |services| src/application/investigation/InvestigationRecords.test.ts (7 tests) 15ms
- ✓ |services| src/application/environment/environmentStateDerivedAnswer.test.ts (15 tests) 126ms
- ✓ |services| src/application/rust/RustBinaryService.test.ts (13 tests) 13ms
+     ✓ refuses a create that would take data/get past what data/add loads 999ms
+ ✓ |services| src/application/environment/environmentStateDerivedAnswer.test.ts (15 tests) 137ms
+ ✓ |services| src/application/binaryDiagnostics/BinaryLayoutService.test.ts (32 tests) 12ms
+ ✓ |services| src/application/EnhancedToolSelectorOrigin.test.ts (12 tests) 6ms
+ ✓ |services| src/application/investigation/InvestigationRecords.test.ts (7 tests) 10ms
+ ✓ |services| src/application/il2cpp/Il2cppMetadataService.test.ts (14 tests) 65ms
+ ✓ |services| src/application/rust/RustBinaryService.test.ts (13 tests) 11ms
  ✓ |services| src/application/sqlite/SqliteDatabaseService.test.ts (27 tests) 10ms
- ✓ |services| src/application/adb/AdbDeviceAnalysisService.test.ts (16 tests) 229ms
- ✓ |services| src/application/desktop/DesktopCaptureScope.test.ts (7 tests) 10ms
- ✓ |services| src/application/desktop/DesktopRemoteTaskReaders.test.ts (10 tests) 9ms
- ✓ |services| src/application/desktop/DesktopSeveralTasks.test.ts (10 tests) 391ms
- ✓ |services| src/application/environment/environmentStateLaterReadsAnswer.test.ts (13 tests) 90ms
- ✓ |services| src/application/SetupPlan.test.ts (5 tests) 33ms
- ✓ |services| src/application/AnalysisDocument.test.ts (13 tests) 3ms
- ✓ |services| src/application/ReconstructionObligationCandidates.semantic.test.ts (4 tests) 52ms
- ✓ |services| src/application/desktop/DesktopCheckpointEnds.test.ts (9 tests) 157ms
- ✓ |services| src/application/environment/environmentStateWriteDisclosure.test.ts (8 tests) 48ms
- ✓ |services| src/application/FunctionAnalysisEvidence.test.ts (7 tests) 12ms
- ✓ |services| src/application/BrowserObservationContracts.test.ts (12 tests) 17ms
+ ✓ |services| src/application/adb/AdbDeviceAnalysisService.test.ts (16 tests) 241ms
+ ✓ |services| src/application/desktop/DesktopCaptureScope.test.ts (7 tests) 9ms
+ ✓ |services| src/application/desktop/DesktopRemoteTaskReaders.test.ts (10 tests) 7ms
+ ✓ |services| src/application/desktop/DesktopSeveralTasks.test.ts (10 tests) 414ms
+ ✓ |services| src/application/environment/environmentStateLaterReadsAnswer.test.ts (13 tests) 91ms
+ ✓ |services| src/application/desktop/DesktopCheckpointEnds.test.ts (9 tests) 177ms
+ ✓ |services| src/application/AnalysisDocument.test.ts (13 tests) 5ms
+ ✓ |services| src/application/ReconstructionObligationCandidates.semantic.test.ts (4 tests) 64ms
+ ✓ |services| src/application/environment/environmentStateWriteDisclosure.test.ts (8 tests) 56ms
+ ✓ |services| src/application/FunctionAnalysisEvidence.test.ts (7 tests) 13ms
+ ✓ |services| src/application/BrowserObservationContracts.test.ts (12 tests) 18ms
+ ✓ |services| src/application/CapabilityInventory.optionalReads.test.ts (8 tests) 25ms
  ✓ |services| src/application/firmware/FirmwareAnalysisService.test.ts (20 tests) 10ms
- ✓ |services| src/application/CapabilityInventory.optionalReads.test.ts (8 tests) 27ms
  ✓ |services| src/application/managed/ManagedReconstructionService.test.ts (7 tests) 16ms
- ✓ |services| src/application/binaryDiagnostics/RecordedCrashService.test.ts (17 tests) 14ms
- ✓ |services| src/application/McpRegistrationGit.test.ts (8 tests) 12ms
- ✓ |services| src/application/binary/BinarySessionRefusalAlternatives.test.ts (4 tests) 16ms
- ✓ |services| src/application/pcap/PcapAnalysisService.test.ts (6 tests) 5ms
+ ✓ |services| src/application/binaryDiagnostics/RecordedCrashService.test.ts (17 tests) 22ms
+ ✓ |services| src/application/McpRegistrationGit.test.ts (8 tests) 9ms
+ ✓ |services| src/application/binary/BinarySessionRefusalAlternatives.test.ts (4 tests) 11ms
+ ✓ |services| src/application/analysisView/JavaScriptProvenanceViews.test.ts (4 tests) 40ms
+ ✓ |services| src/application/pcap/PcapAnalysisService.test.ts (6 tests) 7ms
  ✓ |services| src/application/ntfs/NtfsJournalService.test.ts (5 tests) 8ms
- ✓ |services| src/application/analysisView/JavaScriptProvenanceViews.test.ts (4 tests) 28ms
- ✓ |services| src/application/binaryDiagnostics/PeImportsService.test.ts (9 tests) 6ms
+ ✓ |services| src/application/binaryDiagnostics/PeImportsService.test.ts (9 tests) 7ms
  ✓ |services| src/application/desktop/DesktopRetainedContent.cleanup.test.ts (5 tests) 8ms
- ✓ |services| src/application/javascript/JavaScriptRecoveryService.test.ts (10 tests) 5ms
- ✓ |services| src/application/javascript/JavaScriptRuntimeReconciliationService.test.ts (3 tests) 27ms
- ✓ |services| src/application/McpClientRegistration.nativeFields.test.ts (8 tests) 35ms
- ✓ |services| src/application/binaryDiagnostics/PeResourcesService.test.ts (23 tests) 28ms
- ✓ |services| src/application/environment/environmentStateFormAnswer.test.ts (10 tests) 87ms
- ✓ |services| src/application/evm/EvmInterfaceService.test.ts (16 tests) 6ms
- ✓ |services| src/application/managed/ManagedNativeVerificationService.platform.test.ts (10 tests) 25ms
- ✓ |services| src/application/desktop/DesktopTaskReaders.test.ts (4 tests) 10ms
+ ✓ |services| src/application/javascript/JavaScriptRuntimeReconciliationService.test.ts (3 tests) 42ms
+ ✓ |services| src/application/javascript/JavaScriptRecoveryService.test.ts (10 tests) 6ms
+ ✓ |services| src/application/SetupPlan.test.ts (5 tests) 1332ms
+   ✓ retains doctor ownership observations when a launcher alias becomes unavailable before discovery 1295ms
+ ✓ |services| src/application/McpClientRegistration.nativeFields.test.ts (8 tests) 38ms
+ ✓ |services| src/application/binaryDiagnostics/PeResourcesService.test.ts (23 tests) 33ms
+ ✓ |services| src/application/investigation/InvestigationEvidence.test.ts (6 tests) 709ms
+   ✓ resolves an authenticated source with a wide repeated-link array 703ms
+ ✓ |services| src/application/evm/EvmInterfaceService.test.ts (16 tests) 7ms
+ ✓ |services| src/application/environment/environmentStateFormAnswer.test.ts (10 tests) 89ms
+ ✓ |services| src/application/managed/ManagedNativeVerificationService.platform.test.ts (10 tests) 31ms
+ ✓ |services| src/application/desktop/DesktopTaskReaders.test.ts (4 tests) 6ms
  ✓ |services| src/application/binaryDiagnostics/KernelBuildConfigService.test.ts (17 tests) 24ms
- ✓ |services| src/application/environment/environmentCompareBody.test.ts (15 tests) 63ms
- ✓ |services| src/application/analysisView/WebSourceLocationViews.test.ts (5 tests) 16ms
- ✓ |services| src/application/ProviderOperationExecution.test.ts (6 tests) 3ms
+ ✓ |services| src/application/analysisView/WebSourceLocationViews.test.ts (5 tests) 20ms
+ ✓ |services| src/application/ProviderOperationExecution.test.ts (6 tests) 4ms
  ✓ |services| src/application/DoctorRegistrationEnvironment.test.ts (12 tests) 12ms
- ✓ |services| src/application/binary/TargetFormatVocabularies.test.ts (41 tests) 16ms
- ✓ |services| src/application/environment/environmentCompareIdsIntegration.test.ts (6 tests) 57ms
- ✓ |services| src/application/environment/environmentStateAssignedCoverage.test.ts (8 tests) 44ms
+ ✓ |services| src/application/binary/TargetFormatVocabularies.test.ts (41 tests) 19ms
+ ✓ |services| src/application/environment/environmentCompareBody.test.ts (15 tests) 66ms
+ ✓ |services| src/application/environment/environmentStateAssignedCoverage.test.ts (8 tests) 45ms
+ ✓ |services| src/application/environment/environmentCompareIdsIntegration.test.ts (6 tests) 66ms
  ✓ |services| src/application/MacHopperPaths.test.ts (3 tests) 5ms
- ✓ |services| src/application/python/PythonPycService.test.ts (7 tests) 5ms
- ✓ |services| src/application/desktop/DesktopSqliteState.test.ts (3 tests) 6ms
- ✓ |services| src/application/investigation/InvestigationEvidence.test.ts (6 tests) 700ms
-   ✓ resolves an authenticated source with a wide repeated-link array 695ms
- ✓ |services| src/application/binaryDiagnostics/KernelModuleService.test.ts (6 tests) 6ms
- ✓ |services| src/application/AppBundleResourceRoot.test.ts (5 tests) 5ms
- ✓ |services| src/application/javascript/JavaScriptArtifactAnalysis.order.test.ts (3 tests) 9ms
- ✓ |services| src/application/apktool/ApktoolResourceAnalysisService.test.ts (11 tests) 3ms
- ✓ |services| src/application/desktop/DesktopBuildOutputRead.test.ts (4 tests) 4ms
+ ✓ |services| src/application/python/PythonPycService.test.ts (7 tests) 6ms
+ ✓ |services| src/application/desktop/DesktopSqliteState.test.ts (3 tests) 4ms
+ ✓ |services| src/application/binaryDiagnostics/KernelModuleService.test.ts (6 tests) 7ms
  ✓ |services| src/application/desktop/DesktopBuildExport.test.ts (5 tests) 7ms
- ✓ |services| src/application/android/AndroidAnalysisService.test.ts (5 tests) 9ms
- ✓ |services| src/application/native/NativeValueTraceStops.test.ts (7 tests) 17ms
- ✓ |services| src/application/desktop/DesktopSigningKeys.test.ts (4 tests) 4ms
+ ✓ |services| src/application/AppBundleResourceRoot.test.ts (5 tests) 7ms
+ ✓ |services| src/application/apktool/ApktoolResourceAnalysisService.test.ts (11 tests) 3ms
+ ✓ |services| src/application/javascript/JavaScriptArtifactAnalysis.order.test.ts (3 tests) 9ms
+ ✓ |services| src/application/android/AndroidAnalysisService.test.ts (5 tests) 11ms
+ ✓ |services| src/application/native/NativeValueTraceStops.test.ts (7 tests) 9ms
+ ✓ |services| src/application/desktop/DesktopBuildOutputRead.test.ts (4 tests) 4ms
+ ✓ |services| src/application/desktop/DesktopSigningKeys.test.ts (4 tests) 7ms
  ✓ |services| src/application/GuidanceAccess.lifecycle.test.ts (4 tests) 3ms
- ✓ |services| src/application/environment/environmentScenario.test.ts (4 tests) 13ms
- ✓ |services| src/application/EnhancedTools.batchCleanup.test.ts (7 tests) 2ms
- ✓ |services| src/application/apkSignature/ApkSignatureService.test.ts (5 tests) 32ms
  ✓ |services| src/application/javascript/JavaScriptArtifactAnalysis.packageMain.test.ts (28 tests) 9ms
+ ✓ |services| src/application/EnhancedTools.batchCleanup.test.ts (7 tests) 2ms
+ ✓ |services| src/application/environment/environmentScenario.test.ts (4 tests) 14ms
+ ✓ |services| src/application/apkSignature/ApkSignatureService.test.ts (5 tests) 28ms
  ✓ |services| src/application/binaryDiagnostics/PeCertificatesService.test.ts (10 tests) 13ms
- ✓ |services| src/application/BinaryOverview.test.ts (7 tests) 4ms
- ✓ |services| src/application/environment/environmentStateCoverage.test.ts (5 tests) 35ms
+ ✓ |services| src/application/BinaryOverview.test.ts (7 tests) 3ms
+ ✓ |services| src/application/environment/environmentStateCoverage.test.ts (5 tests) 34ms
  ✓ |services| src/application/CallRelationshipTraversal.test.ts (6 tests) 4ms
- ✓ |services| src/application/GuidanceAccess.boundaries.test.ts (11 tests) 33ms
- ✓ |services| src/application/desktop/DesktopBuildWitnessRecord.test.ts (3 tests) 8ms
- ✓ |services| src/application/binaryDiagnostics/PeLoadConfigService.test.ts (10 tests) 4ms
+ ✓ |services| src/application/GuidanceAccess.boundaries.test.ts (11 tests) 29ms
+ ✓ |services| src/application/desktop/DesktopBuildWitnessRecord.test.ts (3 tests) 12ms
+ ✓ |services| src/application/binaryDiagnostics/PeLoadConfigService.test.ts (10 tests) 5ms
+ ✓ |services| src/application/native/NativeFunctionMatchingViews.test.ts (2 tests) 179ms
  ✓ |services| src/application/binaryDiagnostics/ElfNotesService.test.ts (6 tests) 4ms
  ✓ |services| src/application/desktop/DesktopCaptureOutput.test.ts (7 tests) 6ms
- ✓ |services| src/application/native/NativeFunctionMatchingViews.test.ts (2 tests) 168ms
  ✓ |services| src/application/binaryDiagnostics/WindowsShortcutService.test.ts (6 tests) 6ms
- ✓ |services| src/application/desktop/DesktopOutputTree.test.ts (4 tests) 4ms
- ✓ |services| src/application/environment/environmentStateVariedCallsAnswer.test.ts (8 tests) 56ms
+ ✓ |services| src/application/desktop/DesktopOutputTree.test.ts (4 tests) 6ms
+ ✓ |services| src/application/environment/environmentStateVariedCallsAnswer.test.ts (8 tests) 69ms
  ✓ |services| src/application/jeb/JebAnalysisService.test.ts (4 tests) 2ms
  ✓ |services| src/application/decompileDirectory/exportResources.test.ts (3 tests) 5ms
  ✓ |services| src/application/Doctor.lifecycle.test.ts (3 tests) 3ms
  ✓ |services| src/application/BrowserEvidence.test.ts (7 tests) 3ms
- ✓ |services| src/application/reverse/ReverseEngineeringPreparation.test.ts (4 tests) 11ms
- ✓ |services| src/application/environment/environmentArgumentMembers.test.ts (6 tests) 47ms
- ✓ |services| src/application/artifacts/ArtifactCallerPaths.test.ts (3 tests) 28ms
- ✓ |services| src/application/environment/environmentStateItemWritesAnswer.test.ts (7 tests) 61ms
- ✓ |services| src/application/UpdateRuntime.release.test.ts (11 tests) 3ms
+ ✓ |services| src/application/reverse/ReverseEngineeringPreparation.test.ts (4 tests) 12ms
+ ✓ |services| src/application/environment/environmentArgumentMembers.test.ts (6 tests) 53ms
+ ✓ |services| src/application/artifacts/ArtifactCallerPaths.test.ts (3 tests) 31ms
+ ✓ |services| src/application/environment/environmentStateItemWritesAnswer.test.ts (7 tests) 88ms
+ ✓ |services| src/application/UpdateRuntime.release.test.ts (11 tests) 5ms
  ✓ |services| src/application/desktop/DesktopCaptureRefusals.test.ts (4 tests) 1ms
  ✓ |services| src/application/investigation/recordEvidenceSources.test.ts (9 tests) 1ms
- ✓ |services| src/application/binary/BinarySession.openEffects.test.ts (4 tests) 12ms
- ✓ |services| src/application/binaryDiagnostics/DevicetreeService.test.ts (3 tests) 4ms
- ✓ |services| src/application/javascript/JavaScriptArtifactAnalysis.packageType.test.ts (2 tests) 7ms
- ✓ |services| src/application/native/NativeDispatchMetadataInspection.fallback.test.ts (3 tests) 2ms
+ ✓ |services| src/application/binary/BinarySession.openEffects.test.ts (4 tests) 14ms
+ ✓ |services| src/application/binaryDiagnostics/DevicetreeService.test.ts (3 tests) 6ms
+ ✓ |services| src/application/binary/LazyAnalysisProvider.test.ts (3 tests) 460ms
+ ✓ |services| src/application/native/NativeDispatchMetadataInspection.fallback.test.ts (3 tests) 4ms
+ ✓ |services| src/application/javascript/JavaScriptArtifactAnalysis.packageType.test.ts (2 tests) 8ms
  ✓ |services| src/application/captures/PacketCaptureService.test.ts (1 test) 4ms
- ✓ |services| src/application/native/NativeReaderEvidence.test.ts (5 tests) 3ms
+ ✓ |services| src/application/native/NativeReaderEvidence.test.ts (5 tests) 4ms
  ✓ |services| src/application/signals/SignalRecordingService.test.ts (1 test) 3ms
- ✓ |services| src/application/LinuxHopper.cleanup.test.ts (2 tests) 6ms
+ ✓ |services| src/application/LinuxHopper.cleanup.test.ts (2 tests) 7ms
  ✓ |services| src/application/desktop/DesktopCheckpointRecorder.test.ts (2 tests) 4ms
- ✓ |services| src/application/desktop/DesktopBuildSecrets.test.ts (4 tests) 7ms
- ✓ |services| src/application/environment/environmentCompareBulk.test.ts (2 tests) 27ms
- ✓ |services| src/application/binary/LazyAnalysisProvider.test.ts (3 tests) 441ms
+ ✓ |services| src/application/desktop/DesktopBuildSecrets.test.ts (4 tests) 8ms
  ✓ |services| src/application/AnalysisOperationFacts.test.ts (7 tests) 1ms
- ✓ |services| src/application/environment/environmentInputSnapshot.test.ts (2 tests) 22ms
+ ✓ |services| src/application/environment/environmentCompareBulk.test.ts (2 tests) 35ms
+ ✓ |services| src/application/environment/environmentInputSnapshot.test.ts (2 tests) 38ms
  ✓ |services| src/application/flutter/FlutterBuildAnalysisService.test.ts (6 tests) 1ms
  ✓ |services| src/application/electron/ElectronFuseService.test.ts (2 tests) 2ms
- ✓ |services| src/application/environment/environmentStateMadeValuesAnswer.test.ts (4 tests) 37ms
- ✓ |services| src/application/javascript/JavaScriptWrappedCallPathCancellation.test.ts (1 test) 66ms
- ✓ |services| src/application/javascript/JavaScriptArtifactAnalysis.revocation.test.ts (2 tests) 6ms
- ✓ |services| src/application/erlang/BeamService.test.ts (2 tests) 3ms
- ✓ |services| src/application/analysisView/AnalysisViewEnvironment.test.ts (2 tests) 18ms
- ✓ |services| src/application/environment/environmentInputCleanup.test.ts (2 tests) 17ms
+ ✓ |services| src/application/environment/environmentStateMadeValuesAnswer.test.ts (4 tests) 62ms
+ ✓ |services| src/application/javascript/JavaScriptWrappedCallPathCancellation.test.ts (1 test) 76ms
+ ✓ |services| src/application/javascript/JavaScriptArtifactAnalysis.revocation.test.ts (2 tests) 4ms
+ ✓ |services| src/application/erlang/BeamService.test.ts (2 tests) 2ms
+ ✓ |services| src/application/analysisView/AnalysisViewEnvironment.test.ts (2 tests) 17ms
+ ✓ |services| src/application/environment/environmentInputCleanup.test.ts (2 tests) 20ms
  ✓ |services| src/application/BrowserScenarioEvidence.test.ts (2 tests) 6ms
- ✓ |services| src/application/v8CodeCache/V8CodeCacheService.test.ts (4 tests) 7ms
+ ✓ |services| src/application/v8CodeCache/V8CodeCacheService.test.ts (4 tests) 4ms
  ✓ |services| src/application/javascript/JavaScriptAnalysisControl.test.ts (2 tests) 9ms
  ✓ |services| src/application/javascript/StaticObservedEndpointComparisonService.test.ts (3 tests) 5ms
- ✓ |services| src/application/desktop/DesktopDconfDiagnostics.test.ts (1 test) 12ms
- ✓ |services| src/application/environment/environmentReplayNumbers.test.ts (10 tests) 84ms
+ ✓ |services| src/application/desktop/DesktopDconfDiagnostics.test.ts (1 test) 13ms
+ ✓ |services| src/application/environment/environmentReplayNumbers.test.ts (10 tests) 90ms
  ✓ |services| src/application/EnhancedTools.inputValidation.test.ts (7 tests) 2ms
- ✓ |services| src/application/desktop/DesktopExportUtf16Values.test.ts (2 tests) 31ms
- ✓ |services| src/application/CallPathTracing.test.ts (5 tests) 1ms
+ ✓ |services| src/application/desktop/DesktopExportUtf16Values.test.ts (2 tests) 35ms
+ ✓ |services| src/application/CallPathTracing.test.ts (5 tests) 2ms
  ✓ |services| src/application/binaryDiagnostics/BinaryDiagnosticsCancellation.test.ts (5 tests) 1ms
  ✓ |services| src/application/LinuxHopperPublisher.test.ts (4 tests) 4ms
  ✓ |services| src/application/EvidenceInputResolver.test.ts (2 tests) 1ms
  ✓ |services| src/application/Uninstall.test.ts (4 tests) 1ms
  ✓ |services| src/application/ClientConfigurationFiles.test.ts (2 tests) 1ms
- ✓ |services| src/application/javascript/JavaScriptArtifactAnalysis.sourceMaps.test.ts (1 test) 1ms
- ✓ |services| src/application/environment/environmentReplayCapacity.test.ts (3 tests) 766ms
-   ✓ keeps observed query order distinct from calls supplying only selected fields 721ms
+ ✓ |services| src/application/javascript/JavaScriptArtifactAnalysis.sourceMaps.test.ts (1 test) 2ms
+ ✓ |services| src/application/environment/environmentReplayCapacity.test.ts (3 tests) 822ms
+   ✓ keeps observed query order distinct from calls supplying only selected fields 770ms
  ✓ |services| src/application/desktop/DesktopBuildBundle.test.ts (1 test) 2ms
  ✓ |services| src/application/XrefsAddressResolution.test.ts (3 tests) 2ms
- ✓ |services| src/application/desktop/DesktopRetainedContent.test.ts (1 test) 5ms
- ✓ |services| src/application/environment/environmentQueryText.test.ts (2 tests) 13ms
+ ✓ |services| src/application/desktop/DesktopRetainedContent.test.ts (1 test) 6ms
+ ✓ |services| src/application/environment/environmentQueryText.test.ts (2 tests) 14ms
  ✓ |services| src/application/EnhancedLiteralTracing.test.ts (1 test) 1ms
  ✓ |services| src/application/EnhancedTools.input.test.ts (1 test) 1ms
  ✓ |services| src/application/EnhancedInputDiagnostics.test.ts (1 test) 1ms
- ✓ |services| src/application/sqlite/SqliteDatabaseCapability.test.ts (8 tests) 2ms
- ✓ |services| src/application/Setup.initialSnapshot.test.ts (1 test) 1ms
+ ✓ |services| src/application/sqlite/SqliteDatabaseCapability.test.ts (8 tests) 1ms
+ ✓ |services| src/application/Setup.initialSnapshot.test.ts (1 test) 2ms
  ✓ |services| src/application/desktop/AgentEnvNoteRecords.test.ts (2 tests) 1ms
  ✓ |services| src/application/desktop/DesktopBuildWitnessBundle.test.ts (1 test) 1003ms
    ✓ preserves earlier judge outcomes when a later check fails cleanup 1002ms
 
-⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
 
- FAIL  |adapters| src/artifacts/NodeSeaArtifactReader.test.ts > rejects post-classification carrier mutation before publishing Node SEA facts: valid replacement
  FAIL  |adapters| src/artifacts/NodeSeaArtifactReader.test.ts > rejects post-classification carrier mutation before publishing Node SEA facts: malformed blob
 AssertionError: expected { kind: 'node-sea', …(16) } to be undefined
 
@@ -1121,7 +1162,7 @@ undefined
     1156|   },
     1157| );
 
-⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
 
  FAIL  |adapters| src/artifacts/ZipArtifactReader.test.ts > ZIP Zstandard method 93 > reports truncated frame as an archive fault
 AssertionError: promise resolved "Buffer[]" instead of rejecting
@@ -1144,7 +1185,7 @@ AssertionError: promise resolved "Buffer[]" instead of rejecting
     202|       name: "ArtifactReaderFailure",
     203|       reason: "format",
 
-⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯
 
  FAIL  |adapters| src/gpu/GpuPayloadCodec.test.ts > retains completed zstd input accounting before trailing container bytes
 AssertionError: promise resolved "{ …(2) }" instead of rejecting
@@ -1190,11 +1231,59 @@ AssertionError: promise resolved "{ …(2) }" instead of rejecting
      44|     await expect(
      45|       decodeGpuPayload(compressed, codec, source.length + 1),
 
-⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/5]⎯
+
+ FAIL  |adapters| src/artifacts/deno/DenoStandaloneArtifactReader.boundaries.test.ts > rejects carrier mutation between physical member reads
+AssertionError: expected { kind: 'completed' } to match object { kind: 'failed', …(1) }
+
+- Expected
++ Received
+
+  {
+-   "cause": {
+-     "reason": "integrity",
+-   },
+-   "kind": "failed",
++   "kind": "completed",
+  }
+
+ ❯ src/artifacts/deno/DenoStandaloneArtifactReader.boundaries.test.ts:62:21
+     60|       (cause: unknown) => ({ kind: "failed" as const, cause }),
+     61|     );
+     62|     expect(outcome).toMatchObject({
+       |                     ^
+     63|       kind: "failed",
+     64|       cause: { reason: "integrity" },
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/5]⎯
+
+ FAIL  |adapters| src/artifacts/pyinstaller/PyInstallerBoundaries.test.ts > binds materialization to the inventoried digest and checks cached carrier freshness
+AssertionError: promise resolved "undefined" instead of rejecting
+
+- Expected:
+Error {
+  "message": "rejected promise",
+}
+
++ Received:
+undefined
+
+ ❯ src/artifacts/pyinstaller/PyInstallerBoundaries.test.ts:280:55
+    278|     await reader.prepareContainer(hash(bytes));
+    279|     await writeFile(path, archive(Buffer.from("other")));
+    280|     await expect(reader.prepareContainer(hash(bytes))).rejects.toMatch…
+       |                                                       ^
+    281|       reason: "integrity",
+    282|     });
+ ❯ withPyInstallerReader tests/fixtures/pyinstallerReader.ts:23:5
+ ❯ src/artifacts/pyinstaller/PyInstallerBoundaries.test.ts:273:3
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯
 
 
- Test Files  3 failed | 764 passed (767)
-      Tests  4 failed | 13691 passed | 12 skipped (13707)
-   Start at  17:15:24
-   Duration  199.70s (tests 65%, import 32%, transform 2%, worker 1%)
+ Test Files  5 failed | 762 passed (767)
+      Tests  5 failed | 13693 passed | 12 skipped (13710)
+   Start at  17:50:51
+   Duration  196.92s (tests 66%, import 32%, transform 2%, worker 1%)
+
 

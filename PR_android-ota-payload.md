@@ -34,8 +34,19 @@ sits in the shared `ARTIFACT_FORMAT_RECOGNIZERS` table so classification
 and `open_binary` share one verdict. Nested zip `payload.bin` members
 classify by magic; zip inventory does not recurse into partitions.
 
+REPLACE_ZSTD decode is bounded to destination extent bytes, never above
+the 32 MiB extract ceiling (`maxOutputLength`). Opening a partition
+refuses when distinct operation blob bytes exceed
+`ANDROID_OTA_MAX_OPERATION_DATA_BYTES` (32 MiB) before those blobs are
+read into memory. Overflow of either budget is the existing capacity
+limit failure.
+
 This is a local, read-only artifact reader. It does not execute a target,
 inject instrumentation, mutate bytes, or recover protected code.
+
+This change shares registry/docs files (`docs/getting-started/cli.md`,
+`docs/index.md`, `src/domain/artifactFormatMetadata.ts`) with a separate
+macOS pkg inspector PR; whichever lands second rebases.
 
 Follow the [contribution scope](https://github.com/morluto/rea/blob/main/CONTRIBUTING.md#contribution-scope).
 Unresolved scope, authority, side effects, or required verification block
@@ -83,16 +94,17 @@ Unchecked items do not establish absence; leave uncertainties visible.
 
 ## Evidence and regression coverage
 
-- Tests added or updated: domain parser tests (13), artifact reader tests
-  (8), reader boundary tests (6, including preparation recovery),
+- Tests added or updated: domain parser tests (15), artifact reader tests
+  (8), reader boundary tests (7, including preparation recovery),
   recognition/format/vocabulary/graph classification tests, compiled CLI
   acceptance (3) and MCP compact boundary (2). Fixtures cover full
   REPLACE+ZERO with dynamic groups and apex_info, delta SOURCE_COPY +
   BROTLI_BSDIFF, unknown operation type, v1 refusal, truncated blob,
   oversize manifest/signature, malformed protobuf, hash match/mismatch,
-  REPLACE_ZSTD, nested zip `payload.bin`, and cancellation during
-  reconstruct.
-- Base reproduction or other evidence: on upstream `main` (`25b1c42ce`)
+  REPLACE_ZSTD, REPLACE_ZSTD output past destination extents, distinct
+  operation blob data past the read budget, nested zip `payload.bin`,
+  and cancellation during reconstruct.
+- Base reproduction or other evidence: on upstream `main` (`94bf2bdec`)
   the same CrAU v2 fixture is `unsupported binary format`. After this
   change it is `android-ota-payload`. A GrapheneOS
   `bluejay-ota_update-2026111300.zip` `payload.bin` prefix (HTTP range
@@ -107,10 +119,12 @@ Unchecked items do not establish absence; leave uncertainties visible.
   header+manifest prefix and synthesized fixtures.
 
 Applicable boundary regressions: truncated/malformed input, capacity
-ceilings, integrity (declared digest mismatch), recognition refusal for
-unsupported version. Lifecycle: preparation recovery and cancellation
-during reconstruct; reconstructed members are not positional file ranges,
-so artifact-reader lifecycle cases that require `byteOffset` do not apply.
+ceilings (manifest, signatures, extract size, REPLACE_ZSTD decode, distinct
+operation-data reads), integrity (declared digest mismatch), recognition
+refusal for unsupported version. Lifecycle: preparation recovery and
+cancellation during reconstruct; reconstructed members are not positional
+file ranges, so artifact-reader lifecycle cases that require `byteOffset`
+do not apply.
 
 For evidence-bearing changes:
 
@@ -120,12 +134,12 @@ For evidence-bearing changes:
 
 ## Validation performed
 
-- `npm run test:local -- src/domain/firmware/androidOtaPayload.test.ts src/artifacts/AndroidOtaPayloadArtifactReader.test.ts src/artifacts/AndroidOtaPayloadArtifactReader.boundaries.test.ts src/domain/artifactFormatRecognition.test.ts src/artifacts/artifactFormats.test.ts src/application/binary/TargetFormatVocabularies.test.ts src/artifacts/inventory/ArtifactGraphConstruction.test.ts` — 7 files, 133 passed.
+- `npm run test:local -- src/domain/firmware/androidOtaPayload.test.ts src/artifacts/AndroidOtaPayloadArtifactReader.test.ts src/artifacts/AndroidOtaPayloadArtifactReader.boundaries.test.ts src/domain/artifactFormatRecognition.test.ts src/artifacts/artifactFormats.test.ts src/application/binary/TargetFormatVocabularies.test.ts src/artifacts/inventory/ArtifactGraphConstruction.test.ts` — 7 files, 136 passed.
 - `npm run test:focused -- tests/acceptance/androidOtaPayloadCli.test.ts tests/boundary/mcp/androidOtaPayloadMcp.test.ts` — 2 files, 5 passed (3 CLI, 2 MCP).
 - `npm run check:fast` — typecheck, lint, and architecture guards passed.
 - `npm run format:check` — passed.
 - `npm run metadata:check` — passed.
-- `npm run test:changed -- --base upstream/main` — 13691 passed, 12 skipped; 4 failed in `NodeSeaArtifactReader.test.ts` (2), `ZipArtifactReader.test.ts` (truncated Zstandard frame), and `GpuPayloadCodec.test.ts`. Those files are outside this change; the Android OTA tests in that run passed.
+- `npm run test:changed -- --base upstream/main` — 13693 passed, 12 skipped. NodeSeaArtifactReader.test.ts carrier-mutation cases also fail on clean upstream main; the Zip (truncated Zstandard frame) and GpuPayloadCodec failures from one environment did not reproduce on rerun. This run also failed `DenoStandaloneArtifactReader.boundaries.test.ts` and `PyInstallerBoundaries.test.ts`; those files are outside this change; the Android OTA tests in that run passed.
 - Real CLI on synthesized full/delta/v1/truncated fixtures and on the GrapheneOS payload prefix listed above.
 
 ## Compatibility, safety, and release
@@ -133,7 +147,7 @@ For evidence-bearing changes:
 - Breaking changes or migration steps: none. New format id only for CrAU v2 bytes; other formats keep their routing.
 - Real Hopper/Ghidra, browser, or OS coverage: not applicable; this path is the portable artifact reader.
 - Package or release metadata impact: none beyond the new format id and docs.
-- Security, privacy, process, or containment review: local read of a caller-selected file; reconstruction bounded at 32 MiB per partition; signatures are not treated as verified.
+- Security, privacy, process, or containment review: local read of a caller-selected file; reconstruction bounded at 32 MiB per partition; REPLACE_ZSTD decode bounded to destination extents (never above that extract ceiling); distinct operation blob reads bounded at 32 MiB; signatures are not treated as verified.
 
 ## Author readiness
 
@@ -156,6 +170,6 @@ Human owner:
 
 ## Demo
 
-![demo](https://raw.githubusercontent.com/mvanhorn/pr-demo-assets/main/osc-bulk-1115/android-ota-payload/preview.gif)
+![demo](https://raw.githubusercontent.com/mvanhorn/rea/demo/android-ota-payload/preview.gif)
 
-<video src="https://raw.githubusercontent.com/mvanhorn/pr-demo-assets/main/osc-bulk-1115/android-ota-payload/out.mp4" controls width="720"></video>
+Full recording (MP4): https://raw.githubusercontent.com/mvanhorn/rea/demo/android-ota-payload/out.mp4
