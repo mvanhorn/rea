@@ -1,0 +1,55 @@
+
+> rea-agents@6.9.0 test:focused
+> node scripts/run-development-tests.mjs focused tests/acceptance/androidOtaPayloadCli.test.ts tests/boundary/mcp/androidOtaPayloadMcp.test.ts
+
+Focused tests: tests/acceptance/androidOtaPayloadCli.test.ts, tests/boundary/mcp/androidOtaPayloadMcp.test.ts
+
+   • turbo 2.11.7
+   • Running artifacts:skills
+   • Remote caching disabled
+
+metadata:check: cache hit, replaying logs 9390ae6c08c2f7cc
+metadata:check: 
+metadata:check: > rea-agents@6.9.0 metadata:check
+metadata:check: > node scripts/generate-package-metadata.mjs --check
+metadata:check: 
+metadata:check: (node:5629) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time
+metadata:check: (Use `node --trace-warnings ...` to show where the warning was created)
+compile: cache hit, replaying logs c1e460ad08df1349
+compile: 
+compile: > rea-agents@6.9.0 compile
+compile: > node scripts/clean-build-output.mjs && node scripts/run-typescript.mjs -p tsconfig.build.json && node scripts/record-catalog-digests.mjs && node scripts/record-mcp-catalog.mjs && node scripts/record-cli-commands.mjs && node scripts/bundle-runtime.mjs
+compile: 
+compile: [33m[INEFFECTIVE_DYNAMIC_IMPORT] [0mdist/dotnet/ManagedStaticProvider.js is dynamically imported by dist/composition/auxiliaryAnalysisProviders.js but also statically imported by dist/composition/binary.js, dynamic import will not move module into another chunk.
+compile: 
+compile: [33m[INEFFECTIVE_DYNAMIC_IMPORT] [0mdist/dotnet/ManagedStaticProvider.js is dynamically imported by dist/composition/auxiliaryAnalysisProviders.js but also statically imported by dist/composition/binary.js, dynamic import will not move module into another chunk.
+compile: 
+artifacts:skills: cache hit, replaying logs 8a248666d3bac3a5
+artifacts:skills: 
+artifacts:skills: > rea-agents@6.9.0 artifacts:skills
+artifacts:skills: > node scripts/generate-skill-metadata.mjs
+artifacts:skills: 
+artifacts:skills: (node:5760) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time
+artifacts:skills: (Use `node --trace-warnings ...` to show where the warning was created)
+
+ Tasks:    3 successful, 3 total
+Cached:    3 cached, 3 total
+  Time:    63ms >>> FULL TURBO
+
+
+ RUN  v5.0.3 /agent/repos/rea
+
+ ✓ |acceptance| tests/acceptance/androidOtaPayloadCli.test.ts (3 tests) 5892ms
+   ✓ inspects and extracts a full Android OTA payload through the compiled CLI 3048ms
+   ✓ refuses a v1 Android OTA payload through the compiled CLI 1296ms
+   ✓ inventories a delta Android OTA payload without extracting it 1534ms
+ ✓ |mcp-boundary| tests/boundary/mcp/androidOtaPayloadMcp.test.ts (2 tests) 5077ms
+   ✓ retains Android OTA payload facts through compiled MCP (compact) 2913ms
+   ✓ refuses a v1 Android OTA payload through compiled MCP open_binary 2164ms
+
+ Test Files  2 passed (2)
+      Tests  5 passed (5)
+   Start at  17:24:19
+   Duration  9.60s (tests 70%, transform 22%, import 7%)
+
+TEST_FOCUSED_EXIT=0

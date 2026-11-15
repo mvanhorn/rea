@@ -1,0 +1,2759 @@
+REA Android OTA payload.bin inspector — captured command output
+Date: 2026-11-15T17:22:39Z
+Host Node: v22.23.4
+After CLI: /agent/repos/rea/scripts/rea.mjs (feat/android-ota-payload working tree)
+Before CLI: /tmp/rea-upstream-main/scripts/rea.mjs (upstream/main 25b1c42ce)
+
+Fixture SHA-256:
+54b00a8f320d00ba308c50a0d13fea8c32f7a4acfe613f01e44784ba82275464  bad-magic.bin
+cc09ac4c2d56bbe572b0277df7cc0d5e133802b9b47b17435913aaeadbeb20e4  delta-payload.bin
+f66582dc92a94063446b751f4411210b983f08d1c27b81699e48d29b501f6f60  full-payload.bin
+549511763adf903ed426d46621c2ac1ee88dda502567d26b9db3521ca2db190f  grapheneos-bluejay-payload-prefix.bin
+f756ebf96f6b01d27d3d00b68999f0458b171452782305bd0384068ef02002eb  truncated-payload.bin
+0f9c9db4b19f0766945a66dd1e69943e63da756936160593a01e0fec46040c56  unknown-op-payload.bin
+44dca0c3c40ecc7e754752b31d0937c447df9fd4ac123255209eb6135b80dee6  v1-payload.bin
+
+################################################################################
+# BEFORE: upstream main inspects a CrAU v2 fixture (human)
+################################################################################
+$ /tmp/rea-upstream-main/scripts/rea.mjs inspect-artifact /tmp/android-ota-demo/fixtures/full-payload.bin
+
+exit: 1
+----- stdout -----
+error: Analysis failed
+code: target_unavailable
+category: unsupported_target
+message: "Cannot open artifact: unsupported binary format."
+retryable: false
+remediation:
+  action: "Review the reported file-format reason and select a supported, well-formed target."
+details:
+  path: /tmp/android-ota-demo/fixtures/full-payload.bin
+  reason: unsupported binary format
+  constraint: file_format_rejected
+
+----- stderr -----
+(empty)
+
+
+################################################################################
+# BEFORE: upstream main inspects a CrAU v2 fixture (--json)
+################################################################################
+$ /tmp/rea-upstream-main/scripts/rea.mjs inspect-artifact /tmp/android-ota-demo/fixtures/full-payload.bin --json
+
+exit: 1
+----- stdout -----
+{"error":"Analysis failed","code":"target_unavailable","category":"unsupported_target","message":"Cannot open artifact: unsupported binary format.","retryable":false,"remediation":{"action":"Review the reported file-format reason and select a supported, well-formed target."},"details":{"path":"/tmp/android-ota-demo/fixtures/full-payload.bin","reason":"unsupported binary format","constraint":"file_format_rejected"}}
+
+----- stderr -----
+(empty)
+
+
+################################################################################
+# AFTER: inspect full fixture (human)
+################################################################################
+$ /agent/repos/rea/scripts/rea.mjs inspect-artifact /tmp/android-ota-demo/fixtures/full-payload.bin
+
+exit: 0
+----- stdout -----
+evidence_id: ev_2cfe0c36f7b4efe3c7f4d96e9970cbf1b620d0ab700233deb0275b5bf4f50780
+subject:
+  name: full-payload.bin
+  digest:
+    sha256: f66582dc92a94063446b751f4411210b983f08d1c27b81699e48d29b501f6f60
+  local_path: /tmp/android-ota-demo/fixtures/full-payload.bin
+  format: android-ota-payload
+  architecture: null
+provider:
+  id: rea-artifact-graph
+  name: REA safe artifact graph provider
+  version: "1"
+analysis_profile: null
+predicate_type: rea.analysis
+operation: inspect_artifact
+parameters:
+  integrity_policy: fail
+  input_path: /tmp/android-ota-demo/fixtures/full-payload.bin
+raw_result: null
+normalized_result:
+  inspection_id: ai_ea226c02ceebcac8f3d53c38bd740cb25d627e765fe89660aa72aff6fc4053bb
+  subject:
+    manifest_id: agm_bb5414c7b4d220294870314c192090684f82e1cd1b452826324c4ecfdc38dc15
+    root_artifact_id: art_45aff1411be0d301a06259beb4584d13d288b395714c66f19a8f6376ea9fd3f7
+    root_sha256: f66582dc92a94063446b751f4411210b983f08d1c27b81699e48d29b501f6f60
+    root_format: android-ota-payload
+  substeps[1]:
+    - substep_id: ais_2a21323a16e74106f974bf448421592a97bba2fdb0182c979698c150021a5064
+      operation: inventory_artifact
+      status: completed
+      evidence_id: ev_bae119d5295f2bd123631d15b3b987a03352cfae73c772f3ee5c75af0631a0d6
+      evidence:
+        evidence_id: ev_bae119d5295f2bd123631d15b3b987a03352cfae73c772f3ee5c75af0631a0d6
+        subject:
+          name: full-payload.bin
+          digest:
+            sha256: f66582dc92a94063446b751f4411210b983f08d1c27b81699e48d29b501f6f60
+          local_path: /tmp/android-ota-demo/fixtures/full-payload.bin
+          format: android-ota-payload
+          architecture: null
+        provider:
+          id: rea-artifact-graph
+          name: REA safe artifact graph provider
+          version: "1"
+        analysis_profile: null
+        predicate_type: rea.analysis
+        operation: inventory_artifact
+        parameters:
+          integrity_policy: fail
+        raw_result: null
+        normalized_result:
+          manifest:
+            manifest_id: agm_bb5414c7b4d220294870314c192090684f82e1cd1b452826324c4ecfdc38dc15
+            root_artifact_id: art_45aff1411be0d301a06259beb4584d13d288b395714c66f19a8f6376ea9fd3f7
+            root_sha256: f66582dc92a94063446b751f4411210b983f08d1c27b81699e48d29b501f6f60
+            root_format: android-ota-payload
+            graph_sha256: 87c1584169c4c1df2637cae1b842c57eb98c5dea5f629d2fa8ce97caeff45b93
+            node_count: 3
+            occurrence_count: 3
+            edge_count: 2
+          nodes[3]:
+            - artifact_id: art_08648466ec06bf0bd3ce144d529cf8f8738b40202c8e1f5da6f0570935e9e86d
+              format: file
+              sha256: 9f1dcbc35c350d6027f98be0f5c8b43b42ca52b7604459c0c42be3aa88913d47
+              size: 8192
+              media_type: null
+              architecture: null
+              content_state: embedded
+              limitations: []
+            - artifact_id: art_45aff1411be0d301a06259beb4584d13d288b395714c66f19a8f6376ea9fd3f7
+              format: android-ota-payload
+              sha256: f66582dc92a94063446b751f4411210b983f08d1c27b81699e48d29b501f6f60
+              size: 351
+              media_type: null
+              architecture: null
+              content_state: materialized
+              limitations: []
+            - artifact_id: art_62fda992b486c8af388536131faa3d39c6316690f9ddaf200050efbde71621e7
+              format: file
+              sha256: 8449470e916f324bca7b10f4ab4a1233a7a7e07b51908222e532992291124c93
+              size: 4096
+              media_type: null
+              architecture: null
+              content_state: embedded
+              limitations: []
+          occurrences[3]:
+            - occurrence_id: occ_2c3adea5e36305321fc7b01e3a079af80fcb79b0bdb5071ecddac020ae5c4b36
+              artifact_id: art_45aff1411be0d301a06259beb4584d13d288b395714c66f19a8f6376ea9fd3f7
+              parent_occurrence_id: null
+              relationship_coverage: complete
+              logical_path: .
+              entry_kind: file
+              artifact_kind: container
+              artifact_format: android-ota-payload
+              declared_size: 351
+              compressed_size: null
+              executable: false
+              encrypted: false
+              hash_status: verified
+              source_location: null
+              format_metadata:
+                kind: android-ota-payload
+                magic: CrAU
+                major_version: 2
+                manifest_size: 298
+                metadata_signature_size: 7
+                manifest_offset: 24
+                blob_offset: 329
+                block_size: 4096
+                minor_version: 0
+                payload_kind: full
+                max_timestamp: 1700000000
+                partial_update: false
+                security_patch_level: 2024-01-05
+                signatures_offset: 7
+                signatures_size: 15
+                metadata_signature_blob_size: 7
+                metadata_signature_count: 1
+                payload_signature_blob_size: 15
+                payload_signature_count: 1
+                signatures_verified: false
+                snapshot_enabled: true
+                vabc_enabled: true
+                vabc_compression_param: gz
+                blob_truncated: false
+                partitions[2]:
+                  - index: 0
+                    name: boot
+                    path: boot.img
+                    new_partition_info:
+                      size: 4096
+                      hash_hex: 8449470e916f324bca7b10f4ab4a1233a7a7e07b51908222e532992291124c93
+                    old_partition_info: null
+                    version: boot-1
+                    run_postinstall: false
+                    postinstall_path: null
+                    filesystem_type: raw
+                    operation_counts[1]{type,type_code,count}:
+                      REPLACE,0,1
+                    total_data_length: 7
+                    merge_operation_count: 0
+                    estimate_cow_size: null
+                    extractable: true
+                  - index: 1
+                    name: system
+                    path: system.img
+                    new_partition_info:
+                      size: 8192
+                      hash_hex: 9f1dcbc35c350d6027f98be0f5c8b43b42ca52b7604459c0c42be3aa88913d47
+                    old_partition_info: null
+                    version: system-1
+                    run_postinstall: true
+                    postinstall_path: system/bin/otapreopt_script
+                    filesystem_type: ext4
+                    operation_counts[1]{type,type_code,count}:
+                      ZERO,6,1
+                    total_data_length: 0
+                    merge_operation_count: 2
+                    estimate_cow_size: 4096
+                    extractable: true
+                dynamic_partition_groups[1]:
+                  - name: super
+                    size: 67108864
+                    partition_names[1]: system
+                apex_info[1]{package_name,version,is_compressed,decompressed_size}:
+                  com.android.runtime,340090000,true,12000000
+              limitations: []
+            - occurrence_id: occ_2fc866e7ab59f7893ce60aebecdf4c1db6c1c0d27ad6d82aade11f6b94a8c555
+              artifact_id: art_62fda992b486c8af388536131faa3d39c6316690f9ddaf200050efbde71621e7
+              parent_occurrence_id: occ_2c3adea5e36305321fc7b01e3a079af80fcb79b0bdb5071ecddac020ae5c4b36
+              relationship_coverage: complete
+              logical_path: boot.img
+              entry_kind: file
+              artifact_kind: resource
+              artifact_format: file
+              declared_size: 4096
+              compressed_size: 7
+              executable: false
+              encrypted: false
+              hash_status: verified
+              source_location: null
+              source_path: boot.img
+              declared_integrity:
+                algorithm: sha256
+                digest: 8449470e916f324bca7b10f4ab4a1233a7a7e07b51908222e532992291124c93
+              format_metadata:
+                kind: android-ota-partition
+                index: 0
+                name: boot
+                extractable: true
+                new_partition_info:
+                  size: 4096
+                  hash_hex: 8449470e916f324bca7b10f4ab4a1233a7a7e07b51908222e532992291124c93
+                old_partition_info: null
+                version: boot-1
+                run_postinstall: false
+                postinstall_path: null
+                filesystem_type: raw
+                operation_counts[1]{type,type_code,count}:
+                  REPLACE,0,1
+                total_data_length: 7
+                merge_operation_count: 0
+                estimate_cow_size: null
+              limitations: []
+            - occurrence_id: occ_515d2c6de5dd44ff6734083de6e56c1a6473d370b59660f17749a3a192f8f883
+              artifact_id: art_08648466ec06bf0bd3ce144d529cf8f8738b40202c8e1f5da6f0570935e9e86d
+              parent_occurrence_id: occ_2c3adea5e36305321fc7b01e3a079af80fcb79b0bdb5071ecddac020ae5c4b36
+              relationship_coverage: complete
+              logical_path: system.img
+              entry_kind: file
+              artifact_kind: resource
+              artifact_format: file
+              declared_size: 8192
+              compressed_size: 0
+              executable: false
+              encrypted: false
+              hash_status: verified
+              source_location: null
+              source_path: system.img
+              declared_integrity:
+                algorithm: sha256
+                digest: 9f1dcbc35c350d6027f98be0f5c8b43b42ca52b7604459c0c42be3aa88913d47
+              format_metadata:
+                kind: android-ota-partition
+                index: 1
+                name: system
+                extractable: true
+                new_partition_info:
+                  size: 8192
+                  hash_hex: 9f1dcbc35c350d6027f98be0f5c8b43b42ca52b7604459c0c42be3aa88913d47
+                old_partition_info: null
+                version: system-1
+                run_postinstall: true
+                postinstall_path: system/bin/otapreopt_script
+                filesystem_type: ext4
+                operation_counts[1]{type,type_code,count}:
+                  ZERO,6,1
+                total_data_length: 0
+                merge_operation_count: 2
+                estimate_cow_size: 4096
+              limitations: []
+          edges[2]{edge_id,ordinal,parent_artifact_id,relation,occurrence_id,producer}:
+            edge_531e8ff3c773580940afdb96f9107328015bfe48af962ee387c8209132d7909d,0,art_45aff1411be0d301a06259beb4584d13d288b395714c66f19a8f6376ea9fd3f7,contains,occ_515d2c6de5dd44ff6734083de6e56c1a6473d370b59660f17749a3a192f8f883,null
+            edge_e812788c465c3ba9366cbad0dd3aab75440e679e51731f217bb273f804bab061,1,art_45aff1411be0d301a06259beb4584d13d288b395714c66f19a8f6376ea9fd3f7,contains,occ_2fc866e7ab59f7893ce60aebecdf4c1db6c1c0d27ad6d82aade11f6b94a8c555,null
+          provenance: []
+          integrity_contradictions: []
+          coverage:
+            scope: container-entries
+            status: complete
+          limitations[3]: "Android OTA payload inventory reads the CrAU header and DeltaArchiveManifest. Signatures are not verified, delta operations are not applied, and partition images are reconstructed only from REPLACE, ZERO, and REPLACE_ZSTD operations.","Android OTA payload inventory reads the CrAU header and DeltaArchiveManifest. Signatures are not verified, delta operations are not applied, and partition images are reconstructed only from REPLACE, ZERO, and REPLACE_ZSTD operations.",Metadata and payload signatures were parsed for size and signature count only; they were not verified.
+        confidence: observed
+        authority: shipped-artifact
+        environment: null
+        limitations[3]: "Android OTA payload inventory reads the CrAU header and DeltaArchiveManifest. Signatures are not verified, delta operations are not applied, and partition images are reconstructed only from REPLACE, ZERO, and REPLACE_ZSTD operations.","Android OTA payload inventory reads the CrAU header and DeltaArchiveManifest. Signatures are not verified, delta operations are not applied, and partition images are reconstructed only from REPLACE, ZERO, and REPLACE_ZSTD operations.",Metadata and payload signatures were parsed for size and signature count only; they were not verified.
+        relationship_coverage: null
+        locations: []
+        evidence_links: []
+  observations[1]:
+    - observation_id: aio_8b23360ace13634ca268755b5770d5b1a080e7e207c92fa9187720277e49ab85
+      kind: root-manifest
+      subject: art_45aff1411be0d301a06259beb4584d13d288b395714c66f19a8f6376ea9fd3f7
+      value:
+        manifest_id: agm_bb5414c7b4d220294870314c192090684f82e1cd1b452826324c4ecfdc38dc15
+        root_artifact_id: art_45aff1411be0d301a06259beb4584d13d288b395714c66f19a8f6376ea9fd3f7
+        root_sha256: f66582dc92a94063446b751f4411210b983f08d1c27b81699e48d29b501f6f60
+        root_format: android-ota-payload
+        graph_sha256: 87c1584169c4c1df2637cae1b842c57eb98c5dea5f629d2fa8ce97caeff45b93
+        node_count: 3
+        occurrence_count: 3
+        edge_count: 2
+      evidence_id: ev_bae119d5295f2bd123631d15b3b987a03352cfae73c772f3ee5c75af0631a0d6
+  hypotheses: []
+  contradictions: []
+  unexplored_branches: []
+  next_probes: []
+  coverage:
+    status: complete-within-substeps
+    substeps_completed: 1
+    observations_retained: 1
+    observations_omitted: 0
+    hypotheses_retained: 0
+    hypotheses_omitted: 0
+    unexplored_branches_retained: 0
+    unexplored_branches_omitted: 0
+    next_probes_retained: 0
+    next_probes_omitted: 0
+  evidence_links[1]: ev_bae119d5295f2bd123631d15b3b987a03352cfae73c772f3ee5c75af0631a0d6
+  limitations[3]: "Android OTA payload inventory reads the CrAU header and DeltaArchiveManifest. Signatures are not verified, delta operations are not applied, and partition images are reconstructed only from REPLACE, ZERO, and REPLACE_ZSTD operations.",Inspection derives bounded static hypotheses and next probes; it does not execute the artifact or claim format-specific semantics.,Metadata and payload signatures were parsed for size and signature count only; they were not verified.
+confidence: observed
+authority: shipped-artifact
+environment: null
+limitations[3]: "Android OTA payload inventory reads the CrAU header and DeltaArchiveManifest. Signatures are not verified, delta operations are not applied, and partition images are reconstructed only from REPLACE, ZERO, and REPLACE_ZSTD operations.",Inspection derives bounded static hypotheses and next probes; it does not execute the artifact or claim format-specific semantics.,Metadata and payload signatures were parsed for size and signature count only; they were not verified.
+relationship_coverage: null
+locations: []
+evidence_links[1]: ev_bae119d5295f2bd123631d15b3b987a03352cfae73c772f3ee5c75af0631a0d6
+caller_input_path: /tmp/android-ota-demo/fixtures/full-payload.bin
+
+----- stderr -----
+(empty)
+
+
+################################################################################
+# AFTER: inspect full fixture (--json)
+################################################################################
+$ /agent/repos/rea/scripts/rea.mjs inspect-artifact /tmp/android-ota-demo/fixtures/full-payload.bin --json
+
+exit: 0
+----- stdout -----
+{"evidence_id":"ev_2cfe0c36f7b4efe3c7f4d96e9970cbf1b620d0ab700233deb0275b5bf4f50780","subject":{"name":"full-payload.bin","digest":{"sha256":"f66582dc92a94063446b751f4411210b983f08d1c27b81699e48d29b501f6f60"},"local_path":"/tmp/android-ota-demo/fixtures/full-payload.bin","format":"android-ota-payload","architecture":null},"provider":{"id":"rea-artifact-graph","name":"REA safe artifact graph provider","version":"1"},"analysis_profile":null,"predicate_type":"rea.analysis","operation":"inspect_artifact","parameters":{"integrity_policy":"fail","input_path":"/tmp/android-ota-demo/fixtures/full-payload.bin"},"raw_result":null,"normalized_result":{"inspection_id":"ai_ea226c02ceebcac8f3d53c38bd740cb25d627e765fe89660aa72aff6fc4053bb","subject":{"manifest_id":"agm_bb5414c7b4d220294870314c192090684f82e1cd1b452826324c4ecfdc38dc15","root_artifact_id":"art_45aff1411be0d301a06259beb4584d13d288b395714c66f19a8f6376ea9fd3f7","root_sha256":"f66582dc92a94063446b751f4411210b983f08d1c27b81699e48d29b501f6f60","root_format":"android-ota-payload"},"substeps":[{"substep_id":"ais_2a21323a16e74106f974bf448421592a97bba2fdb0182c979698c150021a5064","operation":"inventory_artifact","status":"completed","evidence_id":"ev_bae119d5295f2bd123631d15b3b987a03352cfae73c772f3ee5c75af0631a0d6","evidence":{"evidence_id":"ev_bae119d5295f2bd123631d15b3b987a03352cfae73c772f3ee5c75af0631a0d6","subject":{"name":"full-payload.bin","digest":{"sha256":"f66582dc92a94063446b751f4411210b983f08d1c27b81699e48d29b501f6f60"},"local_path":"/tmp/android-ota-demo/fixtures/full-payload.bin","format":"android-ota-payload","architecture":null},"provider":{"id":"rea-artifact-graph","name":"REA safe artifact graph provider","version":"1"},"analysis_profile":null,"predicate_type":"rea.analysis","operation":"inventory_artifact","parameters":{"integrity_policy":"fail"},"raw_result":null,"normalized_result":{"manifest":{"manifest_id":"agm_bb5414c7b4d220294870314c192090684f82e1cd1b452826324c4ecfdc38dc15","root_artifact_id":"art_45aff1411be0d301a06259beb4584d13d288b395714c66f19a8f6376ea9fd3f7","root_sha256":"f66582dc92a94063446b751f4411210b983f08d1c27b81699e48d29b501f6f60","root_format":"android-ota-payload","graph_sha256":"87c1584169c4c1df2637cae1b842c57eb98c5dea5f629d2fa8ce97caeff45b93","node_count":3,"occurrence_count":3,"edge_count":2},"nodes":[{"artifact_id":"art_08648466ec06bf0bd3ce144d529cf8f8738b40202c8e1f5da6f0570935e9e86d","format":"file","sha256":"9f1dcbc35c350d6027f98be0f5c8b43b42ca52b7604459c0c42be3aa88913d47","size":8192,"media_type":null,"architecture":null,"content_state":"embedded","limitations":[]},{"artifact_id":"art_45aff1411be0d301a06259beb4584d13d288b395714c66f19a8f6376ea9fd3f7","format":"android-ota-payload","sha256":"f66582dc92a94063446b751f4411210b983f08d1c27b81699e48d29b501f6f60","size":351,"media_type":null,"architecture":null,"content_state":"materialized","limitations":[]},{"artifact_id":"art_62fda992b486c8af388536131faa3d39c6316690f9ddaf200050efbde71621e7","format":"file","sha256":"8449470e916f324bca7b10f4ab4a1233a7a7e07b51908222e532992291124c93","size":4096,"media_type":null,"architecture":null,"content_state":"embedded","limitations":[]}],"occurrences":[{"occurrence_id":"occ_2c3adea5e36305321fc7b01e3a079af80fcb79b0bdb5071ecddac020ae5c4b36","artifact_id":"art_45aff1411be0d301a06259beb4584d13d288b395714c66f19a8f6376ea9fd3f7","parent_occurrence_id":null,"relationship_coverage":"complete","logical_path":".","entry_kind":"file","artifact_kind":"container","artifact_format":"android-ota-payload","declared_size":351,"compressed_size":null,"executable":false,"encrypted":false,"hash_status":"verified","source_location":null,"format_metadata":{"kind":"android-ota-payload","magic":"CrAU","major_version":2,"manifest_size":298,"metadata_signature_size":7,"manifest_offset":24,"blob_offset":329,"block_size":4096,"minor_version":0,"payload_kind":"full","max_timestamp":1700000000,"partial_update":false,"security_patch_level":"2024-01-05","signatures_offset":7,"signatures_size":15,"metadata_signature_blob_size":7,"metadata_signature_count":1,"payload_signature_blob_size":15,"payload_signature_count":1,"signatures_verified":false,"snapshot_enabled":true,"vabc_enabled":true,"vabc_compression_param":"gz","blob_truncated":false,"partitions":[{"index":0,"name":"boot","path":"boot.img","new_partition_info":{"size":4096,"hash_hex":"8449470e916f324bca7b10f4ab4a1233a7a7e07b51908222e532992291124c93"},"old_partition_info":null,"version":"boot-1","run_postinstall":false,"postinstall_path":null,"filesystem_type":"raw","operation_counts":[{"type":"REPLACE","type_code":0,"count":1}],"total_data_length":7,"merge_operation_count":0,"estimate_cow_size":null,"extractable":true},{"index":1,"name":"system","path":"system.img","new_partition_info":{"size":8192,"hash_hex":"9f1dcbc35c350d6027f98be0f5c8b43b42ca52b7604459c0c42be3aa88913d47"},"old_partition_info":null,"version":"system-1","run_postinstall":true,"postinstall_path":"system/bin/otapreopt_script","filesystem_type":"ext4","operation_counts":[{"type":"ZERO","type_code":6,"count":1}],"total_data_length":0,"merge_operation_count":2,"estimate_cow_size":4096,"extractable":true}],"dynamic_partition_groups":[{"name":"super","size":67108864,"partition_names":["system"]}],"apex_info":[{"package_name":"com.android.runtime","version":340090000,"is_compressed":true,"decompressed_size":12000000}]},"limitations":[]},{"occurrence_id":"occ_2fc866e7ab59f7893ce60aebecdf4c1db6c1c0d27ad6d82aade11f6b94a8c555","artifact_id":"art_62fda992b486c8af388536131faa3d39c6316690f9ddaf200050efbde71621e7","parent_occurrence_id":"occ_2c3adea5e36305321fc7b01e3a079af80fcb79b0bdb5071ecddac020ae5c4b36","relationship_coverage":"complete","logical_path":"boot.img","entry_kind":"file","artifact_kind":"resource","artifact_format":"file","declared_size":4096,"compressed_size":7,"executable":false,"encrypted":false,"hash_status":"verified","source_location":null,"source_path":"boot.img","declared_integrity":{"algorithm":"sha256","digest":"8449470e916f324bca7b10f4ab4a1233a7a7e07b51908222e532992291124c93"},"format_metadata":{"kind":"android-ota-partition","index":0,"name":"boot","extractable":true,"new_partition_info":{"size":4096,"hash_hex":"8449470e916f324bca7b10f4ab4a1233a7a7e07b51908222e532992291124c93"},"old_partition_info":null,"version":"boot-1","run_postinstall":false,"postinstall_path":null,"filesystem_type":"raw","operation_counts":[{"type":"REPLACE","type_code":0,"count":1}],"total_data_length":7,"merge_operation_count":0,"estimate_cow_size":null},"limitations":[]},{"occurrence_id":"occ_515d2c6de5dd44ff6734083de6e56c1a6473d370b59660f17749a3a192f8f883","artifact_id":"art_08648466ec06bf0bd3ce144d529cf8f8738b40202c8e1f5da6f0570935e9e86d","parent_occurrence_id":"occ_2c3adea5e36305321fc7b01e3a079af80fcb79b0bdb5071ecddac020ae5c4b36","relationship_coverage":"complete","logical_path":"system.img","entry_kind":"file","artifact_kind":"resource","artifact_format":"file","declared_size":8192,"compressed_size":0,"executable":false,"encrypted":false,"hash_status":"verified","source_location":null,"source_path":"system.img","declared_integrity":{"algorithm":"sha256","digest":"9f1dcbc35c350d6027f98be0f5c8b43b42ca52b7604459c0c42be3aa88913d47"},"format_metadata":{"kind":"android-ota-partition","index":1,"name":"system","extractable":true,"new_partition_info":{"size":8192,"hash_hex":"9f1dcbc35c350d6027f98be0f5c8b43b42ca52b7604459c0c42be3aa88913d47"},"old_partition_info":null,"version":"system-1","run_postinstall":true,"postinstall_path":"system/bin/otapreopt_script","filesystem_type":"ext4","operation_counts":[{"type":"ZERO","type_code":6,"count":1}],"total_data_length":0,"merge_operation_count":2,"estimate_cow_size":4096},"limitations":[]}],"edges":[{"edge_id":"edge_531e8ff3c773580940afdb96f9107328015bfe48af962ee387c8209132d7909d","ordinal":0,"parent_artifact_id":"art_45aff1411be0d301a06259beb4584d13d288b395714c66f19a8f6376ea9fd3f7","relation":"contains","occurrence_id":"occ_515d2c6de5dd44ff6734083de6e56c1a6473d370b59660f17749a3a192f8f883","producer":null},{"edge_id":"edge_e812788c465c3ba9366cbad0dd3aab75440e679e51731f217bb273f804bab061","ordinal":1,"parent_artifact_id":"art_45aff1411be0d301a06259beb4584d13d288b395714c66f19a8f6376ea9fd3f7","relation":"contains","occurrence_id":"occ_2fc866e7ab59f7893ce60aebecdf4c1db6c1c0d27ad6d82aade11f6b94a8c555","producer":null}],"provenance":[],"integrity_contradictions":[],"coverage":{"scope":"container-entries","status":"complete"},"limitations":["Android OTA payload inventory reads the CrAU header and DeltaArchiveManifest. Signatures are not verified, delta operations are not applied, and partition images are reconstructed only from REPLACE, ZERO, and REPLACE_ZSTD operations.","Android OTA payload inventory reads the CrAU header and DeltaArchiveManifest. Signatures are not verified, delta operations are not applied, and partition images are reconstructed only from REPLACE, ZERO, and REPLACE_ZSTD operations.","Metadata and payload signatures were parsed for size and signature count only; they were not verified."]},"confidence":"observed","authority":"shipped-artifact","environment":null,"limitations":["Android OTA payload inventory reads the CrAU header and DeltaArchiveManifest. Signatures are not verified, delta operations are not applied, and partition images are reconstructed only from REPLACE, ZERO, and REPLACE_ZSTD operations.","Android OTA payload inventory reads the CrAU header and DeltaArchiveManifest. Signatures are not verified, delta operations are not applied, and partition images are reconstructed only from REPLACE, ZERO, and REPLACE_ZSTD operations.","Metadata and payload signatures were parsed for size and signature count only; they were not verified."],"relationship_coverage":null,"locations":[],"evidence_links":[]}}],"observations":[{"observation_id":"aio_8b23360ace13634ca268755b5770d5b1a080e7e207c92fa9187720277e49ab85","kind":"root-manifest","subject":"art_45aff1411be0d301a06259beb4584d13d288b395714c66f19a8f6376ea9fd3f7","value":{"manifest_id":"agm_bb5414c7b4d220294870314c192090684f82e1cd1b452826324c4ecfdc38dc15","root_artifact_id":"art_45aff1411be0d301a06259beb4584d13d288b395714c66f19a8f6376ea9fd3f7","root_sha256":"f66582dc92a94063446b751f4411210b983f08d1c27b81699e48d29b501f6f60","root_format":"android-ota-payload","graph_sha256":"87c1584169c4c1df2637cae1b842c57eb98c5dea5f629d2fa8ce97caeff45b93","node_count":3,"occurrence_count":3,"edge_count":2},"evidence_id":"ev_bae119d5295f2bd123631d15b3b987a03352cfae73c772f3ee5c75af0631a0d6"}],"hypotheses":[],"contradictions":[],"unexplored_branches":[],"next_probes":[],"coverage":{"status":"complete-within-substeps","substeps_completed":1,"observations_retained":1,"observations_omitted":0,"hypotheses_retained":0,"hypotheses_omitted":0,"unexplored_branches_retained":0,"unexplored_branches_omitted":0,"next_probes_retained":0,"next_probes_omitted":0},"evidence_links":["ev_bae119d5295f2bd123631d15b3b987a03352cfae73c772f3ee5c75af0631a0d6"],"limitations":["Android OTA payload inventory reads the CrAU header and DeltaArchiveManifest. Signatures are not verified, delta operations are not applied, and partition images are reconstructed only from REPLACE, ZERO, and REPLACE_ZSTD operations.","Inspection derives bounded static hypotheses and next probes; it does not execute the artifact or claim format-specific semantics.","Metadata and payload signatures were parsed for size and signature count only; they were not verified."]},"confidence":"observed","authority":"shipped-artifact","environment":null,"limitations":["Android OTA payload inventory reads the CrAU header and DeltaArchiveManifest. Signatures are not verified, delta operations are not applied, and partition images are reconstructed only from REPLACE, ZERO, and REPLACE_ZSTD operations.","Inspection derives bounded static hypotheses and next probes; it does not execute the artifact or claim format-specific semantics.","Metadata and payload signatures were parsed for size and signature count only; they were not verified."],"relationship_coverage":null,"locations":[],"evidence_links":["ev_bae119d5295f2bd123631d15b3b987a03352cfae73c772f3ee5c75af0631a0d6"],"caller_input_path":"/tmp/android-ota-demo/fixtures/full-payload.bin"}
+
+----- stderr -----
+(empty)
+
+
+################################################################################
+# AFTER: pretty-print the same JSON
+################################################################################
+$ /agent/repos/rea/scripts/rea.mjs inspect-artifact /tmp/android-ota-demo/fixtures/full-payload.bin --json | python3 -m json.tool
+
+exit: 0
+----- stdout -----
+{
+    "evidence_id": "ev_2cfe0c36f7b4efe3c7f4d96e9970cbf1b620d0ab700233deb0275b5bf4f50780",
+    "subject": {
+        "name": "full-payload.bin",
+        "digest": {
+            "sha256": "f66582dc92a94063446b751f4411210b983f08d1c27b81699e48d29b501f6f60"
+        },
+        "local_path": "/tmp/android-ota-demo/fixtures/full-payload.bin",
+        "format": "android-ota-payload",
+        "architecture": null
+    },
+    "provider": {
+        "id": "rea-artifact-graph",
+        "name": "REA safe artifact graph provider",
+        "version": "1"
+    },
+    "analysis_profile": null,
+    "predicate_type": "rea.analysis",
+    "operation": "inspect_artifact",
+    "parameters": {
+        "integrity_policy": "fail",
+        "input_path": "/tmp/android-ota-demo/fixtures/full-payload.bin"
+    },
+    "raw_result": null,
+    "normalized_result": {
+        "inspection_id": "ai_ea226c02ceebcac8f3d53c38bd740cb25d627e765fe89660aa72aff6fc4053bb",
+        "subject": {
+            "manifest_id": "agm_bb5414c7b4d220294870314c192090684f82e1cd1b452826324c4ecfdc38dc15",
+            "root_artifact_id": "art_45aff1411be0d301a06259beb4584d13d288b395714c66f19a8f6376ea9fd3f7",
+            "root_sha256": "f66582dc92a94063446b751f4411210b983f08d1c27b81699e48d29b501f6f60",
+            "root_format": "android-ota-payload"
+        },
+        "substeps": [
+            {
+                "substep_id": "ais_2a21323a16e74106f974bf448421592a97bba2fdb0182c979698c150021a5064",
+                "operation": "inventory_artifact",
+                "status": "completed",
+                "evidence_id": "ev_bae119d5295f2bd123631d15b3b987a03352cfae73c772f3ee5c75af0631a0d6",
+                "evidence": {
+                    "evidence_id": "ev_bae119d5295f2bd123631d15b3b987a03352cfae73c772f3ee5c75af0631a0d6",
+                    "subject": {
+                        "name": "full-payload.bin",
+                        "digest": {
+                            "sha256": "f66582dc92a94063446b751f4411210b983f08d1c27b81699e48d29b501f6f60"
+                        },
+                        "local_path": "/tmp/android-ota-demo/fixtures/full-payload.bin",
+                        "format": "android-ota-payload",
+                        "architecture": null
+                    },
+                    "provider": {
+                        "id": "rea-artifact-graph",
+                        "name": "REA safe artifact graph provider",
+                        "version": "1"
+                    },
+                    "analysis_profile": null,
+                    "predicate_type": "rea.analysis",
+                    "operation": "inventory_artifact",
+                    "parameters": {
+                        "integrity_policy": "fail"
+                    },
+                    "raw_result": null,
+                    "normalized_result": {
+                        "manifest": {
+                            "manifest_id": "agm_bb5414c7b4d220294870314c192090684f82e1cd1b452826324c4ecfdc38dc15",
+                            "root_artifact_id": "art_45aff1411be0d301a06259beb4584d13d288b395714c66f19a8f6376ea9fd3f7",
+                            "root_sha256": "f66582dc92a94063446b751f4411210b983f08d1c27b81699e48d29b501f6f60",
+                            "root_format": "android-ota-payload",
+                            "graph_sha256": "87c1584169c4c1df2637cae1b842c57eb98c5dea5f629d2fa8ce97caeff45b93",
+                            "node_count": 3,
+                            "occurrence_count": 3,
+                            "edge_count": 2
+                        },
+                        "nodes": [
+                            {
+                                "artifact_id": "art_08648466ec06bf0bd3ce144d529cf8f8738b40202c8e1f5da6f0570935e9e86d",
+                                "format": "file",
+                                "sha256": "9f1dcbc35c350d6027f98be0f5c8b43b42ca52b7604459c0c42be3aa88913d47",
+                                "size": 8192,
+                                "media_type": null,
+                                "architecture": null,
+                                "content_state": "embedded",
+                                "limitations": []
+                            },
+                            {
+                                "artifact_id": "art_45aff1411be0d301a06259beb4584d13d288b395714c66f19a8f6376ea9fd3f7",
+                                "format": "android-ota-payload",
+                                "sha256": "f66582dc92a94063446b751f4411210b983f08d1c27b81699e48d29b501f6f60",
+                                "size": 351,
+                                "media_type": null,
+                                "architecture": null,
+                                "content_state": "materialized",
+                                "limitations": []
+                            },
+                            {
+                                "artifact_id": "art_62fda992b486c8af388536131faa3d39c6316690f9ddaf200050efbde71621e7",
+                                "format": "file",
+                                "sha256": "8449470e916f324bca7b10f4ab4a1233a7a7e07b51908222e532992291124c93",
+                                "size": 4096,
+                                "media_type": null,
+                                "architecture": null,
+                                "content_state": "embedded",
+                                "limitations": []
+                            }
+                        ],
+                        "occurrences": [
+                            {
+                                "occurrence_id": "occ_2c3adea5e36305321fc7b01e3a079af80fcb79b0bdb5071ecddac020ae5c4b36",
+                                "artifact_id": "art_45aff1411be0d301a06259beb4584d13d288b395714c66f19a8f6376ea9fd3f7",
+                                "parent_occurrence_id": null,
+                                "relationship_coverage": "complete",
+                                "logical_path": ".",
+                                "entry_kind": "file",
+                                "artifact_kind": "container",
+                                "artifact_format": "android-ota-payload",
+                                "declared_size": 351,
+                                "compressed_size": null,
+                                "executable": false,
+                                "encrypted": false,
+                                "hash_status": "verified",
+                                "source_location": null,
+                                "format_metadata": {
+                                    "kind": "android-ota-payload",
+                                    "magic": "CrAU",
+                                    "major_version": 2,
+                                    "manifest_size": 298,
+                                    "metadata_signature_size": 7,
+                                    "manifest_offset": 24,
+                                    "blob_offset": 329,
+                                    "block_size": 4096,
+                                    "minor_version": 0,
+                                    "payload_kind": "full",
+                                    "max_timestamp": 1700000000,
+                                    "partial_update": false,
+                                    "security_patch_level": "2024-01-05",
+                                    "signatures_offset": 7,
+                                    "signatures_size": 15,
+                                    "metadata_signature_blob_size": 7,
+                                    "metadata_signature_count": 1,
+                                    "payload_signature_blob_size": 15,
+                                    "payload_signature_count": 1,
+                                    "signatures_verified": false,
+                                    "snapshot_enabled": true,
+                                    "vabc_enabled": true,
+                                    "vabc_compression_param": "gz",
+                                    "blob_truncated": false,
+                                    "partitions": [
+                                        {
+                                            "index": 0,
+                                            "name": "boot",
+                                            "path": "boot.img",
+                                            "new_partition_info": {
+                                                "size": 4096,
+                                                "hash_hex": "8449470e916f324bca7b10f4ab4a1233a7a7e07b51908222e532992291124c93"
+                                            },
+                                            "old_partition_info": null,
+                                            "version": "boot-1",
+                                            "run_postinstall": false,
+                                            "postinstall_path": null,
+                                            "filesystem_type": "raw",
+                                            "operation_counts": [
+                                                {
+                                                    "type": "REPLACE",
+                                                    "type_code": 0,
+                                                    "count": 1
+                                                }
+                                            ],
+                                            "total_data_length": 7,
+                                            "merge_operation_count": 0,
+                                            "estimate_cow_size": null,
+                                            "extractable": true
+                                        },
+                                        {
+                                            "index": 1,
+                                            "name": "system",
+                                            "path": "system.img",
+                                            "new_partition_info": {
+                                                "size": 8192,
+                                                "hash_hex": "9f1dcbc35c350d6027f98be0f5c8b43b42ca52b7604459c0c42be3aa88913d47"
+                                            },
+                                            "old_partition_info": null,
+                                            "version": "system-1",
+                                            "run_postinstall": true,
+                                            "postinstall_path": "system/bin/otapreopt_script",
+                                            "filesystem_type": "ext4",
+                                            "operation_counts": [
+                                                {
+                                                    "type": "ZERO",
+                                                    "type_code": 6,
+                                                    "count": 1
+                                                }
+                                            ],
+                                            "total_data_length": 0,
+                                            "merge_operation_count": 2,
+                                            "estimate_cow_size": 4096,
+                                            "extractable": true
+                                        }
+                                    ],
+                                    "dynamic_partition_groups": [
+                                        {
+                                            "name": "super",
+                                            "size": 67108864,
+                                            "partition_names": [
+                                                "system"
+                                            ]
+                                        }
+                                    ],
+                                    "apex_info": [
+                                        {
+                                            "package_name": "com.android.runtime",
+                                            "version": 340090000,
+                                            "is_compressed": true,
+                                            "decompressed_size": 12000000
+                                        }
+                                    ]
+                                },
+                                "limitations": []
+                            },
+                            {
+                                "occurrence_id": "occ_2fc866e7ab59f7893ce60aebecdf4c1db6c1c0d27ad6d82aade11f6b94a8c555",
+                                "artifact_id": "art_62fda992b486c8af388536131faa3d39c6316690f9ddaf200050efbde71621e7",
+                                "parent_occurrence_id": "occ_2c3adea5e36305321fc7b01e3a079af80fcb79b0bdb5071ecddac020ae5c4b36",
+                                "relationship_coverage": "complete",
+                                "logical_path": "boot.img",
+                                "entry_kind": "file",
+                                "artifact_kind": "resource",
+                                "artifact_format": "file",
+                                "declared_size": 4096,
+                                "compressed_size": 7,
+                                "executable": false,
+                                "encrypted": false,
+                                "hash_status": "verified",
+                                "source_location": null,
+                                "source_path": "boot.img",
+                                "declared_integrity": {
+                                    "algorithm": "sha256",
+                                    "digest": "8449470e916f324bca7b10f4ab4a1233a7a7e07b51908222e532992291124c93"
+                                },
+                                "format_metadata": {
+                                    "kind": "android-ota-partition",
+                                    "index": 0,
+                                    "name": "boot",
+                                    "extractable": true,
+                                    "new_partition_info": {
+                                        "size": 4096,
+                                        "hash_hex": "8449470e916f324bca7b10f4ab4a1233a7a7e07b51908222e532992291124c93"
+                                    },
+                                    "old_partition_info": null,
+                                    "version": "boot-1",
+                                    "run_postinstall": false,
+                                    "postinstall_path": null,
+                                    "filesystem_type": "raw",
+                                    "operation_counts": [
+                                        {
+                                            "type": "REPLACE",
+                                            "type_code": 0,
+                                            "count": 1
+                                        }
+                                    ],
+                                    "total_data_length": 7,
+                                    "merge_operation_count": 0,
+                                    "estimate_cow_size": null
+                                },
+                                "limitations": []
+                            },
+                            {
+                                "occurrence_id": "occ_515d2c6de5dd44ff6734083de6e56c1a6473d370b59660f17749a3a192f8f883",
+                                "artifact_id": "art_08648466ec06bf0bd3ce144d529cf8f8738b40202c8e1f5da6f0570935e9e86d",
+                                "parent_occurrence_id": "occ_2c3adea5e36305321fc7b01e3a079af80fcb79b0bdb5071ecddac020ae5c4b36",
+                                "relationship_coverage": "complete",
+                                "logical_path": "system.img",
+                                "entry_kind": "file",
+                                "artifact_kind": "resource",
+                                "artifact_format": "file",
+                                "declared_size": 8192,
+                                "compressed_size": 0,
+                                "executable": false,
+                                "encrypted": false,
+                                "hash_status": "verified",
+                                "source_location": null,
+                                "source_path": "system.img",
+                                "declared_integrity": {
+                                    "algorithm": "sha256",
+                                    "digest": "9f1dcbc35c350d6027f98be0f5c8b43b42ca52b7604459c0c42be3aa88913d47"
+                                },
+                                "format_metadata": {
+                                    "kind": "android-ota-partition",
+                                    "index": 1,
+                                    "name": "system",
+                                    "extractable": true,
+                                    "new_partition_info": {
+                                        "size": 8192,
+                                        "hash_hex": "9f1dcbc35c350d6027f98be0f5c8b43b42ca52b7604459c0c42be3aa88913d47"
+                                    },
+                                    "old_partition_info": null,
+                                    "version": "system-1",
+                                    "run_postinstall": true,
+                                    "postinstall_path": "system/bin/otapreopt_script",
+                                    "filesystem_type": "ext4",
+                                    "operation_counts": [
+                                        {
+                                            "type": "ZERO",
+                                            "type_code": 6,
+                                            "count": 1
+                                        }
+                                    ],
+                                    "total_data_length": 0,
+                                    "merge_operation_count": 2,
+                                    "estimate_cow_size": 4096
+                                },
+                                "limitations": []
+                            }
+                        ],
+                        "edges": [
+                            {
+                                "edge_id": "edge_531e8ff3c773580940afdb96f9107328015bfe48af962ee387c8209132d7909d",
+                                "ordinal": 0,
+                                "parent_artifact_id": "art_45aff1411be0d301a06259beb4584d13d288b395714c66f19a8f6376ea9fd3f7",
+                                "relation": "contains",
+                                "occurrence_id": "occ_515d2c6de5dd44ff6734083de6e56c1a6473d370b59660f17749a3a192f8f883",
+                                "producer": null
+                            },
+                            {
+                                "edge_id": "edge_e812788c465c3ba9366cbad0dd3aab75440e679e51731f217bb273f804bab061",
+                                "ordinal": 1,
+                                "parent_artifact_id": "art_45aff1411be0d301a06259beb4584d13d288b395714c66f19a8f6376ea9fd3f7",
+                                "relation": "contains",
+                                "occurrence_id": "occ_2fc866e7ab59f7893ce60aebecdf4c1db6c1c0d27ad6d82aade11f6b94a8c555",
+                                "producer": null
+                            }
+                        ],
+                        "provenance": [],
+                        "integrity_contradictions": [],
+                        "coverage": {
+                            "scope": "container-entries",
+                            "status": "complete"
+                        },
+                        "limitations": [
+                            "Android OTA payload inventory reads the CrAU header and DeltaArchiveManifest. Signatures are not verified, delta operations are not applied, and partition images are reconstructed only from REPLACE, ZERO, and REPLACE_ZSTD operations.",
+                            "Android OTA payload inventory reads the CrAU header and DeltaArchiveManifest. Signatures are not verified, delta operations are not applied, and partition images are reconstructed only from REPLACE, ZERO, and REPLACE_ZSTD operations.",
+                            "Metadata and payload signatures were parsed for size and signature count only; they were not verified."
+                        ]
+                    },
+                    "confidence": "observed",
+                    "authority": "shipped-artifact",
+                    "environment": null,
+                    "limitations": [
+                        "Android OTA payload inventory reads the CrAU header and DeltaArchiveManifest. Signatures are not verified, delta operations are not applied, and partition images are reconstructed only from REPLACE, ZERO, and REPLACE_ZSTD operations.",
+                        "Android OTA payload inventory reads the CrAU header and DeltaArchiveManifest. Signatures are not verified, delta operations are not applied, and partition images are reconstructed only from REPLACE, ZERO, and REPLACE_ZSTD operations.",
+                        "Metadata and payload signatures were parsed for size and signature count only; they were not verified."
+                    ],
+                    "relationship_coverage": null,
+                    "locations": [],
+                    "evidence_links": []
+                }
+            }
+        ],
+        "observations": [
+            {
+                "observation_id": "aio_8b23360ace13634ca268755b5770d5b1a080e7e207c92fa9187720277e49ab85",
+                "kind": "root-manifest",
+                "subject": "art_45aff1411be0d301a06259beb4584d13d288b395714c66f19a8f6376ea9fd3f7",
+                "value": {
+                    "manifest_id": "agm_bb5414c7b4d220294870314c192090684f82e1cd1b452826324c4ecfdc38dc15",
+                    "root_artifact_id": "art_45aff1411be0d301a06259beb4584d13d288b395714c66f19a8f6376ea9fd3f7",
+                    "root_sha256": "f66582dc92a94063446b751f4411210b983f08d1c27b81699e48d29b501f6f60",
+                    "root_format": "android-ota-payload",
+                    "graph_sha256": "87c1584169c4c1df2637cae1b842c57eb98c5dea5f629d2fa8ce97caeff45b93",
+                    "node_count": 3,
+                    "occurrence_count": 3,
+                    "edge_count": 2
+                },
+                "evidence_id": "ev_bae119d5295f2bd123631d15b3b987a03352cfae73c772f3ee5c75af0631a0d6"
+            }
+        ],
+        "hypotheses": [],
+        "contradictions": [],
+        "unexplored_branches": [],
+        "next_probes": [],
+        "coverage": {
+            "status": "complete-within-substeps",
+            "substeps_completed": 1,
+            "observations_retained": 1,
+            "observations_omitted": 0,
+            "hypotheses_retained": 0,
+            "hypotheses_omitted": 0,
+            "unexplored_branches_retained": 0,
+            "unexplored_branches_omitted": 0,
+            "next_probes_retained": 0,
+            "next_probes_omitted": 0
+        },
+        "evidence_links": [
+            "ev_bae119d5295f2bd123631d15b3b987a03352cfae73c772f3ee5c75af0631a0d6"
+        ],
+        "limitations": [
+            "Android OTA payload inventory reads the CrAU header and DeltaArchiveManifest. Signatures are not verified, delta operations are not applied, and partition images are reconstructed only from REPLACE, ZERO, and REPLACE_ZSTD operations.",
+            "Inspection derives bounded static hypotheses and next probes; it does not execute the artifact or claim format-specific semantics.",
+            "Metadata and payload signatures were parsed for size and signature count only; they were not verified."
+        ]
+    },
+    "confidence": "observed",
+    "authority": "shipped-artifact",
+    "environment": null,
+    "limitations": [
+        "Android OTA payload inventory reads the CrAU header and DeltaArchiveManifest. Signatures are not verified, delta operations are not applied, and partition images are reconstructed only from REPLACE, ZERO, and REPLACE_ZSTD operations.",
+        "Inspection derives bounded static hypotheses and next probes; it does not execute the artifact or claim format-specific semantics.",
+        "Metadata and payload signatures were parsed for size and signature count only; they were not verified."
+    ],
+    "relationship_coverage": null,
+    "locations": [],
+    "evidence_links": [
+        "ev_bae119d5295f2bd123631d15b3b987a03352cfae73c772f3ee5c75af0631a0d6"
+    ],
+    "caller_input_path": "/tmp/android-ota-demo/fixtures/full-payload.bin"
+}
+
+----- stderr -----
+(empty)
+
+
+################################################################################
+# AFTER: extract full fixture partitions
+################################################################################
+$ TMPDIR=/tmp/android-ota-demo/extract-full /agent/repos/rea/scripts/rea.mjs extract-artifact /tmp/android-ota-demo/fixtures/full-payload.bin --json
+
+exit: 0
+----- stdout -----
+{"evidence_id":"ev_c6725364b65cb7a8f4d80c706a6871835e0a43a5f3bda5eff1e5aefcb54c9206","subject":{"name":"full-payload.bin","digest":{"sha256":"f66582dc92a94063446b751f4411210b983f08d1c27b81699e48d29b501f6f60"},"local_path":"/tmp/android-ota-demo/fixtures/full-payload.bin","format":"android-ota-payload","architecture":null},"provider":{"id":"rea-artifact-graph","name":"REA safe artifact graph provider","version":"1"},"analysis_profile":null,"predicate_type":"rea.analysis","operation":"extract_artifact","parameters":{"integrity_policy":"fail","output_root":"/tmp/android-ota-demo/extract-full/rea-extracted-1ec360cb-04d6-427b-bb34-c893748f97d4","input_path":"/tmp/android-ota-demo/fixtures/full-payload.bin"},"raw_result":null,"normalized_result":{"manifest":{"manifest_id":"agm_bb5414c7b4d220294870314c192090684f82e1cd1b452826324c4ecfdc38dc15","root_artifact_id":"art_45aff1411be0d301a06259beb4584d13d288b395714c66f19a8f6376ea9fd3f7","root_sha256":"f66582dc92a94063446b751f4411210b983f08d1c27b81699e48d29b501f6f60","root_format":"android-ota-payload","graph_sha256":"87c1584169c4c1df2637cae1b842c57eb98c5dea5f629d2fa8ce97caeff45b93","node_count":3,"occurrence_count":3,"edge_count":2},"extraction_manifest":{"extraction_id":"aex_8fdd5b3da3e8fc3e9fedde03a9c2b348fbf47c0a7576a8cf1942245b7ef95c70","source_manifest_id":"agm_bb5414c7b4d220294870314c192090684f82e1cd1b452826324c4ecfdc38dc15","selected_occurrence_ids":["occ_2fc866e7ab59f7893ce60aebecdf4c1db6c1c0d27ad6d82aade11f6b94a8c555","occ_515d2c6de5dd44ff6734083de6e56c1a6473d370b59660f17749a3a192f8f883"],"files_sha256":"c928a9e7887685f22b9f689a7aefcba4de05c9ee76cb51458eec209748c0c79d","output_root_alias":"$OUTPUT_ROOT"},"output_root":"/tmp/android-ota-demo/extract-full/rea-extracted-1ec360cb-04d6-427b-bb34-c893748f97d4","artifacts":[{"artifact_id":"art_62fda992b486c8af388536131faa3d39c6316690f9ddaf200050efbde71621e7","relative_path":"boot.img","sha256":"8449470e916f324bca7b10f4ab4a1233a7a7e07b51908222e532992291124c93","bytes_written":4096,"created":true},{"artifact_id":"art_08648466ec06bf0bd3ce144d529cf8f8738b40202c8e1f5da6f0570935e9e86d","relative_path":"system.img","sha256":"9f1dcbc35c350d6027f98be0f5c8b43b42ca52b7604459c0c42be3aa88913d47","bytes_written":8192,"created":true}],"containment_verified":true,"cleanup":{"attempted":false,"verified":true,"residual_paths":[]},"coverage":{"scope":"container-entries","status":"complete"},"provenance":[],"integrity_contradictions":[],"limitations":["Android OTA payload inventory reads the CrAU header and DeltaArchiveManifest. Signatures are not verified, delta operations are not applied, and partition images are reconstructed only from REPLACE, ZERO, and REPLACE_ZSTD operations.","Metadata and payload signatures were parsed for size and signature count only; they were not verified.","All regular files exposed by the active artifact reader were materialized.","Publication verifies the selected inventoried regular files; it does not establish complete content decoding."]},"confidence":"observed","authority":"shipped-artifact","environment":null,"limitations":["Android OTA payload inventory reads the CrAU header and DeltaArchiveManifest. Signatures are not verified, delta operations are not applied, and partition images are reconstructed only from REPLACE, ZERO, and REPLACE_ZSTD operations.","Metadata and payload signatures were parsed for size and signature count only; they were not verified.","All regular files exposed by the active artifact reader were materialized.","Publication verifies the selected inventoried regular files; it does not establish complete content decoding."],"relationship_coverage":null,"locations":[],"evidence_links":[],"caller_input_path":"/tmp/android-ota-demo/fixtures/full-payload.bin"}
+
+----- stderr -----
+(empty)
+
+
+################################################################################
+# AFTER: extracted boot.img prefix
+################################################################################
+$ xxd -l 16 /tmp/android-ota-demo/extract-full/*/boot.img
+
+exit: 0
+----- stdout -----
+extract roots [PosixPath('/tmp/android-ota-demo/extract-full/rea-extracted-1ec360cb-04d6-427b-bb34-c893748f97d4')]
+/tmp/android-ota-demo/extract-full/rea-extracted-1ec360cb-04d6-427b-bb34-c893748f97d4/boot.img b'BOOTIMG\x00\x00\x00\x00\x00\x00\x00\x00\x00'
+
+----- stderr -----
+(empty)
+
+
+################################################################################
+# AFTER: inspect delta fixture (human)
+################################################################################
+$ /agent/repos/rea/scripts/rea.mjs inspect-artifact /tmp/android-ota-demo/fixtures/delta-payload.bin
+
+exit: 0
+----- stdout -----
+evidence_id: ev_0263d57b3770431e5bbaf039d024096e205f9a1a572a0bcc4dd9e90eb2be8a92
+subject:
+  name: delta-payload.bin
+  digest:
+    sha256: cc09ac4c2d56bbe572b0277df7cc0d5e133802b9b47b17435913aaeadbeb20e4
+  local_path: /tmp/android-ota-demo/fixtures/delta-payload.bin
+  format: android-ota-payload
+  architecture: null
+provider:
+  id: rea-artifact-graph
+  name: REA safe artifact graph provider
+  version: "1"
+analysis_profile: null
+predicate_type: rea.analysis
+operation: inspect_artifact
+parameters:
+  integrity_policy: fail
+  input_path: /tmp/android-ota-demo/fixtures/delta-payload.bin
+raw_result: null
+normalized_result:
+  inspection_id: ai_9ee9d4a943272b0993b603ea61ac8014a4d0dcb38a2551471b5551fa11c6b804
+  subject:
+    manifest_id: agm_6eba205f59b6dac2bce802ecfd0031773cccacbfad1de04bea3a1c11f12438a7
+    root_artifact_id: art_d9b0127c8f86520c1329a7d595c0f896ba1ff274e84268bd4ecfc8d56001bb7c
+    root_sha256: cc09ac4c2d56bbe572b0277df7cc0d5e133802b9b47b17435913aaeadbeb20e4
+    root_format: android-ota-payload
+  substeps[1]:
+    - substep_id: ais_d55beadfe67f1dbf44da24fc764d5053dcd85fd51a18caa64c02bd75bedfa98c
+      operation: inventory_artifact
+      status: completed
+      evidence_id: ev_2847102788dbf17a03d0b7340547aab3fd8cb561ff1598fe61baeb95580a5da4
+      evidence:
+        evidence_id: ev_2847102788dbf17a03d0b7340547aab3fd8cb561ff1598fe61baeb95580a5da4
+        subject:
+          name: delta-payload.bin
+          digest:
+            sha256: cc09ac4c2d56bbe572b0277df7cc0d5e133802b9b47b17435913aaeadbeb20e4
+          local_path: /tmp/android-ota-demo/fixtures/delta-payload.bin
+          format: android-ota-payload
+          architecture: null
+        provider:
+          id: rea-artifact-graph
+          name: REA safe artifact graph provider
+          version: "1"
+        analysis_profile: null
+        predicate_type: rea.analysis
+        operation: inventory_artifact
+        parameters:
+          integrity_policy: fail
+        raw_result: null
+        normalized_result:
+          manifest:
+            manifest_id: agm_6eba205f59b6dac2bce802ecfd0031773cccacbfad1de04bea3a1c11f12438a7
+            root_artifact_id: art_d9b0127c8f86520c1329a7d595c0f896ba1ff274e84268bd4ecfc8d56001bb7c
+            root_sha256: cc09ac4c2d56bbe572b0277df7cc0d5e133802b9b47b17435913aaeadbeb20e4
+            root_format: android-ota-payload
+            graph_sha256: 328535612bfd9b5902cb647707e50217cc0502e3de1e0857291a7f1ed9757dd4
+            node_count: 1
+            occurrence_count: 2
+            edge_count: 0
+          nodes[1]:
+            - artifact_id: art_d9b0127c8f86520c1329a7d595c0f896ba1ff274e84268bd4ecfc8d56001bb7c
+              format: android-ota-payload
+              sha256: cc09ac4c2d56bbe572b0277df7cc0d5e133802b9b47b17435913aaeadbeb20e4
+              size: 156
+              media_type: null
+              architecture: null
+              content_state: materialized
+              limitations: []
+          occurrences[2]:
+            - occurrence_id: occ_c24466abe1c15d6cd5af2b13cbf1628aa76d83ee9cdd1ce0c1ecb16dedaec7f6
+              artifact_id: art_d9b0127c8f86520c1329a7d595c0f896ba1ff274e84268bd4ecfc8d56001bb7c
+              parent_occurrence_id: null
+              relationship_coverage: complete
+              logical_path: .
+              entry_kind: file
+              artifact_kind: container
+              artifact_format: android-ota-payload
+              declared_size: 156
+              compressed_size: null
+              executable: false
+              encrypted: false
+              hash_status: verified
+              source_location: null
+              format_metadata:
+                kind: android-ota-payload
+                magic: CrAU
+                major_version: 2
+                manifest_size: 99
+                metadata_signature_size: 7
+                manifest_offset: 24
+                blob_offset: 130
+                block_size: 4096
+                minor_version: 4
+                payload_kind: delta
+                max_timestamp: null
+                partial_update: null
+                security_patch_level: null
+                signatures_offset: 11
+                signatures_size: 15
+                metadata_signature_blob_size: 7
+                metadata_signature_count: 1
+                payload_signature_blob_size: 15
+                payload_signature_count: 1
+                signatures_verified: false
+                snapshot_enabled: null
+                vabc_enabled: null
+                vabc_compression_param: null
+                blob_truncated: false
+                partitions[1]:
+                  - index: 0
+                    name: vendor
+                    path: vendor.img
+                    new_partition_info:
+                      size: 4096
+                      hash_hex: null
+                    old_partition_info:
+                      size: 4096
+                      hash_hex: 3c1af755b8be5b9b20509dc423b2f8e3ba8134079adabfc5d8f8e0e527877eca
+                    version: null
+                    run_postinstall: null
+                    postinstall_path: null
+                    filesystem_type: null
+                    operation_counts[2]{type,type_code,count}:
+                      SOURCE_COPY,4,1
+                      BROTLI_BSDIFF,10,1
+                    total_data_length: 11
+                    merge_operation_count: 0
+                    estimate_cow_size: null
+                    extractable: false
+                dynamic_partition_groups: []
+                apex_info: []
+              limitations: []
+            - occurrence_id: occ_c7ddea596f6669191090e8a00dc5c5106ae4b0b53f5f11e35d60503ce8c2da8a
+              artifact_id: null
+              parent_occurrence_id: occ_c24466abe1c15d6cd5af2b13cbf1628aa76d83ee9cdd1ce0c1ecb16dedaec7f6
+              relationship_coverage: unknown
+              logical_path: vendor.img
+              entry_kind: file
+              artifact_kind: resource
+              artifact_format: file
+              declared_size: 4096
+              compressed_size: 11
+              executable: false
+              encrypted: false
+              hash_status: unavailable
+              source_location: null
+              source_path: vendor.img
+              format_metadata:
+                kind: android-ota-partition
+                index: 0
+                name: vendor
+                extractable: false
+                new_partition_info:
+                  size: 4096
+                  hash_hex: null
+                old_partition_info:
+                  size: 4096
+                  hash_hex: 3c1af755b8be5b9b20509dc423b2f8e3ba8134079adabfc5d8f8e0e527877eca
+                version: null
+                run_postinstall: null
+                postinstall_path: null
+                filesystem_type: null
+                operation_counts[2]{type,type_code,count}:
+                  SOURCE_COPY,4,1
+                  BROTLI_BSDIFF,10,1
+                total_data_length: 11
+                merge_operation_count: 0
+                estimate_cow_size: null
+              limitations[2]: Delta and compressed operations other than REPLACE_ZSTD are not applied; those partitions cannot be reconstructed.,Delta and compressed operations other than REPLACE_ZSTD are not applied; those partitions cannot be reconstructed.
+          edges: []
+          provenance: []
+          integrity_contradictions: []
+          coverage:
+            scope: container-entries
+            status: unknown
+          limitations[4]: "Android OTA payload inventory reads the CrAU header and DeltaArchiveManifest. Signatures are not verified, delta operations are not applied, and partition images are reconstructed only from REPLACE, ZERO, and REPLACE_ZSTD operations.","Android OTA payload inventory reads the CrAU header and DeltaArchiveManifest. Signatures are not verified, delta operations are not applied, and partition images are reconstructed only from REPLACE, ZERO, and REPLACE_ZSTD operations.",Delta and compressed operations other than REPLACE_ZSTD are not applied; those partitions cannot be reconstructed.,Metadata and payload signatures were parsed for size and signature count only; they were not verified.
+        confidence: observed
+        authority: shipped-artifact
+        environment: null
+        limitations[4]: "Android OTA payload inventory reads the CrAU header and DeltaArchiveManifest. Signatures are not verified, delta operations are not applied, and partition images are reconstructed only from REPLACE, ZERO, and REPLACE_ZSTD operations.","Android OTA payload inventory reads the CrAU header and DeltaArchiveManifest. Signatures are not verified, delta operations are not applied, and partition images are reconstructed only from REPLACE, ZERO, and REPLACE_ZSTD operations.",Delta and compressed operations other than REPLACE_ZSTD are not applied; those partitions cannot be reconstructed.,Metadata and payload signatures were parsed for size and signature count only; they were not verified.
+        relationship_coverage: null
+        locations: []
+        evidence_links: []
+  observations[1]:
+    - observation_id: aio_be4b999b476fe562f5b08cb30f7e395bce4d719767d1ebaced10aaa385f101b1
+      kind: root-manifest
+      subject: art_d9b0127c8f86520c1329a7d595c0f896ba1ff274e84268bd4ecfc8d56001bb7c
+      value:
+        manifest_id: agm_6eba205f59b6dac2bce802ecfd0031773cccacbfad1de04bea3a1c11f12438a7
+        root_artifact_id: art_d9b0127c8f86520c1329a7d595c0f896ba1ff274e84268bd4ecfc8d56001bb7c
+        root_sha256: cc09ac4c2d56bbe572b0277df7cc0d5e133802b9b47b17435913aaeadbeb20e4
+        root_format: android-ota-payload
+        graph_sha256: 328535612bfd9b5902cb647707e50217cc0502e3de1e0857291a7f1ed9757dd4
+        node_count: 1
+        occurrence_count: 2
+        edge_count: 0
+      evidence_id: ev_2847102788dbf17a03d0b7340547aab3fd8cb561ff1598fe61baeb95580a5da4
+  hypotheses: []
+  contradictions: []
+  unexplored_branches: []
+  next_probes: []
+  coverage:
+    status: partial
+    substeps_completed: 1
+    observations_retained: 1
+    observations_omitted: 0
+    hypotheses_retained: 0
+    hypotheses_omitted: 0
+    unexplored_branches_retained: 0
+    unexplored_branches_omitted: 0
+    next_probes_retained: 0
+    next_probes_omitted: 0
+  evidence_links[1]: ev_2847102788dbf17a03d0b7340547aab3fd8cb561ff1598fe61baeb95580a5da4
+  limitations[4]: "Android OTA payload inventory reads the CrAU header and DeltaArchiveManifest. Signatures are not verified, delta operations are not applied, and partition images are reconstructed only from REPLACE, ZERO, and REPLACE_ZSTD operations.",Delta and compressed operations other than REPLACE_ZSTD are not applied; those partitions cannot be reconstructed.,Inspection derives bounded static hypotheses and next probes; it does not execute the artifact or claim format-specific semantics.,Metadata and payload signatures were parsed for size and signature count only; they were not verified.
+confidence: observed
+authority: shipped-artifact
+environment: null
+limitations[4]: "Android OTA payload inventory reads the CrAU header and DeltaArchiveManifest. Signatures are not verified, delta operations are not applied, and partition images are reconstructed only from REPLACE, ZERO, and REPLACE_ZSTD operations.",Delta and compressed operations other than REPLACE_ZSTD are not applied; those partitions cannot be reconstructed.,Inspection derives bounded static hypotheses and next probes; it does not execute the artifact or claim format-specific semantics.,Metadata and payload signatures were parsed for size and signature count only; they were not verified.
+relationship_coverage: null
+locations: []
+evidence_links[1]: ev_2847102788dbf17a03d0b7340547aab3fd8cb561ff1598fe61baeb95580a5da4
+caller_input_path: /tmp/android-ota-demo/fixtures/delta-payload.bin
+
+----- stderr -----
+(empty)
+
+
+################################################################################
+# AFTER: extract delta fixture (typed refusal)
+################################################################################
+$ TMPDIR=/tmp/android-ota-demo/extract-delta /agent/repos/rea/scripts/rea.mjs extract-artifact /tmp/android-ota-demo/fixtures/delta-payload.bin --json
+
+exit: 1
+----- stdout -----
+{"error":"Analysis failed","code":"artifact_operation_failed","category":"unavailable","message":"Artifact processing is unavailable. Review the reported availability reason and resolve that condition before retrying.","retryable":false,"remediation":{"action":"Artifact processing is unavailable. Review the reported availability reason and resolve that condition before retrying."},"details":{"operation":"extract_artifact","reason":"unavailable","detail":"Inventoried source bytes are unavailable for vendor.img"}}
+
+----- stderr -----
+(empty)
+
+
+################################################################################
+# AFTER: refuse v1 header (human)
+################################################################################
+$ /agent/repos/rea/scripts/rea.mjs inspect-artifact /tmp/android-ota-demo/fixtures/v1-payload.bin
+
+exit: 1
+----- stdout -----
+error: Analysis failed
+code: target_unavailable
+category: unsupported_target
+message: "Cannot open artifact: Android OTA payload major version 1 is unsupported; this reader supports version 2 only."
+retryable: false
+remediation:
+  action: "Review the reported file-format reason and select a supported, well-formed target."
+details:
+  path: /tmp/android-ota-demo/fixtures/v1-payload.bin
+  reason: Android OTA payload major version 1 is unsupported; this reader supports version 2 only
+  constraint: file_format_rejected
+
+----- stderr -----
+(empty)
+
+
+################################################################################
+# AFTER: refuse v1 header (--json)
+################################################################################
+$ /agent/repos/rea/scripts/rea.mjs inspect-artifact /tmp/android-ota-demo/fixtures/v1-payload.bin --json
+
+exit: 1
+----- stdout -----
+{"error":"Analysis failed","code":"target_unavailable","category":"unsupported_target","message":"Cannot open artifact: Android OTA payload major version 1 is unsupported; this reader supports version 2 only.","retryable":false,"remediation":{"action":"Review the reported file-format reason and select a supported, well-formed target."},"details":{"path":"/tmp/android-ota-demo/fixtures/v1-payload.bin","reason":"Android OTA payload major version 1 is unsupported; this reader supports version 2 only","constraint":"file_format_rejected"}}
+
+----- stderr -----
+(empty)
+
+
+################################################################################
+# AFTER: inspect truncated fixture blob (human)
+################################################################################
+$ /agent/repos/rea/scripts/rea.mjs inspect-artifact /tmp/android-ota-demo/fixtures/truncated-payload.bin
+
+exit: 0
+----- stdout -----
+evidence_id: ev_7d358c9f9264e34c968f94efe277ba36e738bb3444f80dd8ca56ac8b9d60a57c
+subject:
+  name: truncated-payload.bin
+  digest:
+    sha256: f756ebf96f6b01d27d3d00b68999f0458b171452782305bd0384068ef02002eb
+  local_path: /tmp/android-ota-demo/fixtures/truncated-payload.bin
+  format: android-ota-payload
+  architecture: null
+provider:
+  id: rea-artifact-graph
+  name: REA safe artifact graph provider
+  version: "1"
+analysis_profile: null
+predicate_type: rea.analysis
+operation: inspect_artifact
+parameters:
+  integrity_policy: fail
+  input_path: /tmp/android-ota-demo/fixtures/truncated-payload.bin
+raw_result: null
+normalized_result:
+  inspection_id: ai_74327dad25e4e358d7aff63621de2b932a54aa9d63e013133aa6903ee8833e07
+  subject:
+    manifest_id: agm_a40093d9aac8a73090586b0f783ba4b32823439ea402316ff1bc119d7ced4691
+    root_artifact_id: art_5e607ef93a49b06e7f32d5271653b1d47d29f564ac2c19c11d8183272bd107d1
+    root_sha256: f756ebf96f6b01d27d3d00b68999f0458b171452782305bd0384068ef02002eb
+    root_format: android-ota-payload
+  substeps[1]:
+    - substep_id: ais_9a86b22fe627d21bfb8e7f77d831c1d79b241026d3d16311be8feaade15fbcf7
+      operation: inventory_artifact
+      status: completed
+      evidence_id: ev_34bd0b709880144daf81f844545903eb9d1ab4a9363ea7d4f06a8fbc5da46a21
+      evidence:
+        evidence_id: ev_34bd0b709880144daf81f844545903eb9d1ab4a9363ea7d4f06a8fbc5da46a21
+        subject:
+          name: truncated-payload.bin
+          digest:
+            sha256: f756ebf96f6b01d27d3d00b68999f0458b171452782305bd0384068ef02002eb
+          local_path: /tmp/android-ota-demo/fixtures/truncated-payload.bin
+          format: android-ota-payload
+          architecture: null
+        provider:
+          id: rea-artifact-graph
+          name: REA safe artifact graph provider
+          version: "1"
+        analysis_profile: null
+        predicate_type: rea.analysis
+        operation: inventory_artifact
+        parameters:
+          integrity_policy: fail
+        raw_result: null
+        normalized_result:
+          manifest:
+            manifest_id: agm_a40093d9aac8a73090586b0f783ba4b32823439ea402316ff1bc119d7ced4691
+            root_artifact_id: art_5e607ef93a49b06e7f32d5271653b1d47d29f564ac2c19c11d8183272bd107d1
+            root_sha256: f756ebf96f6b01d27d3d00b68999f0458b171452782305bd0384068ef02002eb
+            root_format: android-ota-payload
+            graph_sha256: 06c52bca4b449e98acbc1a2e59c187befb3f8a3b8d8cdfcf9bf600a49a0cc3b9
+            node_count: 2
+            occurrence_count: 3
+            edge_count: 1
+          nodes[2]:
+            - artifact_id: art_08648466ec06bf0bd3ce144d529cf8f8738b40202c8e1f5da6f0570935e9e86d
+              format: file
+              sha256: 9f1dcbc35c350d6027f98be0f5c8b43b42ca52b7604459c0c42be3aa88913d47
+              size: 8192
+              media_type: null
+              architecture: null
+              content_state: embedded
+              limitations: []
+            - artifact_id: art_5e607ef93a49b06e7f32d5271653b1d47d29f564ac2c19c11d8183272bd107d1
+              format: android-ota-payload
+              sha256: f756ebf96f6b01d27d3d00b68999f0458b171452782305bd0384068ef02002eb
+              size: 330
+              media_type: null
+              architecture: null
+              content_state: materialized
+              limitations: []
+          occurrences[3]:
+            - occurrence_id: occ_603f173658ee6d3042c4e8549dde67ba83fcd49af932ebf619f9b2e2f08aa512
+              artifact_id: art_5e607ef93a49b06e7f32d5271653b1d47d29f564ac2c19c11d8183272bd107d1
+              parent_occurrence_id: null
+              relationship_coverage: complete
+              logical_path: .
+              entry_kind: file
+              artifact_kind: container
+              artifact_format: android-ota-payload
+              declared_size: 330
+              compressed_size: null
+              executable: false
+              encrypted: false
+              hash_status: verified
+              source_location: null
+              format_metadata:
+                kind: android-ota-payload
+                magic: CrAU
+                major_version: 2
+                manifest_size: 298
+                metadata_signature_size: 7
+                manifest_offset: 24
+                blob_offset: 329
+                block_size: 4096
+                minor_version: 0
+                payload_kind: full
+                max_timestamp: 1700000000
+                partial_update: false
+                security_patch_level: 2024-01-05
+                signatures_offset: 7
+                signatures_size: 15
+                metadata_signature_blob_size: 7
+                metadata_signature_count: 1
+                payload_signature_blob_size: 15
+                payload_signature_count: null
+                signatures_verified: false
+                snapshot_enabled: true
+                vabc_enabled: true
+                vabc_compression_param: gz
+                blob_truncated: true
+                partitions[2]:
+                  - index: 0
+                    name: boot
+                    path: boot.img
+                    new_partition_info:
+                      size: 4096
+                      hash_hex: 8449470e916f324bca7b10f4ab4a1233a7a7e07b51908222e532992291124c93
+                    old_partition_info: null
+                    version: boot-1
+                    run_postinstall: false
+                    postinstall_path: null
+                    filesystem_type: raw
+                    operation_counts[1]{type,type_code,count}:
+                      REPLACE,0,1
+                    total_data_length: 7
+                    merge_operation_count: 0
+                    estimate_cow_size: null
+                    extractable: false
+                  - index: 1
+                    name: system
+                    path: system.img
+                    new_partition_info:
+                      size: 8192
+                      hash_hex: 9f1dcbc35c350d6027f98be0f5c8b43b42ca52b7604459c0c42be3aa88913d47
+                    old_partition_info: null
+                    version: system-1
+                    run_postinstall: true
+                    postinstall_path: system/bin/otapreopt_script
+                    filesystem_type: ext4
+                    operation_counts[1]{type,type_code,count}:
+                      ZERO,6,1
+                    total_data_length: 0
+                    merge_operation_count: 2
+                    estimate_cow_size: 4096
+                    extractable: true
+                dynamic_partition_groups[1]:
+                  - name: super
+                    size: 67108864
+                    partition_names[1]: system
+                apex_info[1]{package_name,version,is_compressed,decompressed_size}:
+                  com.android.runtime,340090000,true,12000000
+              limitations: []
+            - occurrence_id: occ_33b8f8b3ca3599a7e5b4ac2dffe8a89ea7d559c075aa38ad4789a3d4313871bd
+              artifact_id: null
+              parent_occurrence_id: occ_603f173658ee6d3042c4e8549dde67ba83fcd49af932ebf619f9b2e2f08aa512
+              relationship_coverage: unknown
+              logical_path: boot.img
+              entry_kind: file
+              artifact_kind: resource
+              artifact_format: file
+              declared_size: 4096
+              compressed_size: 7
+              executable: false
+              encrypted: false
+              hash_status: unavailable
+              source_location: null
+              source_path: boot.img
+              format_metadata:
+                kind: android-ota-partition
+                index: 0
+                name: boot
+                extractable: false
+                new_partition_info:
+                  size: 4096
+                  hash_hex: 8449470e916f324bca7b10f4ab4a1233a7a7e07b51908222e532992291124c93
+                old_partition_info: null
+                version: boot-1
+                run_postinstall: false
+                postinstall_path: null
+                filesystem_type: raw
+                operation_counts[1]{type,type_code,count}:
+                  REPLACE,0,1
+                total_data_length: 7
+                merge_operation_count: 0
+                estimate_cow_size: null
+              limitations[2]: Delta and compressed operations other than REPLACE_ZSTD are not applied; those partitions cannot be reconstructed.,Delta and compressed operations other than REPLACE_ZSTD are not applied; those partitions cannot be reconstructed.
+            - occurrence_id: occ_5b46826bea5801ef866bd9c3bb4d3ba2646485d50cb07dbdb03bb5eada61b741
+              artifact_id: art_08648466ec06bf0bd3ce144d529cf8f8738b40202c8e1f5da6f0570935e9e86d
+              parent_occurrence_id: occ_603f173658ee6d3042c4e8549dde67ba83fcd49af932ebf619f9b2e2f08aa512
+              relationship_coverage: complete
+              logical_path: system.img
+              entry_kind: file
+              artifact_kind: resource
+              artifact_format: file
+              declared_size: 8192
+              compressed_size: 0
+              executable: false
+              encrypted: false
+              hash_status: verified
+              source_location: null
+              source_path: system.img
+              declared_integrity:
+                algorithm: sha256
+                digest: 9f1dcbc35c350d6027f98be0f5c8b43b42ca52b7604459c0c42be3aa88913d47
+              format_metadata:
+                kind: android-ota-partition
+                index: 1
+                name: system
+                extractable: true
+                new_partition_info:
+                  size: 8192
+                  hash_hex: 9f1dcbc35c350d6027f98be0f5c8b43b42ca52b7604459c0c42be3aa88913d47
+                old_partition_info: null
+                version: system-1
+                run_postinstall: true
+                postinstall_path: system/bin/otapreopt_script
+                filesystem_type: ext4
+                operation_counts[1]{type,type_code,count}:
+                  ZERO,6,1
+                total_data_length: 0
+                merge_operation_count: 2
+                estimate_cow_size: 4096
+              limitations: []
+          edges[1]{edge_id,ordinal,parent_artifact_id,relation,occurrence_id,producer}:
+            edge_fbdc633b4d3508cf2adf6b2303bad882b1388e13a50960e0511a3e9128149451,0,art_5e607ef93a49b06e7f32d5271653b1d47d29f564ac2c19c11d8183272bd107d1,contains,occ_5b46826bea5801ef866bd9c3bb4d3ba2646485d50cb07dbdb03bb5eada61b741,null
+          provenance: []
+          integrity_contradictions: []
+          coverage:
+            scope: container-entries
+            status: unknown
+          limitations[5]: "Android OTA payload inventory reads the CrAU header and DeltaArchiveManifest. Signatures are not verified, delta operations are not applied, and partition images are reconstructed only from REPLACE, ZERO, and REPLACE_ZSTD operations.","Android OTA payload inventory reads the CrAU header and DeltaArchiveManifest. Signatures are not verified, delta operations are not applied, and partition images are reconstructed only from REPLACE, ZERO, and REPLACE_ZSTD operations.",Delta and compressed operations other than REPLACE_ZSTD are not applied; those partitions cannot be reconstructed.,Metadata and payload signatures were parsed for size and signature count only; they were not verified.,The payload blob is truncated; partition inventory comes from the manifest and operation data past the end of the file was not read.
+        confidence: observed
+        authority: shipped-artifact
+        environment: null
+        limitations[5]: "Android OTA payload inventory reads the CrAU header and DeltaArchiveManifest. Signatures are not verified, delta operations are not applied, and partition images are reconstructed only from REPLACE, ZERO, and REPLACE_ZSTD operations.","Android OTA payload inventory reads the CrAU header and DeltaArchiveManifest. Signatures are not verified, delta operations are not applied, and partition images are reconstructed only from REPLACE, ZERO, and REPLACE_ZSTD operations.",Delta and compressed operations other than REPLACE_ZSTD are not applied; those partitions cannot be reconstructed.,Metadata and payload signatures were parsed for size and signature count only; they were not verified.,The payload blob is truncated; partition inventory comes from the manifest and operation data past the end of the file was not read.
+        relationship_coverage: null
+        locations: []
+        evidence_links: []
+  observations[1]:
+    - observation_id: aio_5196637f262d7c3b56ba320db25288698c1aad657c424df99eae2ffa6a525a8e
+      kind: root-manifest
+      subject: art_5e607ef93a49b06e7f32d5271653b1d47d29f564ac2c19c11d8183272bd107d1
+      value:
+        manifest_id: agm_a40093d9aac8a73090586b0f783ba4b32823439ea402316ff1bc119d7ced4691
+        root_artifact_id: art_5e607ef93a49b06e7f32d5271653b1d47d29f564ac2c19c11d8183272bd107d1
+        root_sha256: f756ebf96f6b01d27d3d00b68999f0458b171452782305bd0384068ef02002eb
+        root_format: android-ota-payload
+        graph_sha256: 06c52bca4b449e98acbc1a2e59c187befb3f8a3b8d8cdfcf9bf600a49a0cc3b9
+        node_count: 2
+        occurrence_count: 3
+        edge_count: 1
+      evidence_id: ev_34bd0b709880144daf81f844545903eb9d1ab4a9363ea7d4f06a8fbc5da46a21
+  hypotheses: []
+  contradictions: []
+  unexplored_branches: []
+  next_probes: []
+  coverage:
+    status: partial
+    substeps_completed: 1
+    observations_retained: 1
+    observations_omitted: 0
+    hypotheses_retained: 0
+    hypotheses_omitted: 0
+    unexplored_branches_retained: 0
+    unexplored_branches_omitted: 0
+    next_probes_retained: 0
+    next_probes_omitted: 0
+  evidence_links[1]: ev_34bd0b709880144daf81f844545903eb9d1ab4a9363ea7d4f06a8fbc5da46a21
+  limitations[5]: "Android OTA payload inventory reads the CrAU header and DeltaArchiveManifest. Signatures are not verified, delta operations are not applied, and partition images are reconstructed only from REPLACE, ZERO, and REPLACE_ZSTD operations.",Delta and compressed operations other than REPLACE_ZSTD are not applied; those partitions cannot be reconstructed.,Inspection derives bounded static hypotheses and next probes; it does not execute the artifact or claim format-specific semantics.,Metadata and payload signatures were parsed for size and signature count only; they were not verified.,The payload blob is truncated; partition inventory comes from the manifest and operation data past the end of the file was not read.
+confidence: observed
+authority: shipped-artifact
+environment: null
+limitations[5]: "Android OTA payload inventory reads the CrAU header and DeltaArchiveManifest. Signatures are not verified, delta operations are not applied, and partition images are reconstructed only from REPLACE, ZERO, and REPLACE_ZSTD operations.",Delta and compressed operations other than REPLACE_ZSTD are not applied; those partitions cannot be reconstructed.,Inspection derives bounded static hypotheses and next probes; it does not execute the artifact or claim format-specific semantics.,Metadata and payload signatures were parsed for size and signature count only; they were not verified.,The payload blob is truncated; partition inventory comes from the manifest and operation data past the end of the file was not read.
+relationship_coverage: null
+locations: []
+evidence_links[1]: ev_34bd0b709880144daf81f844545903eb9d1ab4a9363ea7d4f06a8fbc5da46a21
+caller_input_path: /tmp/android-ota-demo/fixtures/truncated-payload.bin
+
+----- stderr -----
+(empty)
+
+
+################################################################################
+# AFTER: refuse bad magic (human)
+################################################################################
+$ /agent/repos/rea/scripts/rea.mjs inspect-artifact /tmp/android-ota-demo/fixtures/bad-magic.bin
+
+exit: 1
+----- stdout -----
+error: Analysis failed
+code: target_unavailable
+category: unsupported_target
+message: "Cannot open artifact: unsupported binary format."
+retryable: false
+remediation:
+  action: "Review the reported file-format reason and select a supported, well-formed target."
+details:
+  path: /tmp/android-ota-demo/fixtures/bad-magic.bin
+  reason: unsupported binary format
+  constraint: file_format_rejected
+
+----- stderr -----
+(empty)
+
+
+################################################################################
+# Public GrapheneOS OTA prefix (header+manifest+1 blob byte)
+################################################################################
+URL: https://releases.grapheneos.org/bluejay-ota_update-2026111300.zip
+ZIP member: payload.bin stored (method 0) at local-file data offset 4282
+HTTP range for payload prefix: bytes=4282-132551 (128270 bytes)
+Saved: /tmp/android-ota-demo/fixtures/grapheneos-bluejay-payload-prefix.bin
+SHA-256: 549511763adf903ed426d46621c2ac1ee88dda502567d26b9db3521ca2db190f
+CrAU version 2, manifest_size=127722, metadata_signature_size=523, blob_offset=128269
+
+################################################################################
+# AFTER: inspect public GrapheneOS payload prefix (human)
+################################################################################
+$ /agent/repos/rea/scripts/rea.mjs inspect-artifact /tmp/android-ota-demo/fixtures/grapheneos-bluejay-payload-prefix.bin
+
+exit: 0
+----- stdout -----
+evidence_id: ev_7cbeb5f25745f6a97821ea777e59c21dba832aa8e25235bf7c7865e0147e0002
+subject:
+  name: grapheneos-bluejay-payload-prefix.bin
+  digest:
+    sha256: 549511763adf903ed426d46621c2ac1ee88dda502567d26b9db3521ca2db190f
+  local_path: /tmp/android-ota-demo/fixtures/grapheneos-bluejay-payload-prefix.bin
+  format: android-ota-payload
+  architecture: null
+provider:
+  id: rea-artifact-graph
+  name: REA safe artifact graph provider
+  version: "1"
+analysis_profile: null
+predicate_type: rea.analysis
+operation: inspect_artifact
+parameters:
+  integrity_policy: fail
+  input_path: /tmp/android-ota-demo/fixtures/grapheneos-bluejay-payload-prefix.bin
+raw_result: null
+normalized_result:
+  inspection_id: ai_060615f94485563c365c89558d9c57eae88d9231cccf439d019ab610ffdcb922
+  subject:
+    manifest_id: agm_1c2af70e85fc4f80a3374bc27539a10a9fc8b7383bb8afb274977f2b12cb4d82
+    root_artifact_id: art_ff7ad0637cfba5a3637bc54f4da640c4496980546a415fda1aaa816437339884
+    root_sha256: 549511763adf903ed426d46621c2ac1ee88dda502567d26b9db3521ca2db190f
+    root_format: android-ota-payload
+  substeps[1]:
+    - substep_id: ais_d6ce5224e31b9a0d97194b96cc6970a1d95a95f2612b9e3c8ac458d0ea361722
+      operation: inventory_artifact
+      status: completed
+      evidence_id: ev_4eafceb727da7a1f6b4fa6da677f875685b638ba665f8f44fdafadc70118e887
+      evidence:
+        evidence_id: ev_4eafceb727da7a1f6b4fa6da677f875685b638ba665f8f44fdafadc70118e887
+        subject:
+          name: grapheneos-bluejay-payload-prefix.bin
+          digest:
+            sha256: 549511763adf903ed426d46621c2ac1ee88dda502567d26b9db3521ca2db190f
+          local_path: /tmp/android-ota-demo/fixtures/grapheneos-bluejay-payload-prefix.bin
+          format: android-ota-payload
+          architecture: null
+        provider:
+          id: rea-artifact-graph
+          name: REA safe artifact graph provider
+          version: "1"
+        analysis_profile: null
+        predicate_type: rea.analysis
+        operation: inventory_artifact
+        parameters:
+          integrity_policy: fail
+        raw_result: null
+        normalized_result:
+          manifest:
+            manifest_id: agm_1c2af70e85fc4f80a3374bc27539a10a9fc8b7383bb8afb274977f2b12cb4d82
+            root_artifact_id: art_ff7ad0637cfba5a3637bc54f4da640c4496980546a415fda1aaa816437339884
+            root_sha256: 549511763adf903ed426d46621c2ac1ee88dda502567d26b9db3521ca2db190f
+            root_format: android-ota-payload
+            graph_sha256: 40fdb1296638ce9a8e4062993b2c20225357460a8781fd16a46f14279043b140
+            node_count: 1
+            occurrence_count: 20
+            edge_count: 0
+          nodes[1]:
+            - artifact_id: art_ff7ad0637cfba5a3637bc54f4da640c4496980546a415fda1aaa816437339884
+              format: android-ota-payload
+              sha256: 549511763adf903ed426d46621c2ac1ee88dda502567d26b9db3521ca2db190f
+              size: 128270
+              media_type: null
+              architecture: null
+              content_state: materialized
+              limitations: []
+          occurrences[20]:
+            - occurrence_id: occ_4a7e23ce5a9cc9201d478c2e8b1bba5fc758ce663fb3b4ed87d30ed34960f72c
+              artifact_id: art_ff7ad0637cfba5a3637bc54f4da640c4496980546a415fda1aaa816437339884
+              parent_occurrence_id: null
+              relationship_coverage: complete
+              logical_path: .
+              entry_kind: file
+              artifact_kind: container
+              artifact_format: android-ota-payload
+              declared_size: 128270
+              compressed_size: null
+              executable: false
+              encrypted: false
+              hash_status: verified
+              source_location: null
+              format_metadata:
+                kind: android-ota-payload
+                magic: CrAU
+                major_version: 2
+                manifest_size: 127722
+                metadata_signature_size: 523
+                manifest_offset: 24
+                blob_offset: 128269
+                block_size: 4096
+                minor_version: 0
+                payload_kind: full
+                max_timestamp: 1794537720
+                partial_update: null
+                security_patch_level: 2026-11-01
+                signatures_offset: 1636206004
+                signatures_size: 523
+                metadata_signature_blob_size: 523
+                metadata_signature_count: 1
+                payload_signature_blob_size: 523
+                payload_signature_count: null
+                signatures_verified: false
+                snapshot_enabled: true
+                vabc_enabled: true
+                vabc_compression_param: gz
+                blob_truncated: true
+                partitions[19]:
+                  - index: 0
+                    name: abl
+                    path: abl.img
+                    new_partition_info:
+                      size: 1888256
+                      hash_hex: f4928f9f90a49b5bdb655d0d8d73af3a5d43e7f1b1cef05a1bf6106bbe6ded0b
+                    old_partition_info: null
+                    version: null
+                    run_postinstall: null
+                    postinstall_path: null
+                    filesystem_type: null
+                    operation_counts[1]{type,type_code,count}:
+                      REPLACE_XZ,8,1
+                    total_data_length: 677376
+                    merge_operation_count: 0
+                    estimate_cow_size: null
+                    extractable: false
+                  - index: 1
+                    name: bl1
+                    path: bl1.img
+                    new_partition_info:
+                      size: 12288
+                      hash_hex: cade2e14de7f12addeb1f863ca668d9a9702bcc1513ed41f2f33a962759517e4
+                    old_partition_info: null
+                    version: null
+                    run_postinstall: null
+                    postinstall_path: null
+                    filesystem_type: null
+                    operation_counts[1]{type,type_code,count}:
+                      REPLACE_XZ,8,1
+                    total_data_length: 6112
+                    merge_operation_count: 0
+                    estimate_cow_size: null
+                    extractable: false
+                  - index: 2
+                    name: bl2
+                    path: bl2.img
+                    new_partition_info:
+                      size: 544768
+                      hash_hex: 7c2176ee94de64ae5ce03f0fc9696354aba5c8f60ac2e4b42edee8beb42202db
+                    old_partition_info: null
+                    version: null
+                    run_postinstall: null
+                    postinstall_path: null
+                    filesystem_type: null
+                    operation_counts[1]{type,type_code,count}:
+                      REPLACE_XZ,8,1
+                    total_data_length: 159528
+                    merge_operation_count: 0
+                    estimate_cow_size: null
+                    extractable: false
+                  - index: 3
+                    name: bl31
+                    path: bl31.img
+                    new_partition_info:
+                      size: 90112
+                      hash_hex: c38176fb35bba164db6bad2dccdb328e403093c041b9d8f1a1fabb4dbdfda3c6
+                    old_partition_info: null
+                    version: null
+                    run_postinstall: null
+                    postinstall_path: null
+                    filesystem_type: null
+                    operation_counts[1]{type,type_code,count}:
+                      REPLACE_XZ,8,1
+                    total_data_length: 87868
+                    merge_operation_count: 0
+                    estimate_cow_size: null
+                    extractable: false
+                  - index: 4
+                    name: boot
+                    path: boot.img
+                    new_partition_info:
+                      size: 67108864
+                      hash_hex: 2c327886d98e9c541b5a17cdce4f76637c11e9d1c6cd22c8c1d6eb8813911b02
+                    old_partition_info: null
+                    version: "1794537720"
+                    run_postinstall: null
+                    postinstall_path: null
+                    filesystem_type: null
+                    operation_counts[2]{type,type_code,count}:
+                      REPLACE_BZ,1,23
+                      REPLACE_XZ,8,9
+                    total_data_length: 14906745
+                    merge_operation_count: 0
+                    estimate_cow_size: null
+                    extractable: false
+                  - index: 5
+                    name: dtbo
+                    path: dtbo.img
+                    new_partition_info:
+                      size: 16777216
+                      hash_hex: 45c1526bb20853532651f24f209b914553774f2ed07d04a6317145e944733ae2
+                    old_partition_info: null
+                    version: null
+                    run_postinstall: null
+                    postinstall_path: null
+                    filesystem_type: null
+                    operation_counts[2]{type,type_code,count}:
+                      REPLACE_BZ,1,7
+                      REPLACE_XZ,8,1
+                    total_data_length: 17716
+                    merge_operation_count: 0
+                    estimate_cow_size: null
+                    extractable: false
+                  - index: 6
+                    name: gsa
+                    path: gsa.img
+                    new_partition_info:
+                      size: 282624
+                      hash_hex: c3d91c5ee1f5652e2fc390e116d41c630a0fbdf6606ce14b7823140da8dce4cd
+                    old_partition_info: null
+                    version: null
+                    run_postinstall: null
+                    postinstall_path: null
+                    filesystem_type: null
+                    operation_counts[1]{type,type_code,count}:
+                      REPLACE_XZ,8,1
+                    total_data_length: 103940
+                    merge_operation_count: 0
+                    estimate_cow_size: null
+                    extractable: false
+                  - index: 7
+                    name: ldfw
+                    path: ldfw.img
+                    new_partition_info:
+                      size: 4096000
+                      hash_hex: f49c786d58ae4a97ddcd6ec5ff1e98c2321599df2d27ea7d6861b05f8c7c7bad
+                    old_partition_info: null
+                    version: null
+                    run_postinstall: null
+                    postinstall_path: null
+                    filesystem_type: null
+                    operation_counts[2]{type,type_code,count}:
+                      REPLACE,0,1
+                      REPLACE_XZ,8,1
+                    total_data_length: 4093888
+                    merge_operation_count: 0
+                    estimate_cow_size: null
+                    extractable: false
+                  - index: 8
+                    name: modem
+                    path: modem.img
+                    new_partition_info:
+                      size: 97701888
+                      hash_hex: 9dc73a904cfe2c775947a1a5dc3fdba4d717bc4a080455a23089232cff8f49bc
+                    old_partition_info: null
+                    version: null
+                    run_postinstall: null
+                    postinstall_path: null
+                    filesystem_type: null
+                    operation_counts[2]{type,type_code,count}:
+                      REPLACE_BZ,1,1
+                      REPLACE_XZ,8,46
+                    total_data_length: 24903142
+                    merge_operation_count: 0
+                    estimate_cow_size: null
+                    extractable: false
+                  - index: 9
+                    name: pbl
+                    path: pbl.img
+                    new_partition_info:
+                      size: 49152
+                      hash_hex: ddea24b17756fdea0ea9411e5cf6a4fd23ac5c5e55f599cfd7a4851103463007
+                    old_partition_info: null
+                    version: null
+                    run_postinstall: null
+                    postinstall_path: null
+                    filesystem_type: null
+                    operation_counts[1]{type,type_code,count}:
+                      REPLACE_XZ,8,1
+                    total_data_length: 18452
+                    merge_operation_count: 0
+                    estimate_cow_size: null
+                    extractable: false
+                  - index: 10
+                    name: product
+                    path: product.img
+                    new_partition_info:
+                      size: 1401999360
+                      hash_hex: e17c7259a73b88192e618517c8192b33c289ea33bb7ec6fc03f302b0b37b2793
+                    old_partition_info: null
+                    version: "1794537720"
+                    run_postinstall: null
+                    postinstall_path: null
+                    filesystem_type: null
+                    operation_counts[3]{type,type_code,count}:
+                      REPLACE,0,9
+                      REPLACE_BZ,1,27
+                      REPLACE_XZ,8,633
+                    total_data_length: 535544143
+                    merge_operation_count: 0
+                    estimate_cow_size: 821497749
+                    extractable: false
+                  - index: 11
+                    name: pvmfw
+                    path: pvmfw.img
+                    new_partition_info:
+                      size: 1048576
+                      hash_hex: 77ed1221f4158d4afedf6404cf174b14bf9ef9eb072f0a9688af69fc57cfd537
+                    old_partition_info: null
+                    version: null
+                    run_postinstall: null
+                    postinstall_path: null
+                    filesystem_type: null
+                    operation_counts[1]{type,type_code,count}:
+                      REPLACE_XZ,8,1
+                    total_data_length: 283228
+                    merge_operation_count: 0
+                    estimate_cow_size: null
+                    extractable: false
+                  - index: 12
+                    name: system
+                    path: system.img
+                    new_partition_info:
+                      size: 1625759744
+                      hash_hex: fa101bfcf93de5cf4ad3a80ad4d2761d19dd21ad77c338ecd63efac4ad9c292c
+                    old_partition_info: null
+                    version: "1794537720"
+                    run_postinstall: true
+                    postinstall_path: system/bin/otapreopt_script
+                    filesystem_type: ext4
+                    operation_counts[3]{type,type_code,count}:
+                      REPLACE,0,12
+                      REPLACE_BZ,1,14
+                      REPLACE_XZ,8,750
+                    total_data_length: 585570895
+                    merge_operation_count: 0
+                    estimate_cow_size: 878503449
+                    extractable: false
+                  - index: 13
+                    name: system_ext
+                    path: system_ext.img
+                    new_partition_info:
+                      size: 608903168
+                      hash_hex: f698a9209df4368085f528a1daaed0c479a0e3dd231412a6523df544469d8cb8
+                    old_partition_info: null
+                    version: "1794537720"
+                    run_postinstall: null
+                    postinstall_path: null
+                    filesystem_type: null
+                    operation_counts[3]{type,type_code,count}:
+                      REPLACE,0,3
+                      REPLACE_BZ,1,22
+                      REPLACE_XZ,8,266
+                    total_data_length: 197188571
+                    merge_operation_count: 0
+                    estimate_cow_size: 313938542
+                    extractable: false
+                  - index: 14
+                    name: tzsw
+                    path: tzsw.img
+                    new_partition_info:
+                      size: 4943872
+                      hash_hex: ded399ea7e705066104a65551764a311bf933222928e2b34a8327f043144d56e
+                    old_partition_info: null
+                    version: null
+                    run_postinstall: null
+                    postinstall_path: null
+                    filesystem_type: null
+                    operation_counts[1]{type,type_code,count}:
+                      REPLACE_XZ,8,3
+                    total_data_length: 1449408
+                    merge_operation_count: 0
+                    estimate_cow_size: null
+                    extractable: false
+                  - index: 15
+                    name: vbmeta
+                    path: vbmeta.img
+                    new_partition_info:
+                      size: 8192
+                      hash_hex: 31d976c6145d3c3f9eac84d673f701ec849adaf52ad2aa642e7224e01ee1ca43
+                    old_partition_info: null
+                    version: null
+                    run_postinstall: null
+                    postinstall_path: null
+                    filesystem_type: null
+                    operation_counts[1]{type,type_code,count}:
+                      REPLACE_XZ,8,1
+                    total_data_length: 2680
+                    merge_operation_count: 0
+                    estimate_cow_size: null
+                    extractable: false
+                  - index: 16
+                    name: vendor
+                    path: vendor.img
+                    new_partition_info:
+                      size: 654614528
+                      hash_hex: ec2fe507c83a60fb215673e473fde52672a82909f2deb7310bfdb205fdf69b04
+                    old_partition_info: null
+                    version: "1794537720"
+                    run_postinstall: null
+                    postinstall_path: null
+                    filesystem_type: null
+                    operation_counts[3]{type,type_code,count}:
+                      REPLACE,0,9
+                      REPLACE_BZ,1,1
+                      REPLACE_XZ,8,303
+                    total_data_length: 233809482
+                    merge_operation_count: 0
+                    estimate_cow_size: 367022102
+                    extractable: false
+                  - index: 17
+                    name: vendor_boot
+                    path: vendor_boot.img
+                    new_partition_info:
+                      size: 67108864
+                      hash_hex: b89399734f28e5a357165537968229855b2de2dd9df8345bc14b5b8af3e32de5
+                    old_partition_info: null
+                    version: null
+                    run_postinstall: null
+                    postinstall_path: null
+                    filesystem_type: null
+                    operation_counts[2]{type,type_code,count}:
+                      REPLACE_BZ,1,16
+                      REPLACE_XZ,8,16
+                    total_data_length: 25465542
+                    merge_operation_count: 0
+                    estimate_cow_size: null
+                    extractable: false
+                  - index: 18
+                    name: vendor_dlkm
+                    path: vendor_dlkm.img
+                    new_partition_info:
+                      size: 50401280
+                      hash_hex: 2494c22dfc59142ee188f280e08af1aeb68f153200943236e13dcaf208a45064
+                    old_partition_info: null
+                    version: "1794537720"
+                    run_postinstall: null
+                    postinstall_path: null
+                    filesystem_type: null
+                    operation_counts[3]{type,type_code,count}:
+                      REPLACE,0,1
+                      REPLACE_BZ,1,1
+                      REPLACE_XZ,8,23
+                    total_data_length: 11917288
+                    merge_operation_count: 0
+                    estimate_cow_size: 20333010
+                    extractable: false
+                dynamic_partition_groups[1]:
+                  - name: google_dynamic_partitions
+                    size: 8527020032
+                    partition_names[5]: system,system_ext,product,vendor,vendor_dlkm
+                apex_info[45]{package_name,version,is_compressed,decompressed_size}:
+                  com.android.adbd,370399999,null,null
+                  com.android.adservices,370399999,null,null
+                  com.android.apex.cts.shim,1,null,null
+                  com.android.appsearch,370399999,null,null
+                  com.android.art,370399999,null,null
+                  com.android.bt,370399999,null,null
+                  com.android.cellbroadcast,370399999,null,null
+                  com.android.configinfrastructure,370399999,null,null
+                  com.android.conscrypt,370399999,null,null
+                  com.android.crashrecovery,370399999,null,null
+                  com.android.devicelock,1,null,null
+                  com.android.extservices,370399999,null,null
+                  com.android.healthfitness,370399999,null,null
+                  com.android.i18n,1,null,null
+                  com.android.ipsec,370399999,null,null
+                  com.android.media,370399999,null,null
+                  com.android.media.swcodec,370399999,null,null
+                  com.android.mediaprovider,370399999,null,null
+                  com.android.neuralnetworks,370399999,null,null
+                  com.android.nfcservices,370399999,null,null
+                  com.android.npumanager,370399999,null,null
+                  com.android.ondevicepersonalization,370399999,null,null
+                  com.android.os.statsd,370399999,null,null
+                  com.android.permission,370399999,null,null
+                  com.android.profiling,370399999,null,null
+                  com.android.resolv,370399999,null,null
+                  com.android.rkpd,370399999,null,null
+                  com.android.runtime,1,null,null
+                  com.android.scheduling,370399999,null,null
+                  com.android.sdkext,370399999,null,null
+                  com.android.telephonycore,370399999,null,null
+                  com.android.tethering,370399999,null,null
+                  com.android.tzdata,370399999,null,null
+                  com.android.uprobestats,370399999,null,null
+                  com.android.uwb,370399999,null,null
+                  com.android.virt,370399999,null,null
+                  com.android.webapp,370399999,null,null
+                  com.android.wifi,370399999,null,null
+                  com.android.compos,370399999,null,null
+                  com.android.hardware.biometrics.face.virtual,2,null,null
+                  com.android.hardware.biometrics.fingerprint.virtual,1,null,null
+                  com.google.android.widevine,190260313,null,null
+                  com.google.pixel.camera.hal,1915780552,null,null
+                  com.google.pixel.euicc.update,371899999,null,null
+                  com.google.pixel.wifi.ext,1,null,null
+              limitations: []
+            - occurrence_id: occ_0dad8c993aa1caea2f9f8d44b0289b4853807499ced27a41748c17ccee2bf35c
+              artifact_id: null
+              parent_occurrence_id: occ_4a7e23ce5a9cc9201d478c2e8b1bba5fc758ce663fb3b4ed87d30ed34960f72c
+              relationship_coverage: unknown
+              logical_path: abl.img
+              entry_kind: file
+              artifact_kind: resource
+              artifact_format: file
+              declared_size: 1888256
+              compressed_size: 677376
+              executable: false
+              encrypted: false
+              hash_status: unavailable
+              source_location: null
+              source_path: abl.img
+              format_metadata:
+                kind: android-ota-partition
+                index: 0
+                name: abl
+                extractable: false
+                new_partition_info:
+                  size: 1888256
+                  hash_hex: f4928f9f90a49b5bdb655d0d8d73af3a5d43e7f1b1cef05a1bf6106bbe6ded0b
+                old_partition_info: null
+                version: null
+                run_postinstall: null
+                postinstall_path: null
+                filesystem_type: null
+                operation_counts[1]{type,type_code,count}:
+                  REPLACE_XZ,8,1
+                total_data_length: 677376
+                merge_operation_count: 0
+                estimate_cow_size: null
+              limitations[2]: Delta and compressed operations other than REPLACE_ZSTD are not applied; those partitions cannot be reconstructed.,Delta and compressed operations other than REPLACE_ZSTD are not applied; those partitions cannot be reconstructed.
+            - occurrence_id: occ_621a1dcf8135f2c01fbaa31ebe251c63b134a489830e5a021b2a6b2cae4d637a
+              artifact_id: null
+              parent_occurrence_id: occ_4a7e23ce5a9cc9201d478c2e8b1bba5fc758ce663fb3b4ed87d30ed34960f72c
+              relationship_coverage: unknown
+              logical_path: bl1.img
+              entry_kind: file
+              artifact_kind: resource
+              artifact_format: file
+              declared_size: 12288
+              compressed_size: 6112
+              executable: false
+              encrypted: false
+              hash_status: unavailable
+              source_location: null
+              source_path: bl1.img
+              format_metadata:
+                kind: android-ota-partition
+                index: 1
+                name: bl1
+                extractable: false
+                new_partition_info:
+                  size: 12288
+                  hash_hex: cade2e14de7f12addeb1f863ca668d9a9702bcc1513ed41f2f33a962759517e4
+                old_partition_info: null
+                version: null
+                run_postinstall: null
+                postinstall_path: null
+                filesystem_type: null
+                operation_counts[1]{type,type_code,count}:
+                  REPLACE_XZ,8,1
+                total_data_length: 6112
+                merge_operation_count: 0
+                estimate_cow_size: null
+              limitations[2]: Delta and compressed operations other than REPLACE_ZSTD are not applied; those partitions cannot be reconstructed.,Delta and compressed operations other than REPLACE_ZSTD are not applied; those partitions cannot be reconstructed.
+            - occurrence_id: occ_21534151f68124e7b21438d9693cdef73bf059695335b7de6eb88afd84a27a48
+              artifact_id: null
+              parent_occurrence_id: occ_4a7e23ce5a9cc9201d478c2e8b1bba5fc758ce663fb3b4ed87d30ed34960f72c
+              relationship_coverage: unknown
+              logical_path: bl2.img
+              entry_kind: file
+              artifact_kind: resource
+              artifact_format: file
+              declared_size: 544768
+              compressed_size: 159528
+              executable: false
+              encrypted: false
+              hash_status: unavailable
+              source_location: null
+              source_path: bl2.img
+              format_metadata:
+                kind: android-ota-partition
+                index: 2
+                name: bl2
+                extractable: false
+                new_partition_info:
+                  size: 544768
+                  hash_hex: 7c2176ee94de64ae5ce03f0fc9696354aba5c8f60ac2e4b42edee8beb42202db
+                old_partition_info: null
+                version: null
+                run_postinstall: null
+                postinstall_path: null
+                filesystem_type: null
+                operation_counts[1]{type,type_code,count}:
+                  REPLACE_XZ,8,1
+                total_data_length: 159528
+                merge_operation_count: 0
+                estimate_cow_size: null
+              limitations[2]: Delta and compressed operations other than REPLACE_ZSTD are not applied; those partitions cannot be reconstructed.,Delta and compressed operations other than REPLACE_ZSTD are not applied; those partitions cannot be reconstructed.
+            - occurrence_id: occ_e99b0021e6bcfb249a269f4029fa2b4bf34b14e34937738e1726815f7d71a4ea
+              artifact_id: null
+              parent_occurrence_id: occ_4a7e23ce5a9cc9201d478c2e8b1bba5fc758ce663fb3b4ed87d30ed34960f72c
+              relationship_coverage: unknown
+              logical_path: bl31.img
+              entry_kind: file
+              artifact_kind: resource
+              artifact_format: file
+              declared_size: 90112
+              compressed_size: 87868
+              executable: false
+              encrypted: false
+              hash_status: unavailable
+              source_location: null
+              source_path: bl31.img
+              format_metadata:
+                kind: android-ota-partition
+                index: 3
+                name: bl31
+                extractable: false
+                new_partition_info:
+                  size: 90112
+                  hash_hex: c38176fb35bba164db6bad2dccdb328e403093c041b9d8f1a1fabb4dbdfda3c6
+                old_partition_info: null
+                version: null
+                run_postinstall: null
+                postinstall_path: null
+                filesystem_type: null
+                operation_counts[1]{type,type_code,count}:
+                  REPLACE_XZ,8,1
+                total_data_length: 87868
+                merge_operation_count: 0
+                estimate_cow_size: null
+              limitations[2]: Delta and compressed operations other than REPLACE_ZSTD are not applied; those partitions cannot be reconstructed.,Delta and compressed operations other than REPLACE_ZSTD are not applied; those partitions cannot be reconstructed.
+            - occurrence_id: occ_bba6894de2e60f90b3c89682015c9255837813c0da595cfd5fae5c87d61daaa1
+              artifact_id: null
+              parent_occurrence_id: occ_4a7e23ce5a9cc9201d478c2e8b1bba5fc758ce663fb3b4ed87d30ed34960f72c
+              relationship_coverage: unknown
+              logical_path: boot.img
+              entry_kind: file
+              artifact_kind: resource
+              artifact_format: file
+              declared_size: 67108864
+              compressed_size: 14906745
+              executable: false
+              encrypted: false
+              hash_status: unavailable
+              source_location: null
+              source_path: boot.img
+              format_metadata:
+                kind: android-ota-partition
+                index: 4
+                name: boot
+                extractable: false
+                new_partition_info:
+                  size: 67108864
+                  hash_hex: 2c327886d98e9c541b5a17cdce4f76637c11e9d1c6cd22c8c1d6eb8813911b02
+                old_partition_info: null
+                version: "1794537720"
+                run_postinstall: null
+                postinstall_path: null
+                filesystem_type: null
+                operation_counts[2]{type,type_code,count}:
+                  REPLACE_BZ,1,23
+                  REPLACE_XZ,8,9
+                total_data_length: 14906745
+                merge_operation_count: 0
+                estimate_cow_size: null
+              limitations[2]: Delta and compressed operations other than REPLACE_ZSTD are not applied; those partitions cannot be reconstructed.,Delta and compressed operations other than REPLACE_ZSTD are not applied; those partitions cannot be reconstructed.
+            - occurrence_id: occ_7678f65cab6259cb961081345c79f53a337aea63320d4758482c1a57b8a691a7
+              artifact_id: null
+              parent_occurrence_id: occ_4a7e23ce5a9cc9201d478c2e8b1bba5fc758ce663fb3b4ed87d30ed34960f72c
+              relationship_coverage: unknown
+              logical_path: dtbo.img
+              entry_kind: file
+              artifact_kind: resource
+              artifact_format: file
+              declared_size: 16777216
+              compressed_size: 17716
+              executable: false
+              encrypted: false
+              hash_status: unavailable
+              source_location: null
+              source_path: dtbo.img
+              format_metadata:
+                kind: android-ota-partition
+                index: 5
+                name: dtbo
+                extractable: false
+                new_partition_info:
+                  size: 16777216
+                  hash_hex: 45c1526bb20853532651f24f209b914553774f2ed07d04a6317145e944733ae2
+                old_partition_info: null
+                version: null
+                run_postinstall: null
+                postinstall_path: null
+                filesystem_type: null
+                operation_counts[2]{type,type_code,count}:
+                  REPLACE_BZ,1,7
+                  REPLACE_XZ,8,1
+                total_data_length: 17716
+                merge_operation_count: 0
+                estimate_cow_size: null
+              limitations[2]: Delta and compressed operations other than REPLACE_ZSTD are not applied; those partitions cannot be reconstructed.,Delta and compressed operations other than REPLACE_ZSTD are not applied; those partitions cannot be reconstructed.
+            - occurrence_id: occ_875c9befb1e64fdd3fa01aa7e8f9a8d09380986b22986a96d081307ba545e847
+              artifact_id: null
+              parent_occurrence_id: occ_4a7e23ce5a9cc9201d478c2e8b1bba5fc758ce663fb3b4ed87d30ed34960f72c
+              relationship_coverage: unknown
+              logical_path: gsa.img
+              entry_kind: file
+              artifact_kind: resource
+              artifact_format: file
+              declared_size: 282624
+              compressed_size: 103940
+              executable: false
+              encrypted: false
+              hash_status: unavailable
+              source_location: null
+              source_path: gsa.img
+              format_metadata:
+                kind: android-ota-partition
+                index: 6
+                name: gsa
+                extractable: false
+                new_partition_info:
+                  size: 282624
+                  hash_hex: c3d91c5ee1f5652e2fc390e116d41c630a0fbdf6606ce14b7823140da8dce4cd
+                old_partition_info: null
+                version: null
+                run_postinstall: null
+                postinstall_path: null
+                filesystem_type: null
+                operation_counts[1]{type,type_code,count}:
+                  REPLACE_XZ,8,1
+                total_data_length: 103940
+                merge_operation_count: 0
+                estimate_cow_size: null
+              limitations[2]: Delta and compressed operations other than REPLACE_ZSTD are not applied; those partitions cannot be reconstructed.,Delta and compressed operations other than REPLACE_ZSTD are not applied; those partitions cannot be reconstructed.
+            - occurrence_id: occ_964910ebe82a123333fc8c5cd751bf3827e6ad92a58b25d2eee8c154573eb043
+              artifact_id: null
+              parent_occurrence_id: occ_4a7e23ce5a9cc9201d478c2e8b1bba5fc758ce663fb3b4ed87d30ed34960f72c
+              relationship_coverage: unknown
+              logical_path: ldfw.img
+              entry_kind: file
+              artifact_kind: resource
+              artifact_format: file
+              declared_size: 4096000
+              compressed_size: 4093888
+              executable: false
+              encrypted: false
+              hash_status: unavailable
+              source_location: null
+              source_path: ldfw.img
+              format_metadata:
+                kind: android-ota-partition
+                index: 7
+                name: ldfw
+                extractable: false
+                new_partition_info:
+                  size: 4096000
+                  hash_hex: f49c786d58ae4a97ddcd6ec5ff1e98c2321599df2d27ea7d6861b05f8c7c7bad
+                old_partition_info: null
+                version: null
+                run_postinstall: null
+                postinstall_path: null
+                filesystem_type: null
+                operation_counts[2]{type,type_code,count}:
+                  REPLACE,0,1
+                  REPLACE_XZ,8,1
+                total_data_length: 4093888
+                merge_operation_count: 0
+                estimate_cow_size: null
+              limitations[2]: Delta and compressed operations other than REPLACE_ZSTD are not applied; those partitions cannot be reconstructed.,Delta and compressed operations other than REPLACE_ZSTD are not applied; those partitions cannot be reconstructed.
+            - occurrence_id: occ_c5da26da10309837dbee6aade0ce7f7191a4ab3c40cf8ff63df079fbb3867d24
+              artifact_id: null
+              parent_occurrence_id: occ_4a7e23ce5a9cc9201d478c2e8b1bba5fc758ce663fb3b4ed87d30ed34960f72c
+              relationship_coverage: unknown
+              logical_path: modem.img
+              entry_kind: file
+              artifact_kind: resource
+              artifact_format: file
+              declared_size: 97701888
+              compressed_size: 24903142
+              executable: false
+              encrypted: false
+              hash_status: unavailable
+              source_location: null
+              source_path: modem.img
+              format_metadata:
+                kind: android-ota-partition
+                index: 8
+                name: modem
+                extractable: false
+                new_partition_info:
+                  size: 97701888
+                  hash_hex: 9dc73a904cfe2c775947a1a5dc3fdba4d717bc4a080455a23089232cff8f49bc
+                old_partition_info: null
+                version: null
+                run_postinstall: null
+                postinstall_path: null
+                filesystem_type: null
+                operation_counts[2]{type,type_code,count}:
+                  REPLACE_BZ,1,1
+                  REPLACE_XZ,8,46
+                total_data_length: 24903142
+                merge_operation_count: 0
+                estimate_cow_size: null
+              limitations[2]: Delta and compressed operations other than REPLACE_ZSTD are not applied; those partitions cannot be reconstructed.,Delta and compressed operations other than REPLACE_ZSTD are not applied; those partitions cannot be reconstructed.
+            - occurrence_id: occ_5667a144631e01fb429fc23c71578bf36046c8c1a01d057d8acb03e39e083197
+              artifact_id: null
+              parent_occurrence_id: occ_4a7e23ce5a9cc9201d478c2e8b1bba5fc758ce663fb3b4ed87d30ed34960f72c
+              relationship_coverage: unknown
+              logical_path: pbl.img
+              entry_kind: file
+              artifact_kind: resource
+              artifact_format: file
+              declared_size: 49152
+              compressed_size: 18452
+              executable: false
+              encrypted: false
+              hash_status: unavailable
+              source_location: null
+              source_path: pbl.img
+              format_metadata:
+                kind: android-ota-partition
+                index: 9
+                name: pbl
+                extractable: false
+                new_partition_info:
+                  size: 49152
+                  hash_hex: ddea24b17756fdea0ea9411e5cf6a4fd23ac5c5e55f599cfd7a4851103463007
+                old_partition_info: null
+                version: null
+                run_postinstall: null
+                postinstall_path: null
+                filesystem_type: null
+                operation_counts[1]{type,type_code,count}:
+                  REPLACE_XZ,8,1
+                total_data_length: 18452
+                merge_operation_count: 0
+                estimate_cow_size: null
+              limitations[2]: Delta and compressed operations other than REPLACE_ZSTD are not applied; those partitions cannot be reconstructed.,Delta and compressed operations other than REPLACE_ZSTD are not applied; those partitions cannot be reconstructed.
+            - occurrence_id: occ_5e71c8770bf9693723b7d8ad2e6986a7b536eec03a4011107cc45701017202ce
+              artifact_id: null
+              parent_occurrence_id: occ_4a7e23ce5a9cc9201d478c2e8b1bba5fc758ce663fb3b4ed87d30ed34960f72c
+              relationship_coverage: unknown
+              logical_path: product.img
+              entry_kind: file
+              artifact_kind: resource
+              artifact_format: file
+              declared_size: 1401999360
+              compressed_size: 535544143
+              executable: false
+              encrypted: false
+              hash_status: unavailable
+              source_location: null
+              source_path: product.img
+              format_metadata:
+                kind: android-ota-partition
+                index: 10
+                name: product
+                extractable: false
+                new_partition_info:
+                  size: 1401999360
+                  hash_hex: e17c7259a73b88192e618517c8192b33c289ea33bb7ec6fc03f302b0b37b2793
+                old_partition_info: null
+                version: "1794537720"
+                run_postinstall: null
+                postinstall_path: null
+                filesystem_type: null
+                operation_counts[3]{type,type_code,count}:
+                  REPLACE,0,9
+                  REPLACE_BZ,1,27
+                  REPLACE_XZ,8,633
+                total_data_length: 535544143
+                merge_operation_count: 0
+                estimate_cow_size: 821497749
+              limitations[2]: Delta and compressed operations other than REPLACE_ZSTD are not applied; those partitions cannot be reconstructed.,Delta and compressed operations other than REPLACE_ZSTD are not applied; those partitions cannot be reconstructed.
+            - occurrence_id: occ_8f174d50c6d921a0e9978ea1fd90152ece8dc31c58735b106e3332094ec239c7
+              artifact_id: null
+              parent_occurrence_id: occ_4a7e23ce5a9cc9201d478c2e8b1bba5fc758ce663fb3b4ed87d30ed34960f72c
+              relationship_coverage: unknown
+              logical_path: pvmfw.img
+              entry_kind: file
+              artifact_kind: resource
+              artifact_format: file
+              declared_size: 1048576
+              compressed_size: 283228
+              executable: false
+              encrypted: false
+              hash_status: unavailable
+              source_location: null
+              source_path: pvmfw.img
+              format_metadata:
+                kind: android-ota-partition
+                index: 11
+                name: pvmfw
+                extractable: false
+                new_partition_info:
+                  size: 1048576
+                  hash_hex: 77ed1221f4158d4afedf6404cf174b14bf9ef9eb072f0a9688af69fc57cfd537
+                old_partition_info: null
+                version: null
+                run_postinstall: null
+                postinstall_path: null
+                filesystem_type: null
+                operation_counts[1]{type,type_code,count}:
+                  REPLACE_XZ,8,1
+                total_data_length: 283228
+                merge_operation_count: 0
+                estimate_cow_size: null
+              limitations[2]: Delta and compressed operations other than REPLACE_ZSTD are not applied; those partitions cannot be reconstructed.,Delta and compressed operations other than REPLACE_ZSTD are not applied; those partitions cannot be reconstructed.
+            - occurrence_id: occ_9d3822d6b13a74c6cc31e523893fccfa30d254ada94dd78f8b3e747b8d836bd5
+              artifact_id: null
+              parent_occurrence_id: occ_4a7e23ce5a9cc9201d478c2e8b1bba5fc758ce663fb3b4ed87d30ed34960f72c
+              relationship_coverage: unknown
+              logical_path: system.img
+              entry_kind: file
+              artifact_kind: resource
+              artifact_format: file
+              declared_size: 1625759744
+              compressed_size: 585570895
+              executable: false
+              encrypted: false
+              hash_status: unavailable
+              source_location: null
+              source_path: system.img
+              format_metadata:
+                kind: android-ota-partition
+                index: 12
+                name: system
+                extractable: false
+                new_partition_info:
+                  size: 1625759744
+                  hash_hex: fa101bfcf93de5cf4ad3a80ad4d2761d19dd21ad77c338ecd63efac4ad9c292c
+                old_partition_info: null
+                version: "1794537720"
+                run_postinstall: true
+                postinstall_path: system/bin/otapreopt_script
+                filesystem_type: ext4
+                operation_counts[3]{type,type_code,count}:
+                  REPLACE,0,12
+                  REPLACE_BZ,1,14
+                  REPLACE_XZ,8,750
+                total_data_length: 585570895
+                merge_operation_count: 0
+                estimate_cow_size: 878503449
+              limitations[2]: Delta and compressed operations other than REPLACE_ZSTD are not applied; those partitions cannot be reconstructed.,Delta and compressed operations other than REPLACE_ZSTD are not applied; those partitions cannot be reconstructed.
+            - occurrence_id: occ_5d24733f9dfe1c4513cb6b8221f0e138f3c4edf4eee64d8f7d23ab0a34777161
+              artifact_id: null
+              parent_occurrence_id: occ_4a7e23ce5a9cc9201d478c2e8b1bba5fc758ce663fb3b4ed87d30ed34960f72c
+              relationship_coverage: unknown
+              logical_path: system_ext.img
+              entry_kind: file
+              artifact_kind: resource
+              artifact_format: file
+              declared_size: 608903168
+              compressed_size: 197188571
+              executable: false
+              encrypted: false
+              hash_status: unavailable
+              source_location: null
+              source_path: system_ext.img
+              format_metadata:
+                kind: android-ota-partition
+                index: 13
+                name: system_ext
+                extractable: false
+                new_partition_info:
+                  size: 608903168
+                  hash_hex: f698a9209df4368085f528a1daaed0c479a0e3dd231412a6523df544469d8cb8
+                old_partition_info: null
+                version: "1794537720"
+                run_postinstall: null
+                postinstall_path: null
+                filesystem_type: null
+                operation_counts[3]{type,type_code,count}:
+                  REPLACE,0,3
+                  REPLACE_BZ,1,22
+                  REPLACE_XZ,8,266
+                total_data_length: 197188571
+                merge_operation_count: 0
+                estimate_cow_size: 313938542
+              limitations[2]: Delta and compressed operations other than REPLACE_ZSTD are not applied; those partitions cannot be reconstructed.,Delta and compressed operations other than REPLACE_ZSTD are not applied; those partitions cannot be reconstructed.
+            - occurrence_id: occ_a8f6d3f87c40b75d6672ed7f86f8cc562e1fd97b91a5fcacc950fa5ba93f5322
+              artifact_id: null
+              parent_occurrence_id: occ_4a7e23ce5a9cc9201d478c2e8b1bba5fc758ce663fb3b4ed87d30ed34960f72c
+              relationship_coverage: unknown
+              logical_path: tzsw.img
+              entry_kind: file
+              artifact_kind: resource
+              artifact_format: file
+              declared_size: 4943872
+              compressed_size: 1449408
+              executable: false
+              encrypted: false
+              hash_status: unavailable
+              source_location: null
+              source_path: tzsw.img
+              format_metadata:
+                kind: android-ota-partition
+                index: 14
+                name: tzsw
+                extractable: false
+                new_partition_info:
+                  size: 4943872
+                  hash_hex: ded399ea7e705066104a65551764a311bf933222928e2b34a8327f043144d56e
+                old_partition_info: null
+                version: null
+                run_postinstall: null
+                postinstall_path: null
+                filesystem_type: null
+                operation_counts[1]{type,type_code,count}:
+                  REPLACE_XZ,8,3
+                total_data_length: 1449408
+                merge_operation_count: 0
+                estimate_cow_size: null
+              limitations[2]: Delta and compressed operations other than REPLACE_ZSTD are not applied; those partitions cannot be reconstructed.,Delta and compressed operations other than REPLACE_ZSTD are not applied; those partitions cannot be reconstructed.
+            - occurrence_id: occ_607e20e3cd16510e1aeb000ab9adfa17afb8336f0e948e4c7dc8da67a3e789f9
+              artifact_id: null
+              parent_occurrence_id: occ_4a7e23ce5a9cc9201d478c2e8b1bba5fc758ce663fb3b4ed87d30ed34960f72c
+              relationship_coverage: unknown
+              logical_path: vbmeta.img
+              entry_kind: file
+              artifact_kind: resource
+              artifact_format: file
+              declared_size: 8192
+              compressed_size: 2680
+              executable: false
+              encrypted: false
+              hash_status: unavailable
+              source_location: null
+              source_path: vbmeta.img
+              format_metadata:
+                kind: android-ota-partition
+                index: 15
+                name: vbmeta
+                extractable: false
+                new_partition_info:
+                  size: 8192
+                  hash_hex: 31d976c6145d3c3f9eac84d673f701ec849adaf52ad2aa642e7224e01ee1ca43
+                old_partition_info: null
+                version: null
+                run_postinstall: null
+                postinstall_path: null
+                filesystem_type: null
+                operation_counts[1]{type,type_code,count}:
+                  REPLACE_XZ,8,1
+                total_data_length: 2680
+                merge_operation_count: 0
+                estimate_cow_size: null
+              limitations[2]: Delta and compressed operations other than REPLACE_ZSTD are not applied; those partitions cannot be reconstructed.,Delta and compressed operations other than REPLACE_ZSTD are not applied; those partitions cannot be reconstructed.
+            - occurrence_id: occ_b0381d66f321f7d05ffe4052f8cba1b74a237fde1aa239cab601718e4374baf3
+              artifact_id: null
+              parent_occurrence_id: occ_4a7e23ce5a9cc9201d478c2e8b1bba5fc758ce663fb3b4ed87d30ed34960f72c
+              relationship_coverage: unknown
+              logical_path: vendor.img
+              entry_kind: file
+              artifact_kind: resource
+              artifact_format: file
+              declared_size: 654614528
+              compressed_size: 233809482
+              executable: false
+              encrypted: false
+              hash_status: unavailable
+              source_location: null
+              source_path: vendor.img
+              format_metadata:
+                kind: android-ota-partition
+                index: 16
+                name: vendor
+                extractable: false
+                new_partition_info:
+                  size: 654614528
+                  hash_hex: ec2fe507c83a60fb215673e473fde52672a82909f2deb7310bfdb205fdf69b04
+                old_partition_info: null
+                version: "1794537720"
+                run_postinstall: null
+                postinstall_path: null
+                filesystem_type: null
+                operation_counts[3]{type,type_code,count}:
+                  REPLACE,0,9
+                  REPLACE_BZ,1,1
+                  REPLACE_XZ,8,303
+                total_data_length: 233809482
+                merge_operation_count: 0
+                estimate_cow_size: 367022102
+              limitations[2]: Delta and compressed operations other than REPLACE_ZSTD are not applied; those partitions cannot be reconstructed.,Delta and compressed operations other than REPLACE_ZSTD are not applied; those partitions cannot be reconstructed.
+            - occurrence_id: occ_4a351f77841e0c29be338fe6da62b5c2dc3d8797c23c31dec88973d10ca6cfca
+              artifact_id: null
+              parent_occurrence_id: occ_4a7e23ce5a9cc9201d478c2e8b1bba5fc758ce663fb3b4ed87d30ed34960f72c
+              relationship_coverage: unknown
+              logical_path: vendor_boot.img
+              entry_kind: file
+              artifact_kind: resource
+              artifact_format: file
+              declared_size: 67108864
+              compressed_size: 25465542
+              executable: false
+              encrypted: false
+              hash_status: unavailable
+              source_location: null
+              source_path: vendor_boot.img
+              format_metadata:
+                kind: android-ota-partition
+                index: 17
+                name: vendor_boot
+                extractable: false
+                new_partition_info:
+                  size: 67108864
+                  hash_hex: b89399734f28e5a357165537968229855b2de2dd9df8345bc14b5b8af3e32de5
+                old_partition_info: null
+                version: null
+                run_postinstall: null
+                postinstall_path: null
+                filesystem_type: null
+                operation_counts[2]{type,type_code,count}:
+                  REPLACE_BZ,1,16
+                  REPLACE_XZ,8,16
+                total_data_length: 25465542
+                merge_operation_count: 0
+                estimate_cow_size: null
+              limitations[2]: Delta and compressed operations other than REPLACE_ZSTD are not applied; those partitions cannot be reconstructed.,Delta and compressed operations other than REPLACE_ZSTD are not applied; those partitions cannot be reconstructed.
+            - occurrence_id: occ_76109d6c34ccbfcf463648d2b7fd078016ec39c4714c133b70eb53b134ed03e1
+              artifact_id: null
+              parent_occurrence_id: occ_4a7e23ce5a9cc9201d478c2e8b1bba5fc758ce663fb3b4ed87d30ed34960f72c
+              relationship_coverage: unknown
+              logical_path: vendor_dlkm.img
+              entry_kind: file
+              artifact_kind: resource
+              artifact_format: file
+              declared_size: 50401280
+              compressed_size: 11917288
+              executable: false
+              encrypted: false
+              hash_status: unavailable
+              source_location: null
+              source_path: vendor_dlkm.img
+              format_metadata:
+                kind: android-ota-partition
+                index: 18
+                name: vendor_dlkm
+                extractable: false
+                new_partition_info:
+                  size: 50401280
+                  hash_hex: 2494c22dfc59142ee188f280e08af1aeb68f153200943236e13dcaf208a45064
+                old_partition_info: null
+                version: "1794537720"
+                run_postinstall: null
+                postinstall_path: null
+                filesystem_type: null
+                operation_counts[3]{type,type_code,count}:
+                  REPLACE,0,1
+                  REPLACE_BZ,1,1
+                  REPLACE_XZ,8,23
+                total_data_length: 11917288
+                merge_operation_count: 0
+                estimate_cow_size: 20333010
+              limitations[2]: Delta and compressed operations other than REPLACE_ZSTD are not applied; those partitions cannot be reconstructed.,Delta and compressed operations other than REPLACE_ZSTD are not applied; those partitions cannot be reconstructed.
+          edges: []
+          provenance: []
+          integrity_contradictions: []
+          coverage:
+            scope: container-entries
+            status: unknown
+          limitations[5]: "Android OTA payload inventory reads the CrAU header and DeltaArchiveManifest. Signatures are not verified, delta operations are not applied, and partition images are reconstructed only from REPLACE, ZERO, and REPLACE_ZSTD operations.","Android OTA payload inventory reads the CrAU header and DeltaArchiveManifest. Signatures are not verified, delta operations are not applied, and partition images are reconstructed only from REPLACE, ZERO, and REPLACE_ZSTD operations.",Delta and compressed operations other than REPLACE_ZSTD are not applied; those partitions cannot be reconstructed.,Metadata and payload signatures were parsed for size and signature count only; they were not verified.,The payload blob is truncated; partition inventory comes from the manifest and operation data past the end of the file was not read.
+        confidence: observed
+        authority: shipped-artifact
+        environment: null
+        limitations[5]: "Android OTA payload inventory reads the CrAU header and DeltaArchiveManifest. Signatures are not verified, delta operations are not applied, and partition images are reconstructed only from REPLACE, ZERO, and REPLACE_ZSTD operations.","Android OTA payload inventory reads the CrAU header and DeltaArchiveManifest. Signatures are not verified, delta operations are not applied, and partition images are reconstructed only from REPLACE, ZERO, and REPLACE_ZSTD operations.",Delta and compressed operations other than REPLACE_ZSTD are not applied; those partitions cannot be reconstructed.,Metadata and payload signatures were parsed for size and signature count only; they were not verified.,The payload blob is truncated; partition inventory comes from the manifest and operation data past the end of the file was not read.
+        relationship_coverage: null
+        locations: []
+        evidence_links: []
+  observations[1]:
+    - observation_id: aio_bcd07d0ba6ea3211481ae35ce27f13d2235cb56b826c62b5162bce4ad5b3f35c
+      kind: root-manifest
+      subject: art_ff7ad0637cfba5a3637bc54f4da640c4496980546a415fda1aaa816437339884
+      value:
+        manifest_id: agm_1c2af70e85fc4f80a3374bc27539a10a9fc8b7383bb8afb274977f2b12cb4d82
+        root_artifact_id: art_ff7ad0637cfba5a3637bc54f4da640c4496980546a415fda1aaa816437339884
+        root_sha256: 549511763adf903ed426d46621c2ac1ee88dda502567d26b9db3521ca2db190f
+        root_format: android-ota-payload
+        graph_sha256: 40fdb1296638ce9a8e4062993b2c20225357460a8781fd16a46f14279043b140
+        node_count: 1
+        occurrence_count: 20
+        edge_count: 0
+      evidence_id: ev_4eafceb727da7a1f6b4fa6da677f875685b638ba665f8f44fdafadc70118e887
+  hypotheses: []
+  contradictions: []
+  unexplored_branches: []
+  next_probes: []
+  coverage:
+    status: partial
+    substeps_completed: 1
+    observations_retained: 1
+    observations_omitted: 0
+    hypotheses_retained: 0
+    hypotheses_omitted: 0
+    unexplored_branches_retained: 0
+    unexplored_branches_omitted: 0
+    next_probes_retained: 0
+    next_probes_omitted: 0
+  evidence_links[1]: ev_4eafceb727da7a1f6b4fa6da677f875685b638ba665f8f44fdafadc70118e887
+  limitations[5]: "Android OTA payload inventory reads the CrAU header and DeltaArchiveManifest. Signatures are not verified, delta operations are not applied, and partition images are reconstructed only from REPLACE, ZERO, and REPLACE_ZSTD operations.",Delta and compressed operations other than REPLACE_ZSTD are not applied; those partitions cannot be reconstructed.,Inspection derives bounded static hypotheses and next probes; it does not execute the artifact or claim format-specific semantics.,Metadata and payload signatures were parsed for size and signature count only; they were not verified.,The payload blob is truncated; partition inventory comes from the manifest and operation data past the end of the file was not read.
+confidence: observed
+authority: shipped-artifact
+environment: null
+limitations[5]: "Android OTA payload inventory reads the CrAU header and DeltaArchiveManifest. Signatures are not verified, delta operations are not applied, and partition images are reconstructed only from REPLACE, ZERO, and REPLACE_ZSTD operations.",Delta and compressed operations other than REPLACE_ZSTD are not applied; those partitions cannot be reconstructed.,Inspection derives bounded static hypotheses and next probes; it does not execute the artifact or claim format-specific semantics.,Metadata and payload signatures were parsed for size and signature count only; they were not verified.,The payload blob is truncated; partition inventory comes from the manifest and operation data past the end of the file was not read.
+relationship_coverage: null
+locations: []
+evidence_links[1]: ev_4eafceb727da7a1f6b4fa6da677f875685b638ba665f8f44fdafadc70118e887
+caller_input_path: /tmp/android-ota-demo/fixtures/grapheneos-bluejay-payload-prefix.bin
+
+----- stderr -----
+(empty)
+
+
+################################################################################
+# AFTER: inspect public GrapheneOS payload prefix (--json, selected fields)
+################################################################################
+$ /agent/repos/rea/scripts/rea.mjs inspect-artifact /tmp/android-ota-demo/fixtures/grapheneos-bluejay-payload-prefix.bin --json | python3 extract_fields.py
+
+exit: 0
+----- stdout -----
+exit: 0
+{
+  "subject_format": "android-ota-payload",
+  "root_format": "android-ota-payload",
+  "coverage": {
+    "scope": "container-entries",
+    "status": "unknown"
+  },
+  "magic": "CrAU",
+  "major_version": 2,
+  "manifest_size": 127722,
+  "metadata_signature_size": 523,
+  "blob_offset": 128269,
+  "payload_kind": "full",
+  "minor_version": 0,
+  "security_patch_level": "2026-11-01",
+  "signatures_verified": false,
+  "blob_truncated": true,
+  "partition_count": 19,
+  "partition_names": [
+    "abl",
+    "bl1",
+    "bl2",
+    "bl31",
+    "boot",
+    "dtbo",
+    "gsa",
+    "ldfw",
+    "modem",
+    "pbl",
+    "product",
+    "pvmfw",
+    "system",
+    "system_ext",
+    "tzsw",
+    "vbmeta",
+    "vendor",
+    "vendor_boot",
+    "vendor_dlkm"
+  ],
+  "dynamic_partition_groups": [
+    {
+      "name": "google_dynamic_partitions",
+      "size": 8527020032,
+      "partition_names": [
+        "system",
+        "system_ext",
+        "product",
+        "vendor",
+        "vendor_dlkm"
+      ]
+    }
+  ],
+  "metadata_signature_count": 1,
+  "payload_signature_count": null,
+  "occurrence_paths": [
+    ".",
+    "abl.img",
+    "bl1.img",
+    "bl2.img",
+    "bl31.img",
+    "boot.img",
+    "dtbo.img",
+    "gsa.img",
+    "ldfw.img",
+    "modem.img",
+    "pbl.img",
+    "product.img",
+    "pvmfw.img",
+    "system.img",
+    "system_ext.img",
+    "tzsw.img",
+    "vbmeta.img",
+    "vendor.img",
+    "vendor_boot.img",
+    "vendor_dlkm.img"
+  ],
+  "limitations": [
+    "Android OTA payload inventory reads the CrAU header and DeltaArchiveManifest. Signatures are not verified, delta operations are not applied, and partition images are reconstructed only from REPLACE, ZERO, and REPLACE_ZSTD operations.",
+    "Android OTA payload inventory reads the CrAU header and DeltaArchiveManifest. Signatures are not verified, delta operations are not applied, and partition images are reconstructed only from REPLACE, ZERO, and REPLACE_ZSTD operations.",
+    "Delta and compressed operations other than REPLACE_ZSTD are not applied; those partitions cannot be reconstructed.",
+    "Metadata and payload signatures were parsed for size and signature count only; they were not verified.",
+    "The payload blob is truncated; partition inventory comes from the manifest and operation data past the end of the file was not read."
+  ]
+}
+
+----- stderr -----
+(empty)
+

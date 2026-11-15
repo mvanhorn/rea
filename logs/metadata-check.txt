@@ -1,0 +1,7 @@
+
+> rea-agents@6.9.0 metadata:check
+> node scripts/generate-package-metadata.mjs --check
+
+(node:17058) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+METADATA_CHECK_EXIT=0

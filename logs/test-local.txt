@@ -1,0 +1,22 @@
+
+> rea-agents@6.9.0 test:local
+> node scripts/run-development-tests.mjs local src/domain/firmware/androidOtaPayload.test.ts src/artifacts/AndroidOtaPayloadArtifactReader.test.ts src/artifacts/AndroidOtaPayloadArtifactReader.boundaries.test.ts src/domain/artifactFormatRecognition.test.ts src/artifacts/artifactFormats.test.ts src/application/binary/TargetFormatVocabularies.test.ts src/artifacts/inventory/ArtifactGraphConstruction.test.ts
+
+Source-test feedback; compiled boundaries and real providers need explicit verification.
+
+ RUN  v5.0.3 /agent/repos/rea
+
+ ✓ |adapters| src/artifacts/AndroidOtaPayloadArtifactReader.test.ts (8 tests) 120ms
+ ✓ |adapters| src/artifacts/inventory/ArtifactGraphConstruction.test.ts (54 tests) 29ms
+ ✓ |adapters| src/artifacts/artifactFormats.test.ts (4 tests) 4ms
+ ✓ |domain| src/domain/firmware/androidOtaPayload.test.ts (13 tests) 15ms
+ ✓ |domain| src/domain/artifactFormatRecognition.test.ts (7 tests) 3ms
+ ✓ |services| src/application/binary/TargetFormatVocabularies.test.ts (41 tests) 46ms
+ ✓ |adapters| src/artifacts/AndroidOtaPayloadArtifactReader.boundaries.test.ts (6 tests) 38ms
+
+ Test Files  7 passed (7)
+      Tests  133 passed (133)
+   Start at  17:24:15
+   Duration  3.62s (transform 68%, import 27%, tests 4%, worker 1%)
+
+TEST_LOCAL_EXIT=0

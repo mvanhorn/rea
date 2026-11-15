@@ -1,0 +1,9 @@
+
+> rea-agents@6.9.0 format:check
+> oxfmt --check .
+
+Checking formatting...
+
+All matched files use the correct format.
+Finished in 1609ms on 8478 files using 4 threads.
+FORMAT_CHECK_EXIT=0
