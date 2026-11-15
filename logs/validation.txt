@@ -1,0 +1,6 @@
+npm run test:focused -- (8 pkg files): 50 passed
+npm run check:fast: passed (after rebase onto upstream/main 5579890dd)
+npm run format:check: passed
+npm run metadata:check: passed
+npm run test:changed -- --base upstream/main: 6 failed / 12013 passed / 12 skipped
+NodeSeaArtifactReader.test.ts post-classification carrier mutation also fails on clean upstream main 5579890dd

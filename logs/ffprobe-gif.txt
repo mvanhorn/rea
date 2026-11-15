@@ -1,0 +1,3 @@
+Input #0, gif, from '/tmp/macos-pkg-demo/preview.gif':
+  Duration: 00:00:24.00, start: 0.000000, bitrate: 74 kb/s
+  Stream #0:0: Video: gif, bgra, 960x540 [SAR 64:64 DAR 16:9], 10 fps, 10 tbr, 100 tbn

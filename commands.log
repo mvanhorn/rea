@@ -1,0 +1,132 @@
+# macOS flat installer package inventory — captured command output
+# Node v22.23.4; date 2026-11-15T18:00:09Z
+
+$ sha256sum fixture.pkg signed.pkg pbzx.pkg truncated.pkg public/MacPorts.pkg 
+(cwd: /tmp/macos-pkg-demo)
+5f79afb0c26ea33b13266092befe84d400e68112cddd5422250f5878792b4b09  fixture.pkg
+68ac80174ddbeb8553437a43d6b7aa9e2e5fbac0dfc6a7534ce807cec68d2e94  signed.pkg
+66cd1ac5c2bc3d3c5dcd064b0ac15def2979960861c7ba66012f51f11b5af5a0  pbzx.pkg
+6e6a1f246c96c3bd6a7ef56737066966b7714bcb7167701112e064c856344389  truncated.pkg
+574662c46ae07dc06f5b1bc7fd517c9729163cc3c4a91027a011f794dc46d65c  public/MacPorts.pkg
+exit:0
+
+$ git rev-parse HEAD 
+(cwd: /tmp/rea-upstream-main)
+5579890dd5f916eeab6a468ae6cdc10b358c2ae1
+exit:0
+
+$ bash -c node\ scripts/rea.mjs\ inspect-artifact\ /tmp/macos-pkg-demo/fixture.pkg\ --json\ \|\ jq\ -f\ /tmp/macos-pkg-demo/before.filter.jq 
+(cwd: /tmp/rea-upstream-main)
+{
+  "root_format": "pkg",
+  "node_count": 1,
+  "occurrence_count": 1,
+  "coverage": {
+    "scope": "container-entries",
+    "status": "unknown"
+  },
+  "limitations": [
+    "PKG root hash is observed; child inventory requires a native macOS adapter."
+  ]
+}
+exit:0
+
+$ bash -c node\ scripts/rea.mjs\ inspect-artifact\ /tmp/macos-pkg-demo/fixture.pkg\ --json\ \|\ jq\ -f\ /tmp/macos-pkg-demo/after.filter.jq 
+(cwd: /agent/repos/rea)
+{
+  "node_count": 9,
+  "occurrence_count": 11,
+  "archive_kind": "product",
+  "distribution_title": "REA Fixture",
+  "scripts": {
+    "present": true,
+    "compression": "gzip-cpio-odc",
+    "preinstall": true,
+    "postinstall": true,
+    "members": 3
+  },
+  "payload": {
+    "present": true,
+    "compression": "gzip-cpio-odc",
+    "members": 6
+  },
+  "signature": {
+    "present": false,
+    "verification": "not_verified",
+    "algorithm": null,
+    "certificate_count": 0
+  },
+  "refusals": []
+}
+exit:0
+
+$ bash -c node\ scripts/rea.mjs\ inspect-artifact\ /tmp/macos-pkg-demo/pbzx.pkg\ --json\ \|\ jq\ -f\ /tmp/macos-pkg-demo/refusal.filter.jq 
+(cwd: /agent/repos/rea)
+{
+  "node_count": 5,
+  "coverage": "complete",
+  "archive_kind": "component",
+  "payload": {
+    "present": true,
+    "compression": "pbzx"
+  },
+  "refusals": [
+    {
+      "code": "unsupported-compression",
+      "message": "Payload uses pbzx (xz-chunked) compression, which is unsupported",
+      "path": "Payload"
+    }
+  ]
+}
+exit:0
+
+$ bash -c node\ scripts/rea.mjs\ inspect-artifact\ /tmp/macos-pkg-demo/truncated.pkg\ --json\ \|\ jq\ -f\ /tmp/macos-pkg-demo/refusal.filter.jq 
+(cwd: /agent/repos/rea)
+{
+  "node_count": 1,
+  "coverage": "unknown",
+  "archive_kind": "unknown",
+  "payload": {
+    "present": false,
+    "compression": "absent"
+  },
+  "refusals": [
+    {
+      "code": "truncated-header",
+      "message": "XAR header is truncated: 11 bytes, expected 28",
+      "path": null
+    }
+  ]
+}
+exit:0
+
+$ bash -c node\ scripts/rea.mjs\ inspect-artifact\ /tmp/macos-pkg-demo/public/MacPorts.pkg\ --json\ \|\ jq\ -f\ /tmp/macos-pkg-demo/macports.filter.jq 
+(cwd: /agent/repos/rea)
+{
+  "node_count": 1437,
+  "occurrence_count": 1686,
+  "archive_kind": "product",
+  "distribution_title": "MacPorts",
+  "scripts": {
+    "present": true,
+    "compression": "gzip-cpio-odc",
+    "preinstall": false,
+    "postinstall": true
+  },
+  "payload": {
+    "present": true,
+    "compression": "gzip-cpio-odc"
+  },
+  "bom": {
+    "present": true,
+    "path": "MacPorts-2.10.5-component.pkg/Bom",
+    "size": 662302
+  },
+  "signature": {
+    "present": true,
+    "algorithm": "CMS",
+    "verification": "not_verified",
+    "subject_cn": "Developer ID Installer: Joshua Root (QTA3A3B7F3)"
+  }
+}
+exit:0
