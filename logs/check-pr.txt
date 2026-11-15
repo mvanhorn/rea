@@ -1,0 +1,17 @@
+npm run check:pr
+
+Failed tests:
+FAIL  |process-boundary| tests/boundary/process/nativeVerifierPreflightOwnership.test.ts > grok actual verifier reclaims a failed preflight descendant and retains its lab
+FAIL  |mcp-boundary| tests/boundary/mcp/advertisedDialect.test.ts > advertises every profile within the portable dialect or its recorded baseline
+FAIL  |mcp-boundary| tests/boundary/mcp/packageCatalogVerification.test.ts > verifies the profiles selected for the packaged server
+FAIL  |adapters| src/artifacts/NodeSeaArtifactReader.test.ts > rejects post-classification carrier mutation before publishing Node SEA facts: malformed blob
+FAIL  |adapters| src/artifacts/Uf2ArtifactReader.test.ts > rejects a forged region entry and a changed carrier
+FAIL  |adapters| src/artifacts/deno/DenoStandaloneArtifactReader.boundaries.test.ts > rejects carrier mutation between physical member reads
+FAIL  |boundary| tests/boundary/filesystem/inesArtifact.test.ts > reports a header overwritten during admission as an integrity failure
+FAIL  |boundary| tests/boundary/filesystem/mutationWorkflow.test.ts > fails a successful sweep when either required report is absent or empty
+
+ Test Files  8 failed | 3523 passed | 54 skipped (3585)
+      Tests  8 failed | 49798 passed | 295 skipped (50101)
+   Duration  3969.34s (tests 91%, import 8%, transform 1%)
+ Tasks:    10 successful, 11 total
+Failed:    //#test:run

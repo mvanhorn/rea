@@ -1,0 +1,257 @@
+===== node -v npm -v =====
+v24.22.1
+11.19.1
+===== npx vitest run (xz decoder/parser/cli/mcp) =====
+
+ RUN  v5.0.3 /workspace
+
+ ✓ |adapters| src/deb/DebPackageParser.test.ts (17 tests) 148ms
+ ✓ |adapters| src/deb/xzDecoder.test.ts (6 tests) 48ms
+ ✓ |boundary| tests/boundary/filesystem/debPackage.test.ts (2 tests) 38ms
+ ✓ |domain| src/domain/deb/debPackage.test.ts (4 tests) 6ms
+ ✓ |acceptance| tests/acceptance/debPackageCli.test.ts (3 tests) 1463ms
+   ✓ inspects a fixture .deb without installing it or running maintainer scripts 1283ms
+ ✓ |services| src/application/deb/DebPackageService.test.ts (5 tests) 19ms
+ ✓ |mcp-boundary| tests/boundary/mcp/debPackageMcp.test.ts (3 tests) 1275ms
+   ✓ advertises inspect_deb_package and reads package identity 1131ms
+
+ Test Files  7 passed (7)
+      Tests  40 passed (40)
+   Start at  23:07:30
+   Duration  12.15s (transform 63%, import 20%, tests 17%, worker 1%)
+
+VITEST_EXIT:0
+===== npm run test:focused =====
+
+> rea-agents@6.9.0 test:focused
+> node scripts/run-development-tests.mjs focused src/domain/deb/debPackage.test.ts src/deb/DebPackageParser.test.ts src/deb/xzDecoder.test.ts src/application/deb/DebPackageService.test.ts tests/acceptance/debPackageCli.test.ts tests/boundary/mcp/debPackageMcp.test.ts tests/boundary/filesystem/debPackage.test.ts tests/acceptance/localPathAdmissionCli.test.ts tests/acceptance/stableArtifactParserFailureCli.test.ts tests/acceptance/tools/localToolContracts.test.ts tests/boundary/cli/cliIntegerArguments.test.ts tests/boundary/mcp/absoluteLocalPathTools.test.ts
+
+Focused tests: src/domain/deb/debPackage.test.ts, src/deb/DebPackageParser.test.ts, src/deb/xzDecoder.test.ts, src/application/deb/DebPackageService.test.ts, tests/acceptance/debPackageCli.test.ts, tests/boundary/mcp/debPackageMcp.test.ts, tests/boundary/filesystem/debPackage.test.ts, tests/acceptance/localPathAdmissionCli.test.ts, tests/acceptance/stableArtifactParserFailureCli.test.ts, tests/acceptance/tools/localToolContracts.test.ts, tests/boundary/cli/cliIntegerArguments.test.ts, tests/boundary/mcp/absoluteLocalPathTools.test.ts
+Another artifacts command is already running. Wait for it to finish.
+FOCUSED_EXIT:1
+===== npm run check:fast =====
+
+> rea-agents@6.9.0 precheck:fast
+> npm run deps:check
+
+
+> rea-agents@6.9.0 deps:check
+> node scripts/check-dependency-install.mjs
+
+
+> rea-agents@6.9.0 check:fast
+> node scripts/run-turbo.mjs run typecheck lint --output-logs=errors-only
+
+
+   • turbo 2.11.7
+   • Running typecheck, lint
+   • Remote caching disabled
+
+
+ Tasks:    2 successful, 2 total
+Cached:    2 cached, 2 total
+  Time:    62ms >>> FULL TURBO
+
+CHECK_FAST_EXIT:0
+===== npm run format:check =====
+
+> rea-agents@6.9.0 format:check
+> oxfmt --check .
+
+Checking formatting...
+
+All matched files use the correct format.
+Finished in 2046ms on 8059 files using 4 threads.
+FORMAT_EXIT:0
+===== npm run metadata:check =====
+
+> rea-agents@6.9.0 metadata:check
+> node scripts/generate-package-metadata.mjs --check
+
+(node:49025) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+METADATA_EXIT:0
+===== npm run docs:check =====
+
+> rea-agents@6.9.0 docs:check
+> node scripts/check-dependency-install.mjs && node scripts/run-exclusive.mjs artifacts node scripts/run-turbo.mjs run docs:check:built && npm run test:local -- tests/conformance/readmeConsistency.test.ts
+
+Another artifacts command is already running. Wait for it to finish.
+DOCS_EXIT:1
+===== hello_2.10-3 inspect =====
+normalized_result:
+  ar:
+    members[3]{name,role,size,offset,compression}:
+      debian-binary,debian-binary,4,68,unknown
+      control.tar.xz,control,1868,132,xz
+      data.tar.xz,data,51020,2060,xz
+  control:
+    package: hello
+    version:
+      raw: 2.10-3
+  coverage:
+    status: complete
+HELLO_EXIT:0
+===== npm run test:focused (retry after check:pr) =====
+
+> rea-agents@6.9.0 test:focused
+> node scripts/run-development-tests.mjs focused src/domain/deb/debPackage.test.ts src/deb/DebPackageParser.test.ts src/deb/xzDecoder.test.ts src/application/deb/DebPackageService.test.ts tests/acceptance/debPackageCli.test.ts tests/boundary/mcp/debPackageMcp.test.ts tests/boundary/filesystem/debPackage.test.ts tests/acceptance/localPathAdmissionCli.test.ts tests/acceptance/stableArtifactParserFailureCli.test.ts tests/acceptance/tools/localToolContracts.test.ts tests/boundary/cli/cliIntegerArguments.test.ts tests/boundary/mcp/absoluteLocalPathTools.test.ts
+
+Focused tests: src/domain/deb/debPackage.test.ts, src/deb/DebPackageParser.test.ts, src/deb/xzDecoder.test.ts, src/application/deb/DebPackageService.test.ts, tests/acceptance/debPackageCli.test.ts, tests/boundary/mcp/debPackageMcp.test.ts, tests/boundary/filesystem/debPackage.test.ts, tests/acceptance/localPathAdmissionCli.test.ts, tests/acceptance/stableArtifactParserFailureCli.test.ts, tests/acceptance/tools/localToolContracts.test.ts, tests/boundary/cli/cliIntegerArguments.test.ts, tests/boundary/mcp/absoluteLocalPathTools.test.ts
+
+   • turbo 2.11.7
+   • Running artifacts:skills
+   • Remote caching disabled
+
+metadata:check: cache hit, replaying logs f9396a9ce352972e
+metadata:check: 
+metadata:check: > rea-agents@6.9.0 metadata:check
+metadata:check: > node scripts/generate-package-metadata.mjs --check
+metadata:check: 
+metadata:check: (node:19418) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time
+metadata:check: (Use `node --trace-warnings ...` to show where the warning was created)
+compile: cache hit, replaying logs a41fc076dcd0de4b
+compile: 
+compile: > rea-agents@6.9.0 compile
+compile: > node scripts/clean-build-output.mjs && node scripts/run-typescript.mjs -p tsconfig.build.json && node scripts/record-catalog-digests.mjs && node scripts/record-mcp-catalog.mjs && node scripts/record-cli-commands.mjs && node scripts/bundle-runtime.mjs
+compile: 
+compile: [33m[INEFFECTIVE_DYNAMIC_IMPORT] [0mdist/dotnet/ManagedStaticProvider.js is dynamically imported by dist/composition/auxiliaryAnalysisProviders.js but also statically imported by dist/composition/binary.js, dynamic import will not move module into another chunk.
+compile: 
+compile: [33m[INEFFECTIVE_DYNAMIC_IMPORT] [0mdist/dotnet/ManagedStaticProvider.js is dynamically imported by dist/composition/auxiliaryAnalysisProviders.js but also statically imported by dist/composition/binary.js, dynamic import will not move module into another chunk.
+compile: 
+artifacts:skills: cache hit, replaying logs 5beabfc5a9f9fb8e
+artifacts:skills: 
+artifacts:skills: > rea-agents@6.9.0 artifacts:skills
+artifacts:skills: > node scripts/generate-skill-metadata.mjs
+artifacts:skills: 
+artifacts:skills: (node:35275) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time
+artifacts:skills: (Use `node --trace-warnings ...` to show where the warning was created)
+
+ Tasks:    3 successful, 3 total
+Cached:    3 cached, 3 total
+  Time:    83ms >>> FULL TURBO
+
+
+ RUN  v5.0.3 /workspace
+
+ ✓ |acceptance| tests/acceptance/localPathAdmissionCli.test.ts (3 tests) 2195ms
+   ✓ rejects empty file selections before they can become the working directory 1268ms
+   ✓ rejects empty auxiliary selections and output destinations before reading inputs 892ms
+ ✓ |acceptance| tests/acceptance/stableArtifactParserFailureCli.test.ts (15 tests) 1371ms
+   ✓ inspect-python-pyc retains the completed file identity after format refusal 1081ms
+ ✓ |acceptance| tests/acceptance/debPackageCli.test.ts (3 tests) 1308ms
+   ✓ inspects a fixture .deb without installing it or running maintainer scripts 1171ms
+ ✓ |adapters| src/deb/DebPackageParser.test.ts (17 tests) 110ms
+ ✓ |adapters| src/deb/xzDecoder.test.ts (6 tests) 86ms
+ ✓ |boundary| tests/boundary/filesystem/debPackage.test.ts (2 tests) 20ms
+ ✓ |cli-boundary| tests/boundary/cli/cliIntegerArguments.test.ts (117 tests) 4900ms
+   ✓ CLI integer arguments (56)
+     ✓ rejects "" as an Android method overload index 1078ms
+     ✓ rejects "+1" as a Cutter expected generation 912ms
+   ✓ byte-entropy window options (15)
+     ✓ rejects "1.0" as a byte-entropy --offset value 896ms
+   ✓ pyc and BEAM limit options (25)
+     ✓ keeps a decimal inspect-deb-package limit 861ms
+ ✓ |domain| src/domain/deb/debPackage.test.ts (4 tests) 5ms
+ ✓ |mcp-boundary| tests/boundary/mcp/debPackageMcp.test.ts (3 tests) 1103ms
+   ✓ advertises inspect_deb_package and reads package identity 1014ms
+ ✓ |mcp-boundary| tests/boundary/mcp/absoluteLocalPathTools.test.ts (1 test) 99ms
+ ✓ |services| src/application/deb/DebPackageService.test.ts (5 tests) 15ms
+ ✓ |acceptance| tests/acceptance/tools/localToolContracts.test.ts (6 tests) 16926ms
+   ✓ keeps overall replay verification unknown when capture divergence is unknown 1848ms
+   ✓ rejects OS-invalid local inputs through the real advertised MCP contracts 1784ms
+   ✓ rejects malformed process choices through CLI and MCP before launching the command 5078ms
+   ✓ captures real process choices and composes a untruncated self-comparison 2671ms
+   ✓ captures real process choices and composes a truncated self-comparison 2569ms
+   ✓ accepts NUL as actual terminal input while preserving capture defaults 2975ms
+
+ Test Files  12 passed (12)
+      Tests  182 passed (182)
+   Start at  00:08:17
+   Duration  20.89s (tests 71%, transform 18%, import 10%)
+
+FOCUSED_RETRY_EXIT:0
+===== npm run docs:check (retry after check:pr) =====
+
+> rea-agents@6.9.0 docs:check
+> node scripts/check-dependency-install.mjs && node scripts/run-exclusive.mjs artifacts node scripts/run-turbo.mjs run docs:check:built && npm run test:local -- tests/conformance/readmeConsistency.test.ts
+
+
+   • turbo 2.11.7
+   • Running docs:check:built
+   • Remote caching disabled
+
+metadata:check: cache hit, replaying logs f9396a9ce352972e
+metadata:check: 
+metadata:check: > rea-agents@6.9.0 metadata:check
+metadata:check: > node scripts/generate-package-metadata.mjs --check
+metadata:check: 
+metadata:check: (node:19418) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time
+metadata:check: (Use `node --trace-warnings ...` to show where the warning was created)
+compile: cache hit, replaying logs a41fc076dcd0de4b
+compile: 
+compile: > rea-agents@6.9.0 compile
+compile: > node scripts/clean-build-output.mjs && node scripts/run-typescript.mjs -p tsconfig.build.json && node scripts/record-catalog-digests.mjs && node scripts/record-mcp-catalog.mjs && node scripts/record-cli-commands.mjs && node scripts/bundle-runtime.mjs
+compile: 
+compile: [33m[INEFFECTIVE_DYNAMIC_IMPORT] [0mdist/dotnet/ManagedStaticProvider.js is dynamically imported by dist/composition/auxiliaryAnalysisProviders.js but also statically imported by dist/composition/binary.js, dynamic import will not move module into another chunk.
+compile: 
+compile: [33m[INEFFECTIVE_DYNAMIC_IMPORT] [0mdist/dotnet/ManagedStaticProvider.js is dynamically imported by dist/composition/auxiliaryAnalysisProviders.js but also statically imported by dist/composition/binary.js, dynamic import will not move module into another chunk.
+compile: 
+artifacts:skills: cache hit, replaying logs 5beabfc5a9f9fb8e
+artifacts:skills: 
+artifacts:skills: > rea-agents@6.9.0 artifacts:skills
+artifacts:skills: > node scripts/generate-skill-metadata.mjs
+artifacts:skills: 
+artifacts:skills: (node:35275) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time
+artifacts:skills: (Use `node --trace-warnings ...` to show where the warning was created)
+artifacts:managed-evidence: cache hit, replaying logs acd1f74faa81cc76
+artifacts:product-catalog: cache hit, replaying logs c16af929f897020d
+artifacts:product-catalog: 
+artifacts:product-catalog: > rea-agents@6.9.0 artifacts:product-catalog
+artifacts:product-catalog: > node scripts/generate-product-catalog.mjs
+artifacts:product-catalog: 
+artifacts:managed-evidence: 
+artifacts:managed-evidence: > rea-agents@6.9.0 artifacts:managed-evidence
+artifacts:managed-evidence: > node scripts/generate-completion-ledger.mjs
+artifacts:managed-evidence: 
+artifacts:managed-evidence: (node:35323) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time
+artifacts:managed-evidence: (Use `node --trace-warnings ...` to show where the warning was created)
+artifacts:managed-evidence: {"manifest_id":"ecm_f8ea702e438c86a55b73f7b3e086fe2351ee913f924dc542d426c32c81759ead","ledger_id":"ecl_c01a4b9f5509ecc49314664a3c37e8ebe00406da496c6a0abc523339d0e86862","claims":13,"complete":false}
+docs:check:built: cache hit, replaying logs 447e8aa6a5d5fc71
+docs:check:built: 
+docs:check:built: > rea-agents@6.9.0 docs:check:built
+docs:check:built: > node scripts/generate-package-metadata.mjs --check && node scripts/generate-skill-metadata.mjs --check && node scripts/generate-cursor-plugin-skill.mjs --check && node scripts/generate-product-catalog.mjs --check && node scripts/generate-completion-ledger.mjs --check && node scripts/check-doc-facts.mjs && node scripts/generate-error-schema.mjs --check && npm run licenses:check
+docs:check:built: 
+docs:check:built: (node:20498) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time
+docs:check:built: (Use `node --trace-warnings ...` to show where the warning was created)
+docs:check:built: (node:20509) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time
+docs:check:built: (Use `node --trace-warnings ...` to show where the warning was created)
+docs:check:built: (node:20548) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time
+docs:check:built: (Use `node --trace-warnings ...` to show where the warning was created)
+docs:check:built: {"manifest_id":"ecm_f8ea702e438c86a55b73f7b3e086fe2351ee913f924dc542d426c32c81759ead","ledger_id":"ecl_c01a4b9f5509ecc49314664a3c37e8ebe00406da496c6a0abc523339d0e86862","claims":13,"complete":false}
+docs:check:built: 
+docs:check:built: > rea-agents@6.9.0 licenses:check
+docs:check:built: > node scripts/generate-third-party-inventory.mjs --check
+docs:check:built: 
+docs:check:built: {"locked_packages":987,"runtime_packages":202,"runtime_dependency_fingerprint":"0683afc489101481e2474d7f118bc734409cbcc22b8f62f4158190e82a8184c1"}
+
+ Tasks:    6 successful, 6 total
+Cached:    6 cached, 6 total
+  Time:    47ms >>> FULL TURBO
+
+
+> rea-agents@6.9.0 test:local
+> node scripts/run-development-tests.mjs local tests/conformance/readmeConsistency.test.ts
+
+Source-test feedback; compiled boundaries and real providers need explicit verification.
+
+ RUN  v5.0.3 /workspace
+
+ ✓ |conformance| tests/conformance/readmeConsistency.test.ts (10 tests) 185ms
+
+ Test Files  1 passed (1)
+      Tests  10 passed (10)
+   Start at  00:08:38
+   Duration  559ms (tests 78%, transform 10%, worker 9%, import 4%)
+
+DOCS_RETRY_EXIT:0

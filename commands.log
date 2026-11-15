@@ -1,0 +1,948 @@
+$ node scripts/rea.mjs inspect-deb-package --help
+rea inspect-deb-package — Inspect a local Debian .deb without installing it or running maintainer scripts
+
+Usage: rea inspect-deb-package <path> [options]
+
+Arguments:
+  path  Local Debian .deb package
+
+Options:
+  --max-file-bytes <value>       Maximum stable artifact bytes to read (default 64 MiB) (default: 67108864)
+  --max-ar-members <value>       Maximum ar members to inventory (default 32) (default: 32)
+  --max-control-entries <value>  Maximum control.tar entries to inventory (default 4096) (default: 4096)
+  --max-data-entries <value>     Maximum data.tar entries to inventory (default 4096) (default: 4096)
+  --max-control-bytes <value>    Maximum decompressed control.tar bytes (default 1 MiB) (default: 1048576)
+  --max-data-bytes <value>       Maximum decompressed data.tar bytes (default 32 MiB) (default: 33554432)
+
+Custom Global Options:
+  --timings  Write measured command timing to stderr.
+
+Global Options:
+  --filter-output <keys>              Filter output by key paths (e.g. foo,bar.baz,a[0,3])
+  --format <toon|json|yaml|md|jsonl>  Output format
+  --full-output                       Show full output envelope
+  --help                              Show help
+  --llms, --llms-full                 Print LLM-readable manifest
+  --schema                            Show JSON Schema for command
+  --token-count                       Print token count of output (instead of output)
+  --token-limit <n>                   Limit output to n tokens
+  --token-offset <n>                  Skip first n tokens of output
+exit 0
+
+$ node scripts/rea.mjs inspect-deb-package /tmp/deb-demo/hello-fixture.deb
+evidence_id: ev_2dd558f9e97a8955c680ebff37a7b42c49f5581dfdd4ba08bad823a2d78426ad
+subject:
+  name: hello-fixture.deb
+  digest:
+    sha256: 3be6a5b5fccfcb5a03acc3336eb92e5ae2384fbda535ed938c9e3bc775052296
+  local_path: /tmp/deb-demo/hello-fixture.deb
+  format: file
+  architecture: null
+provider:
+  id: rea-deb-package
+  name: REA Debian package reader
+  version: "1"
+analysis_profile: null
+predicate_type: rea.analysis
+operation: inspect_deb_package
+parameters:
+  path: /tmp/deb-demo/hello-fixture.deb
+  max_file_bytes: 67108864
+  max_ar_members: 32
+  max_control_entries: 4096
+  max_data_entries: 4096
+  max_control_bytes: 1048576
+  max_data_bytes: 33554432
+raw_result: null
+normalized_result:
+  artifact:
+    path: /tmp/deb-demo/hello-fixture.deb
+    sha256: 3be6a5b5fccfcb5a03acc3336eb92e5ae2384fbda535ed938c9e3bc775052296
+    bytes: 1070
+  ar:
+    magic: "!<arch>\n"
+    format_version: "2.0"
+    members[3]{name,role,size,offset,compression}:
+      debian-binary,debian-binary,4,68,unknown
+      control.tar.gz,control,662,132,gzip
+      data.tar.gz,data,215,854,gzip
+    extra_member_names: []
+  control:
+    package: hello
+    version:
+      raw: "1:2.03-1"
+      epoch: 1
+      upstream: "2.03"
+      revision: "1"
+    architecture: all
+    maintainer: Alice <alice@example.com>
+    installed_size: 12
+    section: misc
+    priority: optional
+    homepage: "https://example.invalid/hello"
+    description_summary: greeting tool
+    source: hello
+    multi_arch: foreign
+    essential: false
+    relationships:
+      depends[4]:
+        - [1]:
+          - name: libc6
+            arch_qualifier: null
+            operator: >=
+            version: "2.34"
+            arch_restriction: null
+        - [2]:
+          - name: python3
+            arch_qualifier: any
+            operator: null
+            version: null
+            arch_restriction: null
+          - name: python3-minimal
+            arch_qualifier: null
+            operator: >=
+            version: "3.11"
+            arch_restriction: null
+        - [1]:
+          - name: foo
+            arch_qualifier: null
+            operator: null
+            version: null
+            arch_restriction:
+              negated: false
+              architectures[2]: amd64,i386
+        - [1]:
+          - name: bar
+            arch_qualifier: null
+            operator: >=
+            version: "1.0"
+            arch_restriction:
+              negated: true
+              architectures[1]: armel
+      pre_depends[1]:
+        - [1]:
+          - name: dpkg
+            arch_qualifier: null
+            operator: >=
+            version: 1.15.6
+            arch_restriction: null
+      recommends[1]:
+        - [1]:
+          - name: extra-thing
+            arch_qualifier: null
+            operator: null
+            version: null
+            arch_restriction: null
+      suggests: null
+      conflicts: null
+      breaks: null
+      replaces: null
+      provides: null
+      enhances: null
+    conffiles:
+      present: true
+      count: 1
+    md5sums:
+      present: true
+      count: 1
+    maintainer_scripts[6]{name,interpreter,bytes}:
+      preinst,/bin/sh,17
+      postinst,/bin/sh,17
+      prerm,/bin/sh,17
+      postrm,/bin/sh,17
+      config,/bin/sh,17
+      triggers,/bin/sh,17
+  data_entries[7]{path,type,mode,size,uid,gid,user,group,link_target}:
+    .,directory,"0755",0,0,0,root,root,null
+    usr,directory,"0755",0,0,0,root,root,null
+    usr/bin,directory,"0755",0,0,0,root,root,null
+    usr/bin/hello,file,"0755",0,0,0,root,root,null
+    usr/bin/hi,symlink,"0777",0,0,0,root,root,hello
+    etc,directory,"0755",0,0,0,root,root,null
+    etc/hello.conf,file,"0644",11,0,0,root,root,null
+  md5sums_cross_check:
+    listed: 1
+    present: 1
+    missing_from_inventory: 0
+    missing_from_md5sums: 1
+  issues: []
+  coverage:
+    status: complete
+    ar_members: 3
+    control_entries: 10
+    data_entries: 7
+    examined_control_bytes: 10752
+    examined_data_bytes: 5120
+  limitations[4]: This workflow reads the .deb ar container and its control/data tars without installing the package or running maintainer scripts.,Package signatures (debsig/dpkg-sig) are not verified.,Maintainer-script text is not returned; only the interpreter line and byte length are observed.,md5sums cross-check compares listed paths to the data inventory and does not hash file contents.
+confidence: observed
+authority: shipped-artifact
+environment: null
+limitations[4]: This workflow reads the .deb ar container and its control/data tars without installing the package or running maintainer scripts.,Package signatures (debsig/dpkg-sig) are not verified.,Maintainer-script text is not returned; only the interpreter line and byte length are observed.,md5sums cross-check compares listed paths to the data inventory and does not hash file contents.
+relationship_coverage: null
+locations[2]:
+  - kind: artifact-path
+    path: /tmp/deb-demo/hello-fixture.deb
+  - kind: file-offset-range
+    start: 0
+    end: 1070
+evidence_links: []
+caller_input_path: /tmp/deb-demo/hello-fixture.deb
+exit 0
+
+$ node scripts/rea.mjs inspect-deb-package --json /tmp/deb-demo/hello-fixture.deb
+{"evidence_id":"ev_2dd558f9e97a8955c680ebff37a7b42c49f5581dfdd4ba08bad823a2d78426ad","subject":{"name":"hello-fixture.deb","digest":{"sha256":"3be6a5b5fccfcb5a03acc3336eb92e5ae2384fbda535ed938c9e3bc775052296"},"local_path":"/tmp/deb-demo/hello-fixture.deb","format":"file","architecture":null},"provider":{"id":"rea-deb-package","name":"REA Debian package reader","version":"1"},"analysis_profile":null,"predicate_type":"rea.analysis","operation":"inspect_deb_package","parameters":{"path":"/tmp/deb-demo/hello-fixture.deb","max_file_bytes":67108864,"max_ar_members":32,"max_control_entries":4096,"max_data_entries":4096,"max_control_bytes":1048576,"max_data_bytes":33554432},"raw_result":null,"normalized_result":{"artifact":{"path":"/tmp/deb-demo/hello-fixture.deb","sha256":"3be6a5b5fccfcb5a03acc3336eb92e5ae2384fbda535ed938c9e3bc775052296","bytes":1070},"ar":{"magic":"!<arch>\n","format_version":"2.0","members":[{"name":"debian-binary","role":"debian-binary","size":4,"offset":68,"compression":"unknown"},{"name":"control.tar.gz","role":"control","size":662,"offset":132,"compression":"gzip"},{"name":"data.tar.gz","role":"data","size":215,"offset":854,"compression":"gzip"}],"extra_member_names":[]},"control":{"package":"hello","version":{"raw":"1:2.03-1","epoch":1,"upstream":"2.03","revision":"1"},"architecture":"all","maintainer":"Alice <alice@example.com>","installed_size":12,"section":"misc","priority":"optional","homepage":"https://example.invalid/hello","description_summary":"greeting tool","source":"hello","multi_arch":"foreign","essential":false,"relationships":{"depends":[[{"name":"libc6","arch_qualifier":null,"operator":">=","version":"2.34","arch_restriction":null}],[{"name":"python3","arch_qualifier":"any","operator":null,"version":null,"arch_restriction":null},{"name":"python3-minimal","arch_qualifier":null,"operator":">=","version":"3.11","arch_restriction":null}],[{"name":"foo","arch_qualifier":null,"operator":null,"version":null,"arch_restriction":{"negated":false,"architectures":["amd64","i386"]}}],[{"name":"bar","arch_qualifier":null,"operator":">=","version":"1.0","arch_restriction":{"negated":true,"architectures":["armel"]}}]],"pre_depends":[[{"name":"dpkg","arch_qualifier":null,"operator":">=","version":"1.15.6","arch_restriction":null}]],"recommends":[[{"name":"extra-thing","arch_qualifier":null,"operator":null,"version":null,"arch_restriction":null}]],"suggests":null,"conflicts":null,"breaks":null,"replaces":null,"provides":null,"enhances":null},"conffiles":{"present":true,"count":1},"md5sums":{"present":true,"count":1},"maintainer_scripts":[{"name":"preinst","interpreter":"/bin/sh","bytes":17},{"name":"postinst","interpreter":"/bin/sh","bytes":17},{"name":"prerm","interpreter":"/bin/sh","bytes":17},{"name":"postrm","interpreter":"/bin/sh","bytes":17},{"name":"config","interpreter":"/bin/sh","bytes":17},{"name":"triggers","interpreter":"/bin/sh","bytes":17}]},"data_entries":[{"path":".","type":"directory","mode":"0755","size":0,"uid":0,"gid":0,"user":"root","group":"root","link_target":null},{"path":"usr","type":"directory","mode":"0755","size":0,"uid":0,"gid":0,"user":"root","group":"root","link_target":null},{"path":"usr/bin","type":"directory","mode":"0755","size":0,"uid":0,"gid":0,"user":"root","group":"root","link_target":null},{"path":"usr/bin/hello","type":"file","mode":"0755","size":0,"uid":0,"gid":0,"user":"root","group":"root","link_target":null},{"path":"usr/bin/hi","type":"symlink","mode":"0777","size":0,"uid":0,"gid":0,"user":"root","group":"root","link_target":"hello"},{"path":"etc","type":"directory","mode":"0755","size":0,"uid":0,"gid":0,"user":"root","group":"root","link_target":null},{"path":"etc/hello.conf","type":"file","mode":"0644","size":11,"uid":0,"gid":0,"user":"root","group":"root","link_target":null}],"md5sums_cross_check":{"listed":1,"present":1,"missing_from_inventory":0,"missing_from_md5sums":1},"issues":[],"coverage":{"status":"complete","ar_members":3,"control_entries":10,"data_entries":7,"examined_control_bytes":10752,"examined_data_bytes":5120},"limitations":["This workflow reads the .deb ar container and its control/data tars without installing the package or running maintainer scripts.","Package signatures (debsig/dpkg-sig) are not verified.","Maintainer-script text is not returned; only the interpreter line and byte length are observed.","md5sums cross-check compares listed paths to the data inventory and does not hash file contents."]},"confidence":"observed","authority":"shipped-artifact","environment":null,"limitations":["This workflow reads the .deb ar container and its control/data tars without installing the package or running maintainer scripts.","Package signatures (debsig/dpkg-sig) are not verified.","Maintainer-script text is not returned; only the interpreter line and byte length are observed.","md5sums cross-check compares listed paths to the data inventory and does not hash file contents."],"relationship_coverage":null,"locations":[{"kind":"artifact-path","path":"/tmp/deb-demo/hello-fixture.deb"},{"kind":"file-offset-range","start":0,"end":1070}],"evidence_links":[],"caller_input_path":"/tmp/deb-demo/hello-fixture.deb"}
+exit 0
+
+$ node scripts/rea.mjs inspect-deb-package /tmp/deb-demo/hello-zstd.deb
+evidence_id: ev_35ce978780e1e95a01cb417eb50e4616ab9901817097e477d0677081cbf6a6b9
+subject:
+  name: hello-zstd.deb
+  digest:
+    sha256: b36816e9616511416ee3285b00250fdc167c64712b33514cd1b6703e4566b296
+  local_path: /tmp/deb-demo/hello-zstd.deb
+  format: file
+  architecture: null
+provider:
+  id: rea-deb-package
+  name: REA Debian package reader
+  version: "1"
+analysis_profile: null
+predicate_type: rea.analysis
+operation: inspect_deb_package
+parameters:
+  path: /tmp/deb-demo/hello-zstd.deb
+  max_file_bytes: 67108864
+  max_ar_members: 32
+  max_control_entries: 4096
+  max_data_entries: 4096
+  max_control_bytes: 1048576
+  max_data_bytes: 33554432
+raw_result: null
+normalized_result:
+  artifact:
+    path: /tmp/deb-demo/hello-zstd.deb
+    sha256: b36816e9616511416ee3285b00250fdc167c64712b33514cd1b6703e4566b296
+    bytes: 1038
+  ar:
+    magic: "!<arch>\n"
+    format_version: "2.0"
+    members[3]{name,role,size,offset,compression}:
+      debian-binary,debian-binary,4,68,unknown
+      control.tar.zst,control,657,132,zstd
+      data.tar.zst,data,188,850,zstd
+    extra_member_names: []
+  control:
+    package: hello
+    version:
+      raw: "1:2.03-1"
+      epoch: 1
+      upstream: "2.03"
+      revision: "1"
+    architecture: all
+    maintainer: Alice <alice@example.com>
+    installed_size: 12
+    section: misc
+    priority: optional
+    homepage: "https://example.invalid/hello"
+    description_summary: greeting tool
+    source: hello
+    multi_arch: foreign
+    essential: false
+    relationships:
+      depends[4]:
+        - [1]:
+          - name: libc6
+            arch_qualifier: null
+            operator: >=
+            version: "2.34"
+            arch_restriction: null
+        - [2]:
+          - name: python3
+            arch_qualifier: any
+            operator: null
+            version: null
+            arch_restriction: null
+          - name: python3-minimal
+            arch_qualifier: null
+            operator: >=
+            version: "3.11"
+            arch_restriction: null
+        - [1]:
+          - name: foo
+            arch_qualifier: null
+            operator: null
+            version: null
+            arch_restriction:
+              negated: false
+              architectures[2]: amd64,i386
+        - [1]:
+          - name: bar
+            arch_qualifier: null
+            operator: >=
+            version: "1.0"
+            arch_restriction:
+              negated: true
+              architectures[1]: armel
+      pre_depends[1]:
+        - [1]:
+          - name: dpkg
+            arch_qualifier: null
+            operator: >=
+            version: 1.15.6
+            arch_restriction: null
+      recommends[1]:
+        - [1]:
+          - name: extra-thing
+            arch_qualifier: null
+            operator: null
+            version: null
+            arch_restriction: null
+      suggests: null
+      conflicts: null
+      breaks: null
+      replaces: null
+      provides: null
+      enhances: null
+    conffiles:
+      present: true
+      count: 1
+    md5sums:
+      present: true
+      count: 1
+    maintainer_scripts[6]{name,interpreter,bytes}:
+      preinst,/bin/sh,17
+      postinst,/bin/sh,17
+      prerm,/bin/sh,17
+      postrm,/bin/sh,17
+      config,/bin/sh,17
+      triggers,/bin/sh,17
+  data_entries[7]{path,type,mode,size,uid,gid,user,group,link_target}:
+    .,directory,"0755",0,0,0,root,root,null
+    usr,directory,"0755",0,0,0,root,root,null
+    usr/bin,directory,"0755",0,0,0,root,root,null
+    usr/bin/hello,file,"0755",0,0,0,root,root,null
+    usr/bin/hi,symlink,"0777",0,0,0,root,root,hello
+    etc,directory,"0755",0,0,0,root,root,null
+    etc/hello.conf,file,"0644",11,0,0,root,root,null
+  md5sums_cross_check:
+    listed: 1
+    present: 1
+    missing_from_inventory: 0
+    missing_from_md5sums: 1
+  issues: []
+  coverage:
+    status: complete
+    ar_members: 3
+    control_entries: 10
+    data_entries: 7
+    examined_control_bytes: 10752
+    examined_data_bytes: 5120
+  limitations[4]: This workflow reads the .deb ar container and its control/data tars without installing the package or running maintainer scripts.,Package signatures (debsig/dpkg-sig) are not verified.,Maintainer-script text is not returned; only the interpreter line and byte length are observed.,md5sums cross-check compares listed paths to the data inventory and does not hash file contents.
+confidence: observed
+authority: shipped-artifact
+environment: null
+limitations[4]: This workflow reads the .deb ar container and its control/data tars without installing the package or running maintainer scripts.,Package signatures (debsig/dpkg-sig) are not verified.,Maintainer-script text is not returned; only the interpreter line and byte length are observed.,md5sums cross-check compares listed paths to the data inventory and does not hash file contents.
+relationship_coverage: null
+locations[2]:
+  - kind: artifact-path
+    path: /tmp/deb-demo/hello-zstd.deb
+  - kind: file-offset-range
+    start: 0
+    end: 1038
+evidence_links: []
+caller_input_path: /tmp/deb-demo/hello-zstd.deb
+exit 0
+
+$ node scripts/rea.mjs inspect-deb-package /tmp/deb-demo/hello-2.4-3.deb
+evidence_id: ev_5a982f96911ba233104c93f80a0f1772e7f1177399265554d63f15a77575764b
+subject:
+  name: hello-2.4-3.deb
+  digest:
+    sha256: 1f3b78a1959a45ec61984ae4dc96f31ac7880a87187f0ac1e6c56a54b37d3f50
+  local_path: /tmp/deb-demo/hello-2.4-3.deb
+  format: file
+  architecture: null
+provider:
+  id: rea-deb-package
+  name: REA Debian package reader
+  version: "1"
+analysis_profile: null
+predicate_type: rea.analysis
+operation: inspect_deb_package
+parameters:
+  path: /tmp/deb-demo/hello-2.4-3.deb
+  max_file_bytes: 67108864
+  max_ar_members: 32
+  max_control_entries: 4096
+  max_data_entries: 4096
+  max_control_bytes: 1048576
+  max_data_bytes: 33554432
+raw_result: null
+normalized_result:
+  artifact:
+    path: /tmp/deb-demo/hello-2.4-3.deb
+    sha256: 1f3b78a1959a45ec61984ae4dc96f31ac7880a87187f0ac1e6c56a54b37d3f50
+    bytes: 63008
+  ar:
+    magic: "!<arch>\n"
+    format_version: "2.0"
+    members[3]{name,role,size,offset,compression}:
+      debian-binary,debian-binary,4,68,unknown
+      control.tar.gz,control,541,132,gzip
+      data.tar.gz,data,62273,734,gzip
+    extra_member_names: []
+  control:
+    package: hello
+    version:
+      raw: 2.4-3
+      epoch: null
+      upstream: "2.4"
+      revision: "3"
+    architecture: amd64
+    maintainer: Santiago Vila <sanvila@debian.org>
+    installed_size: 648
+    section: devel
+    priority: optional
+    homepage: null
+    description_summary: "The classic greeting, and a good example"
+    source: null
+    multi_arch: null
+    essential: null
+    relationships:
+      depends[2]:
+        - [1]:
+          - name: libc6
+            arch_qualifier: null
+            operator: >=
+            version: "2.3"
+            arch_restriction: null
+        - [2]:
+          - name: dpkg
+            arch_qualifier: null
+            operator: >=
+            version: 1.15.4
+            arch_restriction: null
+          - name: install-info
+            arch_qualifier: null
+            operator: null
+            version: null
+            arch_restriction: null
+      pre_depends: null
+      recommends: null
+      suggests: null
+      conflicts: null
+      breaks: null
+      replaces: null
+      provides: null
+      enhances: null
+    conffiles:
+      present: false
+      count: null
+    md5sums:
+      present: false
+      count: null
+    maintainer_scripts: []
+  data_entries[152]{path,type,mode,size,uid,gid,user,group,link_target}:
+    .,directory,"0755",0,0,0,root,root,null
+    usr,directory,"0755",0,0,0,root,root,null
+    usr/bin,directory,"0755",0,0,0,root,root,null
+    usr/bin/hello,file,"0755",17368,0,0,root,root,null
+    usr/share,directory,"0755",0,0,0,root,root,null
+    usr/share/man,directory,"0755",0,0,0,root,root,null
+    usr/share/man/man1,directory,"0755",0,0,0,root,root,null
+    usr/share/man/man1/hello.1.gz,file,"0644",687,0,0,root,root,null
+    usr/share/doc,directory,"0755",0,0,0,root,root,null
+    usr/share/doc/hello,directory,"0755",0,0,0,root,root,null
+    usr/share/doc/hello/changelog.Debian.gz,file,"0644",3472,0,0,root,root,null
+    usr/share/doc/hello/NEWS,file,"0644",2645,0,0,root,root,null
+    usr/share/doc/hello/copyright,file,"0644",2246,0,0,root,root,null
+    usr/share/doc/hello/changelog.gz,file,"0644",6420,0,0,root,root,null
+    usr/share/info,directory,"0755",0,0,0,root,root,null
+    usr/share/info/hello.info.gz,file,"0644",11421,0,0,root,root,null
+    usr/share/locale,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/pt_BR,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/pt_BR/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/pt_BR/LC_MESSAGES/hello.mo,file,"0644",2167,0,0,root,root,null
+    usr/share/locale/ca,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/ca/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/ca/LC_MESSAGES/hello.mo,file,"0644",2056,0,0,root,root,null
+    usr/share/locale/nl,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/nl/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/nl/LC_MESSAGES/hello.mo,file,"0644",3580,0,0,root,root,null
+    usr/share/locale/sk,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/sk/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/sk/LC_MESSAGES/hello.mo,file,"0644",3575,0,0,root,root,null
+    usr/share/locale/en@boldquot,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/en@boldquot/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/en@boldquot/LC_MESSAGES/hello.mo,file,"0644",3513,0,0,root,root,null
+    usr/share/locale/he,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/he/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/he/LC_MESSAGES/hello.mo,file,"0644",2157,0,0,root,root,null
+    usr/share/locale/it,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/it/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/it/LC_MESSAGES/hello.mo,file,"0644",2108,0,0,root,root,null
+    usr/share/locale/es,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/es/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/es/LC_MESSAGES/hello.mo,file,"0644",3023,0,0,root,root,null
+    usr/share/locale/ja,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/ja/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/ja/LC_MESSAGES/hello.mo,file,"0644",2224,0,0,root,root,null
+    usr/share/locale/en@quot,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/en@quot/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/en@quot/LC_MESSAGES/hello.mo,file,"0644",3441,0,0,root,root,null
+    usr/share/locale/zh_CN,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/zh_CN/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/zh_CN/LC_MESSAGES/hello.mo,file,"0644",3437,0,0,root,root,null
+    usr/share/locale/lv,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/lv/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/lv/LC_MESSAGES/hello.mo,file,"0644",1524,0,0,root,root,null
+    usr/share/locale/pl,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/pl/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/pl/LC_MESSAGES/hello.mo,file,"0644",3466,0,0,root,root,null
+    usr/share/locale/nb,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/nb/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/nb/LC_MESSAGES/hello.mo,file,"0644",2066,0,0,root,root,null
+    usr/share/locale/fr,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/fr/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/fr/LC_MESSAGES/hello.mo,file,"0644",2227,0,0,root,root,null
+    usr/share/locale/et,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/et/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/et/LC_MESSAGES/hello.mo,file,"0644",2665,0,0,root,root,null
+    usr/share/locale/ko,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/ko/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/ko/LC_MESSAGES/hello.mo,file,"0644",3424,0,0,root,root,null
+    usr/share/locale/ru,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/ru/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/ru/LC_MESSAGES/hello.mo,file,"0644",3031,0,0,root,root,null
+    usr/share/locale/ga,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/ga/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/ga/LC_MESSAGES/hello.mo,file,"0644",3653,0,0,root,root,null
+    usr/share/locale/ro,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/ro/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/ro/LC_MESSAGES/hello.mo,file,"0644",2133,0,0,root,root,null
+    usr/share/locale/zh_TW,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/zh_TW/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/zh_TW/LC_MESSAGES/hello.mo,file,"0644",3528,0,0,root,root,null
+    usr/share/locale/fi,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/fi/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/fi/LC_MESSAGES/hello.mo,file,"0644",3792,0,0,root,root,null
+    usr/share/locale/ka,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/ka/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/ka/LC_MESSAGES/hello.mo,file,"0644",3132,0,0,root,root,null
+    usr/share/locale/ms,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/ms/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/ms/LC_MESSAGES/hello.mo,file,"0644",2130,0,0,root,root,null
+    usr/share/locale/gl,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/gl/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/gl/LC_MESSAGES/hello.mo,file,"0644",2176,0,0,root,root,null
+    usr/share/locale/uk,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/uk/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/uk/LC_MESSAGES/hello.mo,file,"0644",2095,0,0,root,root,null
+    usr/share/locale/pt,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/pt/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/pt/LC_MESSAGES/hello.mo,file,"0644",1121,0,0,root,root,null
+    usr/share/locale/id,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/id/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/id/LC_MESSAGES/hello.mo,file,"0644",2810,0,0,root,root,null
+    usr/share/locale/vi,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/vi/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/vi/LC_MESSAGES/hello.mo,file,"0644",3979,0,0,root,root,null
+    usr/share/locale/eu,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/eu/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/eu/LC_MESSAGES/hello.mo,file,"0644",2142,0,0,root,root,null
+    usr/share/locale/nn,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/nn/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/nn/LC_MESSAGES/hello.mo,file,"0644",2158,0,0,root,root,null
+    usr/share/locale/hr,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/hr/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/hr/LC_MESSAGES/hello.mo,file,"0644",2176,0,0,root,root,null
+    usr/share/locale/sl,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/sl/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/sl/LC_MESSAGES/hello.mo,file,"0644",2215,0,0,root,root,null
+    usr/share/locale/fa,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/fa/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/fa/LC_MESSAGES/hello.mo,file,"0644",2650,0,0,root,root,null
+    usr/share/locale/rm,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/rm/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/rm/LC_MESSAGES/hello.mo,file,"0644",1904,0,0,root,root,null
+    usr/share/locale/el,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/el/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/el/LC_MESSAGES/hello.mo,file,"0644",1558,0,0,root,root,null
+    usr/share/locale/da,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/da/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/da/LC_MESSAGES/hello.mo,file,"0644",3530,0,0,root,root,null
+    usr/share/locale/sv,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/sv/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/sv/LC_MESSAGES/hello.mo,file,"0644",3843,0,0,root,root,null
+    usr/share/locale/sr,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/sr/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/sr/LC_MESSAGES/hello.mo,file,"0644",3582,0,0,root,root,null
+    usr/share/locale/hu,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/hu/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/hu/LC_MESSAGES/hello.mo,file,"0644",2250,0,0,root,root,null
+    usr/share/locale/th,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/th/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/th/LC_MESSAGES/hello.mo,file,"0644",5327,0,0,root,root,null
+    usr/share/locale/eo,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/eo/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/eo/LC_MESSAGES/hello.mo,file,"0644",3416,0,0,root,root,null
+    usr/share/locale/bg,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/bg/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/bg/LC_MESSAGES/hello.mo,file,"0644",4593,0,0,root,root,null
+    usr/share/locale/tr,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/tr/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/tr/LC_MESSAGES/hello.mo,file,"0644",3871,0,0,root,root,null
+    usr/share/locale/de,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/de/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/de/LC_MESSAGES/hello.mo,file,"0644",2810,0,0,root,root,null
+  md5sums_cross_check: null
+  issues: []
+  coverage:
+    status: complete
+    ar_members: 3
+    control_entries: 2
+    data_entries: 152
+    examined_control_bytes: 10240
+    examined_data_bytes: 266240
+  limitations[4]: This workflow reads the .deb ar container and its control/data tars without installing the package or running maintainer scripts.,Package signatures (debsig/dpkg-sig) are not verified.,Maintainer-script text is not returned; only the interpreter line and byte length are observed.,md5sums cross-check compares listed paths to the data inventory and does not hash file contents.
+confidence: observed
+authority: shipped-artifact
+environment: null
+limitations[4]: This workflow reads the .deb ar container and its control/data tars without installing the package or running maintainer scripts.,Package signatures (debsig/dpkg-sig) are not verified.,Maintainer-script text is not returned; only the interpreter line and byte length are observed.,md5sums cross-check compares listed paths to the data inventory and does not hash file contents.
+relationship_coverage: null
+locations[2]:
+  - kind: artifact-path
+    path: /tmp/deb-demo/hello-2.4-3.deb
+  - kind: file-offset-range
+    start: 0
+    end: 63008
+evidence_links: []
+caller_input_path: /tmp/deb-demo/hello-2.4-3.deb
+exit 0
+
+$ node scripts/rea.mjs inspect-deb-package /tmp/deb-demo/truncated.deb
+code: invalid_request
+category: invalid_input
+message: Analysis input is invalid. Check the arguments and try again.
+retryable: false
+remediation:
+  action: "Read the declared input schema or CLI usage for inspect_deb_package; if using MCP and the catalog may be stale, call tools/list. Correct the listed fields, then retry. Do not repeat the unchanged call."
+recovery:
+  kind: inspect_input_contract
+  operation: inspect_deb_package
+details:
+  operation: inspect_deb_package
+  issues[1]:
+    - path[1]: path
+      reason: invalid_format
+      message: "Selected Debian package /tmp/deb-demo/truncated.deb: ar member control.tar.gz declares 64 bytes past the end of the file."
+  diagnostics:
+    ar_members[1]: debian-binary
+    format_version: "2.0"
+    control_package: null
+    data_entry_count: 0
+  partial_observation:
+    kind: file-snapshot-hash
+    path: /tmp/deb-demo/truncated.deb
+    sha256: 4582ea5f541b22b0b3e36b27993255f3cc1f9370224bfe2bc17632a99c0373b1
+    bytes: 137
+exit 1
+
+$ node scripts/rea.mjs inspect-deb-package /tmp/deb-demo/not-a-package.bin
+code: invalid_request
+category: invalid_input
+message: Analysis input is invalid. Check the arguments and try again.
+retryable: false
+remediation:
+  action: "Read the declared input schema or CLI usage for inspect_deb_package; if using MCP and the catalog may be stale, call tools/list. Correct the listed fields, then retry. Do not repeat the unchanged call."
+recovery:
+  kind: inspect_input_contract
+  operation: inspect_deb_package
+details:
+  operation: inspect_deb_package
+  issues[1]:
+    - path[1]: path
+      reason: invalid_format
+      message: "Selected Debian package /tmp/deb-demo/not-a-package.bin: File does not begin with Debian ar magic !<arch>\\n."
+  partial_observation:
+    kind: file-snapshot-hash
+    path: /tmp/deb-demo/not-a-package.bin
+    sha256: c4476fd8323f69f1b280e712c6994a1516858a9a3715287827411493c434fc7f
+    bytes: 21
+exit 1
+
+$ node scripts/rea.mjs inspect-deb-package /tmp/deb-demo/hello.deb
+evidence_id: ev_c22b762b50eede7ec468921037c2b6ecf69abd282b9f18da6acee69a7addc4b2
+subject:
+  name: hello.deb
+  digest:
+    sha256: 2e6e2f1a0007dc43bc91c273fd36e91e40a4f1c2765a03eca68b70a42103878a
+  local_path: /tmp/deb-demo/hello.deb
+  format: file
+  architecture: null
+provider:
+  id: rea-deb-package
+  name: REA Debian package reader
+  version: "1"
+analysis_profile: null
+predicate_type: rea.analysis
+operation: inspect_deb_package
+parameters:
+  path: /tmp/deb-demo/hello.deb
+  max_file_bytes: 67108864
+  max_ar_members: 32
+  max_control_entries: 4096
+  max_data_entries: 4096
+  max_control_bytes: 1048576
+  max_data_bytes: 33554432
+raw_result: null
+normalized_result:
+  artifact:
+    path: /tmp/deb-demo/hello.deb
+    sha256: 2e6e2f1a0007dc43bc91c273fd36e91e40a4f1c2765a03eca68b70a42103878a
+    bytes: 53080
+  ar:
+    magic: "!<arch>\n"
+    format_version: "2.0"
+    members[3]{name,role,size,offset,compression}:
+      debian-binary,debian-binary,4,68,unknown
+      control.tar.xz,control,1868,132,xz
+      data.tar.xz,data,51020,2060,xz
+    extra_member_names: []
+  control:
+    package: hello
+    version:
+      raw: 2.10-3
+      epoch: null
+      upstream: "2.10"
+      revision: "3"
+    architecture: amd64
+    maintainer: Santiago Vila <sanvila@debian.org>
+    installed_size: 277
+    section: devel
+    priority: optional
+    homepage: "https://www.gnu.org/software/hello/"
+    description_summary: example package based on GNU hello
+    source: null
+    multi_arch: null
+    essential: null
+    relationships:
+      depends[1]:
+        - [1]:
+          - name: libc6
+            arch_qualifier: null
+            operator: >=
+            version: "2.34"
+            arch_restriction: null
+      pre_depends: null
+      recommends: null
+      suggests: null
+      conflicts[1]:
+        - [1]:
+          - name: hello-traditional
+            arch_qualifier: null
+            operator: null
+            version: null
+            arch_restriction: null
+      breaks[1]:
+        - [1]:
+          - name: hello-debhelper
+            arch_qualifier: null
+            operator: <<
+            version: "2.9"
+            arch_restriction: null
+      replaces[2]:
+        - [1]:
+          - name: hello-debhelper
+            arch_qualifier: null
+            operator: <<
+            version: "2.9"
+            arch_restriction: null
+        - [1]:
+          - name: hello-traditional
+            arch_qualifier: null
+            operator: null
+            version: null
+            arch_restriction: null
+      provides: null
+      enhances: null
+    conffiles:
+      present: false
+      count: null
+    md5sums:
+      present: true
+      count: 49
+    maintainer_scripts: []
+  data_entries[143]{path,type,mode,size,uid,gid,user,group,link_target}:
+    .,directory,"0755",0,0,0,root,root,null
+    usr,directory,"0755",0,0,0,root,root,null
+    usr/bin,directory,"0755",0,0,0,root,root,null
+    usr/bin/hello,file,"0755",31448,0,0,root,root,null
+    usr/share,directory,"0755",0,0,0,root,root,null
+    usr/share/doc,directory,"0755",0,0,0,root,root,null
+    usr/share/doc/hello,directory,"0755",0,0,0,root,root,null
+    usr/share/doc/hello/NEWS.gz,file,"0644",1868,0,0,root,root,null
+    usr/share/doc/hello/changelog.Debian.gz,file,"0644",1054,0,0,root,root,null
+    usr/share/doc/hello/changelog.gz,file,"0644",4493,0,0,root,root,null
+    usr/share/doc/hello/copyright,file,"0644",2264,0,0,root,root,null
+    usr/share/info,directory,"0755",0,0,0,root,root,null
+    usr/share/info/hello.info.gz,file,"0644",11611,0,0,root,root,null
+    usr/share/locale,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/bg,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/bg/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/bg/LC_MESSAGES/hello.mo,file,"0644",1316,0,0,root,root,null
+    usr/share/locale/ca,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/ca/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/ca/LC_MESSAGES/hello.mo,file,"0644",2809,0,0,root,root,null
+    usr/share/locale/da,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/da/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/da/LC_MESSAGES/hello.mo,file,"0644",2747,0,0,root,root,null
+    usr/share/locale/de,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/de/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/de/LC_MESSAGES/hello.mo,file,"0644",3518,0,0,root,root,null
+    usr/share/locale/el,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/el/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/el/LC_MESSAGES/hello.mo,file,"0644",3329,0,0,root,root,null
+    usr/share/locale/eo,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/eo/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/eo/LC_MESSAGES/hello.mo,file,"0644",2541,0,0,root,root,null
+    usr/share/locale/es,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/es/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/es/LC_MESSAGES/hello.mo,file,"0644",3413,0,0,root,root,null
+    usr/share/locale/et,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/et/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/et/LC_MESSAGES/hello.mo,file,"0644",2620,0,0,root,root,null
+    usr/share/locale/eu,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/eu/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/eu/LC_MESSAGES/hello.mo,file,"0644",753,0,0,root,root,null
+    usr/share/locale/fa,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/fa/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/fa/LC_MESSAGES/hello.mo,file,"0644",849,0,0,root,root,null
+    usr/share/locale/fi,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/fi/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/fi/LC_MESSAGES/hello.mo,file,"0644",2576,0,0,root,root,null
+    usr/share/locale/fr,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/fr/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/fr/LC_MESSAGES/hello.mo,file,"0644",3515,0,0,root,root,null
+    usr/share/locale/ga,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/ga/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/ga/LC_MESSAGES/hello.mo,file,"0644",1142,0,0,root,root,null
+    usr/share/locale/gl,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/gl/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/gl/LC_MESSAGES/hello.mo,file,"0644",3527,0,0,root,root,null
+    usr/share/locale/he,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/he/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/he/LC_MESSAGES/hello.mo,file,"0644",710,0,0,root,root,null
+    usr/share/locale/hr,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/hr/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/hr/LC_MESSAGES/hello.mo,file,"0644",2927,0,0,root,root,null
+    usr/share/locale/hu,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/hu/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/hu/LC_MESSAGES/hello.mo,file,"0644",3682,0,0,root,root,null
+    usr/share/locale/id,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/id/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/id/LC_MESSAGES/hello.mo,file,"0644",3354,0,0,root,root,null
+    usr/share/locale/it,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/it/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/it/LC_MESSAGES/hello.mo,file,"0644",700,0,0,root,root,null
+    usr/share/locale/ja,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/ja/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/ja/LC_MESSAGES/hello.mo,file,"0644",705,0,0,root,root,null
+    usr/share/locale/ka,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/ka/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/ka/LC_MESSAGES/hello.mo,file,"0644",898,0,0,root,root,null
+    usr/share/locale/ko,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/ko/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/ko/LC_MESSAGES/hello.mo,file,"0644",1201,0,0,root,root,null
+    usr/share/locale/lv,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/lv/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/lv/LC_MESSAGES/hello.mo,file,"0644",3475,0,0,root,root,null
+    usr/share/locale/ms,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/ms/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/ms/LC_MESSAGES/hello.mo,file,"0644",1167,0,0,root,root,null
+    usr/share/locale/nb,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/nb/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/nb/LC_MESSAGES/hello.mo,file,"0644",3331,0,0,root,root,null
+    usr/share/locale/nl,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/nl/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/nl/LC_MESSAGES/hello.mo,file,"0644",3499,0,0,root,root,null
+    usr/share/locale/nn,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/nn/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/nn/LC_MESSAGES/hello.mo,file,"0644",731,0,0,root,root,null
+    usr/share/locale/pl,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/pl/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/pl/LC_MESSAGES/hello.mo,file,"0644",3361,0,0,root,root,null
+    usr/share/locale/pt,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/pt/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/pt/LC_MESSAGES/hello.mo,file,"0644",460,0,0,root,root,null
+    usr/share/locale/pt_BR,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/pt_BR/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/pt_BR/LC_MESSAGES/hello.mo,file,"0644",3393,0,0,root,root,null
+    usr/share/locale/ro,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/ro/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/ro/LC_MESSAGES/hello.mo,file,"0644",735,0,0,root,root,null
+    usr/share/locale/ru,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/ru/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/ru/LC_MESSAGES/hello.mo,file,"0644",4226,0,0,root,root,null
+    usr/share/locale/sk,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/sk/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/sk/LC_MESSAGES/hello.mo,file,"0644",3361,0,0,root,root,null
+    usr/share/locale/sl,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/sl/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/sl/LC_MESSAGES/hello.mo,file,"0644",3438,0,0,root,root,null
+    usr/share/locale/sr,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/sr/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/sr/LC_MESSAGES/hello.mo,file,"0644",4129,0,0,root,root,null
+    usr/share/locale/sv,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/sv/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/sv/LC_MESSAGES/hello.mo,file,"0644",1092,0,0,root,root,null
+    usr/share/locale/th,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/th/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/th/LC_MESSAGES/hello.mo,file,"0644",5017,0,0,root,root,null
+    usr/share/locale/tr,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/tr/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/tr/LC_MESSAGES/hello.mo,file,"0644",2861,0,0,root,root,null
+    usr/share/locale/uk,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/uk/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/uk/LC_MESSAGES/hello.mo,file,"0644",4531,0,0,root,root,null
+    usr/share/locale/vi,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/vi/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/vi/LC_MESSAGES/hello.mo,file,"0644",3863,0,0,root,root,null
+    usr/share/locale/zh_CN,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/zh_CN/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/zh_CN/LC_MESSAGES/hello.mo,file,"0644",2603,0,0,root,root,null
+    usr/share/locale/zh_TW,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/zh_TW/LC_MESSAGES,directory,"0755",0,0,0,root,root,null
+    usr/share/locale/zh_TW/LC_MESSAGES/hello.mo,file,"0644",2754,0,0,root,root,null
+    usr/share/man,directory,"0755",0,0,0,root,root,null
+    usr/share/man/man1,directory,"0755",0,0,0,root,root,null
+    usr/share/man/man1/hello.1.gz,file,"0644",790,0,0,root,root,null
+  md5sums_cross_check:
+    listed: 49
+    present: 49
+    missing_from_inventory: 0
+    missing_from_md5sums: 0
+  issues: []
+  coverage:
+    status: complete
+    ar_members: 3
+    control_entries: 3
+    data_entries: 143
+    examined_control_bytes: 10240
+    examined_data_bytes: 256000
+  limitations[4]: This workflow reads the .deb ar container and its control/data tars without installing the package or running maintainer scripts.,Package signatures (debsig/dpkg-sig) are not verified.,Maintainer-script text is not returned; only the interpreter line and byte length are observed.,md5sums cross-check compares listed paths to the data inventory and does not hash file contents.
+confidence: observed
+authority: shipped-artifact
+environment: null
+limitations[4]: This workflow reads the .deb ar container and its control/data tars without installing the package or running maintainer scripts.,Package signatures (debsig/dpkg-sig) are not verified.,Maintainer-script text is not returned; only the interpreter line and byte length are observed.,md5sums cross-check compares listed paths to the data inventory and does not hash file contents.
+relationship_coverage: null
+locations[2]:
+  - kind: artifact-path
+    path: /tmp/deb-demo/hello.deb
+  - kind: file-offset-range
+    start: 0
+    end: 53080
+evidence_links: []
+caller_input_path: /tmp/deb-demo/hello.deb
+exit 0
+

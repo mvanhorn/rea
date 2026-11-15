@@ -1,0 +1,67 @@
+# out.mp4
+ffprobe -v error -select_streams v:0 -count_frames \
+  -show_entries stream=codec_name,codec_type,width,height,pix_fmt,r_frame_rate,avg_frame_rate,nb_frames,nb_read_frames,duration,bit_rate \
+  -show_entries format=duration,size,bit_rate,format_name \
+  -of json out.mp4
+
+{
+    "programs": [
+
+    ],
+    "streams": [
+        {
+            "codec_name": "h264",
+            "codec_type": "video",
+            "width": 1920,
+            "height": 1080,
+            "pix_fmt": "yuv420p",
+            "r_frame_rate": "30/1",
+            "avg_frame_rate": "30/1",
+            "duration": "24.000000",
+            "bit_rate": "3347795",
+            "nb_frames": "720",
+            "nb_read_frames": "720"
+        }
+    ],
+    "format": {
+        "format_name": "mov,mp4,m4a,3gp,3g2,mj2",
+        "duration": "24.000000",
+        "size": "10047618",
+        "bit_rate": "3349206"
+    }
+}
+
+Human summary (ffprobe -hide_banner out.mp4):
+  Duration: 00:00:24.00
+  Stream #0:0: Video: h264 (High) (avc1 / 0x31637661), yuv420p(tv, bt709, progressive), 1920x1080 [SAR 1:1 DAR 16:9], 30 fps, 720 frames
+
+# preview.gif
+ffprobe -v error -select_streams v:0 -count_frames \
+  -show_entries stream=codec_name,width,height,r_frame_rate,nb_frames,nb_read_frames,duration,pix_fmt \
+  -show_entries format=duration,size \
+  -of json preview.gif
+
+{
+    "programs": [
+
+    ],
+    "streams": [
+        {
+            "codec_name": "gif",
+            "width": 720,
+            "height": 405,
+            "pix_fmt": "bgra",
+            "r_frame_rate": "12/1",
+            "duration": "24.000000",
+            "nb_frames": "288",
+            "nb_read_frames": "288"
+        }
+    ],
+    "format": {
+        "duration": "24.000000",
+        "size": "6583956"
+    }
+}
+
+GIF size on disk: 6583956 bytes (6.3 MiB), under 10 MB.
+Last ~2 s of the 24 s source is a hold on the xz refusal frame; the GIF is derived from that timeline at 12 fps.
