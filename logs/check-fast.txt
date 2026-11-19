@@ -1,0 +1,27 @@
+
+> rea-agents@6.9.0 precheck:fast
+> npm run deps:check
+
+
+> rea-agents@6.9.0 deps:check
+> node scripts/check-dependency-install.mjs
+
+
+> rea-agents@6.9.0 check:fast
+> node scripts/run-turbo.mjs run typecheck lint --output-logs=errors-only && npm run verify:architecture-guards
+
+
+   • turbo 2.11.7
+   • Running typecheck, lint
+   • Remote caching disabled, using shared worktree cache
+
+
+[1m Tasks:    [32m[1m2 successful[0m, 2 total[0m
+[1mCached:    [1m0 cached[0m, 2 total[0m
+[1m  Time:    [1m21.625s[0m [0m
+
+
+> rea-agents@6.9.0 verify:architecture-guards
+> node scripts/verify/architecture-guards.mjs
+
+Architecture guards passed across 2908 source files.

@@ -1,0 +1,7 @@
+
+> rea-agents@6.9.0 verify:test-discovery
+> node scripts/verify-test-discovery.mjs
+
+(node:648458) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Discovered all 3817 test and spec files in src and tests exactly once.

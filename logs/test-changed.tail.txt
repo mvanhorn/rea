@@ -1,0 +1,60 @@
++       "fixedAllowance": undefined,
++       "integrityCheck": undefined,
++       "name": "ArtifactReaderFailure",
++     },
++   },
++   Symbol(shapeMode): true,
++   Symbol(kCapture): false,
+  }
+
+ ❯ src/artifacts/Uf2ArtifactReader.test.ts:137:37
+    135|     ).rejects.toMatchObject({ reason: "integrity" });
+    136|     await writeFile(path, uf2File(uf2Image(RP2040_FAMILY, 0, APP)));
+    137|     await expect(reader.open(entry)).rejects.toMatchObject({
+       |                                     ^
+    138|       reason: "integrity",
+    139|     });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  |adapters| src/browser/WebBundleAnalysisWorker.test.ts > rejects bom worker result bytes with a matching descriptor
+AssertionError: expected Error: Analysis operation timed out after… { …(17) } to be an instance of AnalysisOutputError
+ ❯ src/browser/WebBundleAnalysisWorker.test.ts:1263:21
+    1261|       );
+    1262|       const error = failureOf(result);
+    1263|       expect(error).toBeInstanceOf(AnalysisOutputError);
+       |                     ^
+    1264|       expect(error.cause).toBeInstanceOf(
+    1265|         encoding === "invalid-utf8" ? TypeError : SyntaxError,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  |adapters| src/artifacts/pyinstaller/PyInstallerBoundaries.test.ts > binds materialization to the inventoried digest and checks cached carrier freshness
+AssertionError: promise resolved "undefined" instead of rejecting
+
+- Expected:
+Error {
+  "message": "rejected promise",
+}
+
++ Received:
+undefined
+
+ ❯ src/artifacts/pyinstaller/PyInstallerBoundaries.test.ts:473:55
+    471|     await reader.prepareContainer(hash(bytes));
+    472|     await writeFile(path, archive(Buffer.from("other")));
+    473|     await expect(reader.prepareContainer(hash(bytes))).rejects.toMatch…
+       |                                                       ^
+    474|       reason: "integrity",
+    475|     });
+ ❯ withPyInstallerReader tests/fixtures/pyinstallerReader.ts:23:5
+ ❯ src/artifacts/pyinstaller/PyInstallerBoundaries.test.ts:466:3
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+
+
+ Test Files  4 failed | 857 passed | 1 skipped (862)
+      Tests  4 failed | 15744 passed | 25 skipped (15773)
+   Start at  09:46:53
+   Duration  315.43s (tests 70%, import 28%, transform 1%, worker 1%)
+

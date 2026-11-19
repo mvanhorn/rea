@@ -1,0 +1,105 @@
+Script started on 2026-11-19 10:00:16-08:00 [COMMAND="bash /tmp/oci-demo-assets/run-demo.sh" <not executed on terminal>]
+
+============================================================
+  REA  inspect-oci-image-layout
+  Directory-form OCI image layouts (no tar input)
+  Layout assembled by script: skopeo/buildah/docker absent
+============================================================
+
+----- before: untouched upstream/main -----
+
+[1;36mrea-demo$[0m rea inspect-oci-image-layout /tmp/oci-demo/busybox.oci --json
+{
+  "code": "COMMAND_NOT_FOUND",
+  "message": "'inspect-oci-image-layout' is not a command for 'rea'. Did you mean 'inspect-binary-layout'?",
+  "cta": {
+    "description": "Suggested commands:",
+    "commands": [
+      {
+        "command": "rea inspect-binary-layout /tmp/oci-demo/busybox.oci --json"
+      },
+      {
+        "command": "rea --help",
+        "description": "see all available commands"
+      }
+    ]
+  }
+}
+exit=1
+
+----- after: feat/oci-image-layout -----
+
+[1;36mrea-demo$[0m ls /tmp/oci-demo/busybox.oci
+total 20
+drwxr-xr-x 3 box box 4096 Nov 19 10:00 .
+drwxr-xr-x 4 box box 4096 Nov 19 10:00 ..
+drwxr-xr-x 3 box box 4096 Nov 19 10:00 blobs
+-rw-r--r-- 1 box box  369 Nov 19 10:00 index.json
+-rw-r--r-- 1 box box   32 Nov 19 10:00 oci-layout
+
+
+[1;36mrea-demo$[0m rea inspect-oci-image-layout /tmp/oci-demo/busybox.oci --json | jq <inventory>
+{
+  "layout_version": "1.0.0",
+  "format": "directory",
+  "ref_name": [
+    {
+      "name": "org.opencontainers.image.ref.name",
+      "value": "latest"
+    }
+  ],
+  "platform": {
+    "os": "linux",
+    "architecture": "amd64",
+    "user": "nobody"
+  },
+  "env": [
+    {
+      "name": "PATH",
+      "value": null
+    },
+    {
+      "name": "SECRET",
+      "value": null
+    }
+  ],
+  "entrypoint": [
+    "/bin/sh"
+  ],
+  "cmd": [
+    "-c",
+    "true"
+  ],
+  "layers": [
+    {
+      "media_type": "application/vnd.oci.image.layer.v1.tar+gzip",
+      "digest": "sha256:5acc47cb64df692bbd2c80aada9a7ca587ea592c409790473d03f09995fadbca",
+      "size": 17,
+      "present": true
+    }
+  ],
+  "findings": []
+}
+exit=0
+
+----- tamper one layer blob (same 17 bytes, different content) -----
+
+[1;36mrea-demo$[0m python3 -c 'Path(layer).write_bytes(b"TAMPER-layer-xxx\n")'
+wrote 17 bytes
+
+----- re-inspect: digest mismatch is a finding -----
+
+[1;36mrea-demo$[0m rea inspect-oci-image-layout /tmp/oci-demo/busybox.oci --json | jq .normalized_result.findings
+[
+  {
+    "kind": "digest_mismatch",
+    "digest": "sha256:5acc47cb64df692bbd2c80aada9a7ca587ea592c409790473d03f09995fadbca",
+    "path": "blobs/sha256/5acc47cb64df692bbd2c80aada9a7ca587ea592c409790473d03f09995fadbca",
+    "message": "Blob sha256:5acc47cb64df692bbd2c80aada9a7ca587ea592c409790473d03f09995fadbca content does not match its digest."
+  }
+]
+exit=0
+
+Done. Layer contents were not decompressed (follow-up).
+
+Script done on 2026-11-19 10:00:37-08:00 [COMMAND_EXIT_CODE="0"]

@@ -1,0 +1,33 @@
+Platform: Linux 6.12.113+ x86_64
+Node: v24.22.3  npm: 11.19.1
+Feature HEAD: 270cb2196be2d9514772244eb106c900874d9db8
+Upstream: ebd709cef51ee0791ef9cf935da974fd51374e5d
+
+Feature branch
+- npm ci — pass (Node 24.22.3 via /home/box/.local/node-v24/bin; host 22.23.2 rejected by engines)
+- npm run check:fast — pass (typecheck+lint turbo; architecture guards 2908 files; ~21.6s)
+- npm run verify:test-discovery — pass (3817 files discovered exactly once)
+- npm run format:check — pass (8827 files)
+- npx vitest run src/oci/OciImageLayoutParser.test.ts src/application/oci/OciImageLayoutService.test.ts src/domain/analysisView/ociImageLayoutView.test.ts — 3 files, 19 tests pass
+- npx vitest run --project acceptance tests/acceptance/ociImageLayoutCli.test.ts tests/acceptance/tools/localToolContracts.test.ts — 2 files, 15 tests pass
+- npx vitest run --project mcp-boundary tests/boundary/mcp/ociImageLayoutMcp.test.ts tests/boundary/mcp/absoluteLocalPathTools.test.ts — 2 files, 4 tests pass
+- npx vitest run --project cli-boundary tests/boundary/cli/cliContractCommandParity.test.ts tests/boundary/cli/jsonInputSchema.test.ts tests/boundary/cli/cliContractSchemaParity.test.ts tests/boundary/cli/cliToolCoverage.test.ts tests/boundary/cli/commandHelp.test.ts tests/boundary/cli/commandManifests.test.ts tests/boundary/cli/cliInputSchemaRequired.test.ts — 7 files, 1120 tests pass
+- npx vitest run --project conformance tests/conformance/providerCapabilityConformance.test.ts — 1 file, 80 tests pass
+- npm run test:changed — 862 files: 4 failed / 857 passed / 1 skipped; tests 4 failed / 15744 passed / 25 skipped. Failures were Uf2ArtifactReader, WebBundleAnalysisWorker, PyInstallerBoundaries (unrelated). Re-run of those three files: 3 files, 86 tests pass.
+- npm run knip — pass aside from 2 pre-existing unresolved worker imports (#web-bundle-analysis-worker, #javascript-analysis-worker)
+- npm run verify:advertised-schemas -- --update-summary — pass (inspect_oci_image_layout added)
+- node scripts/verify-grok-client.mjs — pass (catalogChecked true, catalogSize 261, schemasChecked 261)
+
+Untouched upstream/main (ebd709c) baseline in /tmp/rea-oci-baseline
+- npm run check:fast — pass (architecture guards 2898 files; ~20.9s)
+- npm run verify:test-discovery — pass (3812 files)
+- npm run format:check — pass (8806 files)
+- npx vitest run src/nuget/NugetNupkgParser.test.ts src/application/nuget/NugetNupkgService.test.ts — 2 files, 42 tests pass
+- rea inspect-oci-image-layout — COMMAND_NOT_FOUND (exit 1)
+
+Not verified
+- Full `npm run check` / `npm run check:pr` (typed lint, jscpd, knip:production, python tests, docs:check)
+- Layer decompression / tar image-layout input (out of scope)
+- Installing skopeo/buildah/docker (not present; layout assembled by script)
+- Re2/rust jsonschema advertised-schema engines (not installed)
+- Windows
