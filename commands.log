@@ -1,0 +1,529 @@
+REA inspect-vsix-package capture
+date: 2026-11-19T16:45:08Z
+node: v24.22.3
+feature: /workspace/osc-bulk-1119/rea/wt-vsix-package 2419bd7
+baseline: /tmp/rea-vsix-baseline 1ba93c8
+host: Linux grok-bot-vm-158448002 6.12.113+ #1 SMP PREEMPT_DYNAMIC Wed Nov 11 22:36:51 UTC 2026 x86_64 GNU/Linux
+
+===== CMD =====
+cwd: /tmp/rea-vsix-baseline
+command: node scripts/rea.mjs inspect-vsix-package /tmp/vsix-demo/demo.hello-1.2.3.vsix
+----- stdout+stderr -----
+code: COMMAND_NOT_FOUND
+message: 'inspect-vsix-package' is not a command for 'rea'. Did you mean 'inspect-adb-package'?
+cta:
+  description: "Suggested commands:"
+  commands[2]:
+    - command: rea inspect-adb-package /tmp/vsix-demo/demo.hello-1.2.3.vsix
+    - command: rea --help
+      description: see all available commands
+----- exit 1 -----
+
+===== CMD =====
+cwd: /workspace/osc-bulk-1119/rea/wt-vsix-package
+command: node scripts/rea.mjs inspect-vsix-package --help
+----- stdout+stderr -----
+rea inspect-vsix-package — Inspect VS Code .vsix identity, activation, contributes and ZIP contents without install or network
+
+Usage: rea inspect-vsix-package <path> [options]
+
+Arguments:
+  path  Local VS Code .vsix package
+
+Options:
+  --max-file-bytes <value>      Maximum stable artifact bytes to read (default 64 MiB) (default: 67108864)
+  --max-entries <value>         Maximum ZIP entries to inventory; exceeding the budget fails without partial success (default: 4096)
+  --max-manifest-bytes <value>  Maximum expanded bytes to decode for extension.vsixmanifest and extension/package.json; exceeding the budget fails without partial success (default: 1048576)
+  --max-member-bytes <value>    Maximum expanded bytes hashed for one native addon, wasm, executable, shell script, or nested archive; exceeding the budget lists the member without a digest (default: 1048576)
+  --detail <complete|summary>   Deliver complete Evidence, or a summary with --evidence_output (default: complete)
+  --evidence_output <string>    Save complete Evidence as a bundle; required for summary delivery. Never overwrites.
+
+Custom Global Options:
+  --timings  Write measured command timing to stderr.
+
+Global Options:
+  --filter-output <keys>                      Filter output by key paths (e.g. foo,bar.baz,a[0,3])
+  --format <toon|json|yaml|md|jsonl|csv|tsv>  Output format
+  --full-output                               Show full output envelope
+  --help                                      Show help
+  --json                                      Shorthand for --format json
+  --llms, --llms-full                         Print LLM-readable manifest
+  --schema                                    Show JSON Schema for command
+  --token-count                               Print token count of output (instead of output)
+  --token-limit <n>                           Limit output to n tokens
+  --token-offset <n>                          Skip first n tokens of output
+----- exit 0 -----
+
+===== CMD =====
+cwd: /workspace/osc-bulk-1119/rea/wt-vsix-package
+command: node scripts/rea.mjs inspect-vsix-package /tmp/vsix-demo/demo.hello-1.2.3.vsix
+----- stdout+stderr -----
+evidence_id: ev_1b50d4ee5b8ebb40f96c169a9db80a214c6fbbdc290f126ee0b30ef1b42a114f
+evidence_format: 2
+subject:
+  identity:
+    kind: file
+    sha256: 7f20a1a495f540449c595e23946b242bcee943d08cab9d06265c7dffebfe219a
+    selection: null
+    format: file
+    architecture: null
+  name: demo.hello-1.2.3.vsix
+  local_path: /tmp/vsix-demo/demo.hello-1.2.3.vsix
+provider:
+  id: rea-vsix-package
+  name: REA VS Code vsix reader
+  version: "1"
+analysis_profile: null
+predicate_type: rea.analysis
+operation: inspect_vsix_package
+parameters:
+  path: /tmp/vsix-demo/demo.hello-1.2.3.vsix
+raw_result: null
+normalized_result:
+  artifact:
+    path: /tmp/vsix-demo/demo.hello-1.2.3.vsix
+    sha256: 7f20a1a495f540449c595e23946b242bcee943d08cab9d06265c7dffebfe219a
+    bytes: 3582
+  vsix_identity:
+    id: demo.hello
+    version: 1.2.3
+    publisher: demo
+    target_platform: win32-x64
+    display_name: Hello Demo
+    description: A tiny fixture extension.
+  package_identity:
+    name: hello
+    publisher: demo
+    version: 1.2.3
+  identity_disagreements: []
+  engine:
+    vsixmanifest: ^1.74.0
+    package_json: ^1.74.0
+    disagreement: false
+  target_platform: win32-x64
+  entry_points:
+    main:
+      path: extension/out/extension.js
+      present: true
+    browser:
+      path: extension/out/web/extension.js
+      present: true
+  activation_events[3]{event,eager}:
+    "onCommand:demo.hello",false
+    *,true
+    onStartupFinished,true
+  contributes:
+    keys[2]{name,count}:
+      commands,2
+      configuration,1
+    commands[2]{command,title}:
+      demo.hello,Say Hello
+      demo.world,Say World
+    commands_total: 2
+    commands_omitted: 0
+  extension_dependencies:
+    vsixmanifest[1]: other.dep
+    package_json[1]: other.dep
+    disagreement: false
+  extension_pack:
+    vsixmanifest[1]: demo.pack-a
+    package_json[1]: demo.pack-a
+    disagreement: false
+  extension_kind[1]: workspace
+  capabilities:
+    untrusted_workspaces:
+      supported: "true"
+      description: No workspace trust needed.
+    virtual_workspaces:
+      supported: limited
+      description: Read-only on virtual FS.
+  enabled_api_proposals[1]: testObserver
+  assets[2]{type,path,present}:
+    Microsoft.VisualStudio.Code.Manifest,extension/package.json,true
+    Microsoft.VisualStudio.Services.Content.Details,extension/readme.md,true
+  signatures:
+    p7s: true
+    manifest: true
+  contents[8]{name,path,uncompressed_size,compressed_size,encrypted,kind,traverses}:
+    "[Content_Types].xml","[Content_Types].xml",315,315,false,content_types,false
+    extension.vsixmanifest,extension.vsixmanifest,1088,1088,false,vsixmanifest,false
+    extension/package.json,extension/package.json,824,824,false,package_json,false
+    extension/out/extension.js,extension/out/extension.js,28,28,false,javascript,false
+    extension/out/web/extension.js,extension/out/web/extension.js,28,28,false,javascript,false
+    extension/readme.md,extension/readme.md,11,11,false,unknown,false
+    extension.signature.p7s,extension.signature.p7s,4,4,false,signature,false
+    .signature.manifest,.signature.manifest,22,22,false,signature,false
+  member_kind_counts:
+    vsixmanifest: 1
+    package_json: 1
+    content_types: 1
+    opc: 0
+    signature: 2
+    javascript: 2
+    native_addon: 0
+    wasm: 0
+    executable: 0
+    shell_script: 0
+    nested_archive: 0
+    unknown: 1
+  interesting_members: []
+  duplicate_paths: []
+  vsixmanifest:
+    path: extension.vsixmanifest
+    bytes: 1088
+  package_json:
+    path: extension/package.json
+    bytes: 824
+  coverage:
+    status: complete
+    entries: 8
+    examined_manifest_bytes: 1912
+  limitations[4]: "This workflow reads the .vsix ZIP, extension.vsixmanifest and extension/package.json without installing, executing, or contacting a marketplace.","Member kinds are derived from ZIP names and, for hashed members, from leading magic bytes; they are not a runtime load inventory.",Signature files are reported as present or absent; this workflow does not verify signatures.,Directory ZIP markers are omitted from contents; only file members are listed.
+confidence: observed
+authority: shipped-artifact
+environment: null
+limitations[4]: "This workflow reads the .vsix ZIP, extension.vsixmanifest and extension/package.json without installing, executing, or contacting a marketplace.","Member kinds are derived from ZIP names and, for hashed members, from leading magic bytes; they are not a runtime load inventory.",Signature files are reported as present or absent; this workflow does not verify signatures.,Directory ZIP markers are omitted from contents; only file members are listed.
+relationship_coverage: null
+locations[1]{kind,path}:
+  artifact-path,/tmp/vsix-demo/demo.hello-1.2.3.vsix
+evidence_links: []
+caller_input_path: /tmp/vsix-demo/demo.hello-1.2.3.vsix
+----- exit 0 -----
+
+===== CMD =====
+cwd: /workspace/osc-bulk-1119/rea/wt-vsix-package
+command: node scripts/rea.mjs inspect-vsix-package /tmp/vsix-demo/demo.hello-1.2.3.vsix --filter-output confidence,normalized_result.vsix_identity,normalized_result.package_identity,normalized_result.identity_disagreements,normalized_result.engine,normalized_result.target_platform,normalized_result.entry_points,normalized_result.activation_events,normalized_result.contributes.keys,normalized_result.signatures,normalized_result.coverage,normalized_result.limitations
+----- stdout+stderr -----
+confidence: observed
+normalized_result:
+  activation_events[3]{event,eager}:
+    "onCommand:demo.hello",false
+    *,true
+    onStartupFinished,true
+  contributes:
+    keys[2]{name,count}:
+      commands,2
+      configuration,1
+  coverage:
+    status: complete
+    entries: 8
+    examined_manifest_bytes: 1912
+  engine:
+    vsixmanifest: ^1.74.0
+    package_json: ^1.74.0
+    disagreement: false
+  entry_points:
+    main:
+      path: extension/out/extension.js
+      present: true
+    browser:
+      path: extension/out/web/extension.js
+      present: true
+  identity_disagreements: []
+  limitations[4]: "This workflow reads the .vsix ZIP, extension.vsixmanifest and extension/package.json without installing, executing, or contacting a marketplace.","Member kinds are derived from ZIP names and, for hashed members, from leading magic bytes; they are not a runtime load inventory.",Signature files are reported as present or absent; this workflow does not verify signatures.,Directory ZIP markers are omitted from contents; only file members are listed.
+  package_identity:
+    name: hello
+    publisher: demo
+    version: 1.2.3
+  signatures:
+    p7s: true
+    manifest: true
+  target_platform: win32-x64
+  vsix_identity:
+    id: demo.hello
+    version: 1.2.3
+    publisher: demo
+    target_platform: win32-x64
+    display_name: Hello Demo
+    description: A tiny fixture extension.
+----- exit 0 -----
+
+===== CMD =====
+cwd: /workspace/osc-bulk-1119/rea/wt-vsix-package
+command: node scripts/rea.mjs inspect-vsix-package /tmp/vsix-demo/ms-vscode.references-view-0.0.89.vsix
+----- stdout+stderr -----
+evidence_id: ev_ad37c550e71d8be78e69a4683d19b220b352bcc30bbf70b9b16f4ed77a8642bf
+evidence_format: 2
+subject:
+  identity:
+    kind: file
+    sha256: 7cae4c9fdcccf18b532a426806a53f7907610c904b9baecd95f9e9fbdb388607
+    selection: null
+    format: file
+    architecture: null
+  name: ms-vscode.references-view-0.0.89.vsix
+  local_path: /tmp/vsix-demo/ms-vscode.references-view-0.0.89.vsix
+provider:
+  id: rea-vsix-package
+  name: REA VS Code vsix reader
+  version: "1"
+analysis_profile: null
+predicate_type: rea.analysis
+operation: inspect_vsix_package
+parameters:
+  path: /tmp/vsix-demo/ms-vscode.references-view-0.0.89.vsix
+raw_result: null
+normalized_result:
+  artifact:
+    path: /tmp/vsix-demo/ms-vscode.references-view-0.0.89.vsix
+    sha256: 7cae4c9fdcccf18b532a426806a53f7907610c904b9baecd95f9e9fbdb388607
+    bytes: 36956
+  vsix_identity:
+    id: references-view
+    version: 0.0.89
+    publisher: ms-vscode
+    target_platform: null
+    display_name: Reference Search View
+    description: "Reference Search results as separate, stable view in the sidebar"
+  package_identity:
+    name: references-view
+    publisher: ms-vscode
+    version: 0.0.89
+  identity_disagreements: []
+  engine:
+    vsixmanifest: ^1.66.0
+    package_json: ^1.66.0
+    disagreement: false
+  target_platform: null
+  entry_points:
+    main:
+      path: extension/dist/extension
+      present: false
+    browser:
+      path: extension/dist/extension
+      present: false
+  activation_events[7]{event,eager}:
+    "onCommand:references-view.find",false
+    "onCommand:references-view.findReferences",false
+    "onCommand:references-view.findImplementations",false
+    "onCommand:references-view.showCallHierarchy",false
+    "onCommand:references-view.showTypeHierarchy",false
+    "onCommand:editor.action.showReferences",false
+    "onView:references-view.tree",false
+  contributes:
+    keys[6]{name,count}:
+      configuration,1
+      viewsContainers,1
+      views,1
+      commands,21
+      menus,4
+      keybindings,4
+    commands[21]{command,title}:
+      references-view.findReferences,Find All References
+      references-view.findImplementations,Find All Implementations
+      references-view.clearHistory,Clear History
+      references-view.clear,Clear
+      references-view.refresh,Refresh
+      references-view.pickFromHistory,Show History
+      references-view.removeReferenceItem,Dismiss
+      references-view.copy,Copy
+      references-view.copyAll,Copy All
+      references-view.copyPath,Copy Path
+      references-view.refind,Rerun
+      references-view.showCallHierarchy,Show Call Hierarchy
+      references-view.showOutgoingCalls,Show Outgoing Calls
+      references-view.showIncomingCalls,Show Incoming Calls
+      references-view.removeCallItem,Dismiss
+      references-view.next,Go to Next Reference
+      references-view.prev,Go to Previous Reference
+      references-view.showTypeHierarchy,Show Type Hierarchy
+      references-view.showSupertypes,Show Supertypes
+      references-view.showSubtypes,Show Subtypes
+      references-view.removeTypeItem,Dismiss
+    commands_total: 21
+    commands_omitted: 0
+  extension_dependencies:
+    vsixmanifest: []
+    package_json: []
+    disagreement: false
+  extension_pack:
+    vsixmanifest: []
+    package_json: []
+    disagreement: false
+  extension_kind[2]: workspace,web
+  capabilities:
+    untrusted_workspaces:
+      supported: "true"
+      description: null
+    virtual_workspaces:
+      supported: "true"
+      description: null
+  enabled_api_proposals: []
+  assets[4]{type,path,present}:
+    Microsoft.VisualStudio.Code.Manifest,extension/package.json,true
+    Microsoft.VisualStudio.Services.Content.Details,extension/README.md,true
+    Microsoft.VisualStudio.Services.Content.License,extension/LICENSE.txt,true
+    Microsoft.VisualStudio.Services.Icons.Default,extension/media/icon.png,true
+  signatures:
+    p7s: false
+    manifest: false
+  contents[9]{name,path,uncompressed_size,compressed_size,encrypted,kind,traverses}:
+    extension.vsixmanifest,extension.vsixmanifest,2523,760,false,vsixmanifest,false
+    "[Content_Types].xml","[Content_Types].xml",520,216,false,content_types,false
+    extension/dist/extension.js,extension/dist/extension.js,26702,6966,false,javascript,false
+    extension/dist/extension.js.map,extension/dist/extension.js.map,79020,17271,false,unknown,false
+    extension/LICENSE.txt,extension/LICENSE.txt,1162,649,false,unknown,false
+    extension/media/icon.png,extension/media/icon.png,5762,5716,false,unknown,false
+    extension/package.json,extension/package.json,13031,1900,false,package_json,false
+    extension/README.md,extension/README.md,1962,966,false,unknown,false
+    extension/SECURITY.md,extension/SECURITY.md,2780,1298,false,unknown,false
+  member_kind_counts:
+    vsixmanifest: 1
+    package_json: 1
+    content_types: 1
+    opc: 0
+    signature: 0
+    javascript: 1
+    native_addon: 0
+    wasm: 0
+    executable: 0
+    shell_script: 0
+    nested_archive: 0
+    unknown: 5
+  interesting_members: []
+  duplicate_paths: []
+  vsixmanifest:
+    path: extension.vsixmanifest
+    bytes: 2523
+  package_json:
+    path: extension/package.json
+    bytes: 13031
+  coverage:
+    status: complete
+    entries: 9
+    examined_manifest_bytes: 15554
+  limitations[4]: "This workflow reads the .vsix ZIP, extension.vsixmanifest and extension/package.json without installing, executing, or contacting a marketplace.","Member kinds are derived from ZIP names and, for hashed members, from leading magic bytes; they are not a runtime load inventory.",Signature files are reported as present or absent; this workflow does not verify signatures.,Directory ZIP markers are omitted from contents; only file members are listed.
+confidence: observed
+authority: shipped-artifact
+environment: null
+limitations[4]: "This workflow reads the .vsix ZIP, extension.vsixmanifest and extension/package.json without installing, executing, or contacting a marketplace.","Member kinds are derived from ZIP names and, for hashed members, from leading magic bytes; they are not a runtime load inventory.",Signature files are reported as present or absent; this workflow does not verify signatures.,Directory ZIP markers are omitted from contents; only file members are listed.
+relationship_coverage: null
+locations[1]{kind,path}:
+  artifact-path,/tmp/vsix-demo/ms-vscode.references-view-0.0.89.vsix
+evidence_links: []
+caller_input_path: /tmp/vsix-demo/ms-vscode.references-view-0.0.89.vsix
+----- exit 0 -----
+
+===== CMD =====
+cwd: /workspace/osc-bulk-1119/rea/wt-vsix-package
+command: node scripts/rea.mjs inspect-vsix-package /tmp/vsix-demo/ms-vscode.references-view-0.0.89.vsix --filter-output confidence,normalized_result.vsix_identity,normalized_result.package_identity,normalized_result.identity_disagreements,normalized_result.engine,normalized_result.target_platform,normalized_result.entry_points,normalized_result.activation_events,normalized_result.contributes.keys,normalized_result.signatures,normalized_result.coverage,normalized_result.limitations
+----- stdout+stderr -----
+confidence: observed
+normalized_result:
+  activation_events[7]{event,eager}:
+    "onCommand:references-view.find",false
+    "onCommand:references-view.findReferences",false
+    "onCommand:references-view.findImplementations",false
+    "onCommand:references-view.showCallHierarchy",false
+    "onCommand:references-view.showTypeHierarchy",false
+    "onCommand:editor.action.showReferences",false
+    "onView:references-view.tree",false
+  contributes:
+    keys[6]{name,count}:
+      configuration,1
+      viewsContainers,1
+      views,1
+      commands,21
+      menus,4
+      keybindings,4
+  coverage:
+    status: complete
+    entries: 9
+    examined_manifest_bytes: 15554
+  engine:
+    vsixmanifest: ^1.66.0
+    package_json: ^1.66.0
+    disagreement: false
+  entry_points:
+    main:
+      path: extension/dist/extension
+      present: false
+    browser:
+      path: extension/dist/extension
+      present: false
+  identity_disagreements: []
+  limitations[4]: "This workflow reads the .vsix ZIP, extension.vsixmanifest and extension/package.json without installing, executing, or contacting a marketplace.","Member kinds are derived from ZIP names and, for hashed members, from leading magic bytes; they are not a runtime load inventory.",Signature files are reported as present or absent; this workflow does not verify signatures.,Directory ZIP markers are omitted from contents; only file members are listed.
+  package_identity:
+    name: references-view
+    publisher: ms-vscode
+    version: 0.0.89
+  signatures:
+    p7s: false
+    manifest: false
+  target_platform: null
+  vsix_identity:
+    id: references-view
+    version: 0.0.89
+    publisher: ms-vscode
+    target_platform: null
+    display_name: Reference Search View
+    description: "Reference Search results as separate, stable view in the sidebar"
+----- exit 0 -----
+
+===== CMD =====
+cwd: /workspace/osc-bulk-1119/rea/wt-vsix-package
+command: node scripts/rea.mjs inspect-vsix-package /tmp/vsix-demo/broken.vsix --filter-output confidence,normalized_result.vsix_identity,normalized_result.package_identity,normalized_result.identity_disagreements,normalized_result.engine,normalized_result.target_platform,normalized_result.entry_points,normalized_result.activation_events,normalized_result.contributes.keys,normalized_result.signatures,normalized_result.coverage,normalized_result.limitations
+----- stdout+stderr -----
+confidence: observed
+normalized_result:
+  activation_events[3]{event,eager}:
+    "onCommand:demo.hello",false
+    *,true
+    onStartupFinished,true
+  contributes:
+    keys[2]{name,count}:
+      commands,2
+      configuration,1
+  coverage:
+    status: complete
+    entries: 6
+    examined_manifest_bytes: 872
+  engine:
+    vsixmanifest: null
+    package_json: ^1.74.0
+    disagreement: false
+  entry_points:
+    main:
+      path: extension/out/extension.js
+      present: true
+    browser:
+      path: extension/out/web/extension.js
+      present: true
+  identity_disagreements: []
+  limitations[5]: "This workflow reads the .vsix ZIP, extension.vsixmanifest and extension/package.json without installing, executing, or contacting a marketplace.","Member kinds are derived from ZIP names and, for hashed members, from leading magic bytes; they are not a runtime load inventory.",Signature files are reported as present or absent; this workflow does not verify signatures.,Directory ZIP markers are omitted from contents; only file members are listed.,The selected extension.vsixmanifest is not well-formed XML.
+  package_identity:
+    name: hello
+    publisher: demo
+    version: 1.2.3
+  signatures:
+    p7s: false
+    manifest: false
+  target_platform: null
+  vsix_identity: null
+----- exit 0 -----
+
+===== CMD =====
+cwd: /workspace/osc-bulk-1119/rea/wt-vsix-package
+command: node scripts/rea.mjs inspect-vsix-package /tmp/vsix-demo/not-an-extension.vsix
+----- stdout+stderr -----
+code: invalid_request
+category: invalid_input
+message: Analysis input is invalid. Check the arguments and try again.
+retryable: false
+remediation:
+  action: "Read the declared input schema or CLI usage for inspect_vsix_package; if using MCP and the catalog may be stale, call tools/list. Correct the listed fields, then retry. Do not repeat the unchanged call."
+recovery:
+  kind: inspect_input_contract
+  operation: inspect_vsix_package
+details:
+  operation: inspect_vsix_package
+  issues[1]:
+    - path[1]: path
+      reason: invalid_format
+      message: "Selected artifact /tmp/vsix-demo/not-an-extension.vsix: Selected file is not a ZIP archive (VS Code .vsix)."
+  partial_observation:
+    kind: file-snapshot-hash
+    path: /tmp/vsix-demo/not-an-extension.vsix
+    sha256: a3989126344744ef800dbc88bf7e744853f3f2eac75c9ab3301f4e845ef22078
+    bytes: 9
+----- exit 1 -----

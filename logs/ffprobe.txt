@@ -1,0 +1,52 @@
+===== out.mp4 =====
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from '/tmp/vsix-demo/out.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf61.7.103
+  Duration: 00:00:28.57, start: 0.000000, bitrate: 227 kb/s
+  Stream #0:0[0x1](und): Video: h264 (High) (avc1 / 0x31637661), yuv420p(progressive), 1920x1080, 224 kb/s, 30 fps, 30 tbr, 15360 tbn (default)
+      Metadata:
+        handler_name    : VideoHandler
+        vendor_id       : [0][0][0][0]
+        encoder         : Lavc61.19.101 libx264
+[STREAM]
+codec_name=h264
+profile=High
+width=1920
+height=1080
+pix_fmt=yuv420p
+r_frame_rate=30/1
+avg_frame_rate=30/1
+duration=28.566667
+nb_frames=857
+nb_read_frames=857
+[/STREAM]
+[FORMAT]
+duration=28.566667
+size=813017
+bit_rate=227682
+[/FORMAT]
+
+===== preview.gif =====
+Input #0, gif, from '/tmp/vsix-demo/preview.gif':
+  Duration: 00:00:28.60, start: 0.000000, bitrate: 209 kb/s
+  Stream #0:0: Video: gif, bgra, 1280x720, 10 fps, 10 tbr, 100 tbn
+[STREAM]
+codec_name=gif
+width=1280
+height=720
+r_frame_rate=10/1
+duration=28.600000
+nb_frames=286
+nb_read_frames=286
+[/STREAM]
+[FORMAT]
+duration=28.600000
+size=748677
+bit_rate=209420
+[/FORMAT]
+
+gif_bytes=748677
+mp4_bytes=813017

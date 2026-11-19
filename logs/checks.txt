@@ -1,0 +1,12 @@
+Node v24.22.3  npm 11.19.1  host Linux 6.12.113+ x86_64
+feature 2419bd7483237c5c573234bc4b8edacddeb0d271
+upstream/main 1ba93c8a1bbddab3c775320ac37f8977717b4bca
+
+npm run check:fast — pass (pre-push hook + earlier run; typecheck+lint 22.116s; architecture guards 2908 files)
+npm run format:check — pass, 8822 files, 2168ms
+npm run knip — pass (no unused exports reported)
+node scripts/verify-grok-client.mjs — passed=true catalogSize=261 catalogChecked=true (offline loopback)
+npm run verify:test-discovery — 3813 files
+npx vitest focused VSIX — 6 files, 39 passed (domain, parser, service, view, CLI acceptance, MCP boundary)
+npx vitest wiring — 4 files, 360 passed (providerCapabilityConformance, absoluteLocalPathTools, stableArtifactConsumers, localToolContracts)
+npm run test:changed -- --base upstream/main — 14886 passed, 2 failed, run before commit; the 2 failures are NodeSeaArtifactReader malformed blob metadata and Uf2ArtifactReader forged region; reproduced on untouched 1ba93c8 baseline

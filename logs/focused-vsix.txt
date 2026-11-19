@@ -1,0 +1,48 @@
+
+ RUN  v5.0.3 /workspace/osc-bulk-1119/rea/wt-vsix-package
+
+ ✓ |adapters| src/vsix/VsixPackageParser.test.ts > reads identity from both manifests, activation, contributes and hashed members 54ms
+ ✓ |adapters| src/vsix/VsixPackageParser.test.ts > records identity, engine and dependency disagreements 16ms
+ ✓ |adapters| src/vsix/VsixPackageParser.test.ts > caps contributed commands and keeps the omitted count 7ms
+ ✓ |adapters| src/vsix/VsixPackageParser.test.ts > inventories a package with no vsixmanifest and leaves vsix identity unknown 3ms
+ ✓ |adapters| src/vsix/VsixPackageParser.test.ts > inventories a package whose vsixmanifest is not well-formed XML 8ms
+ ✓ |adapters| src/vsix/VsixPackageParser.test.ts > inventories a package whose package.json is not well-formed JSON 10ms
+ ✓ |adapters| src/vsix/VsixPackageParser.test.ts > records a path-traversal member without extracting it 7ms
+ ✓ |adapters| src/vsix/VsixPackageParser.test.ts > does not decode duplicate vsixmanifest members as identity 4ms
+ ✓ |adapters| src/vsix/VsixPackageParser.test.ts > rejects a vsixmanifest document type without decoding identity 11ms
+ ✓ |adapters| src/vsix/VsixPackageParser.test.ts > refuses a non-ZIP file without claiming a package inventory 1ms
+ ✓ |adapters| src/vsix/VsixPackageParser.test.ts > preserves an unclassified ZIP failure without claiming malformed bytes: {} 3ms
+ ✓ |adapters| src/vsix/VsixPackageParser.test.ts > preserves an unclassified ZIP failure without claiming malformed bytes: {"failure":"opaque"} 2ms
+ ✓ |adapters| src/vsix/VsixPackageParser.test.ts > stops ZIP enumeration as soon as the entry budget is exceeded 6ms
+ ✓ |adapters| src/vsix/VsixPackageParser.test.ts > refuses a vsixmanifest larger than the metadata budget before reading it 2ms
+ ✓ |adapters| src/vsix/VsixPackageParser.test.ts > lists an oversize interesting member without a digest 5ms
+ ✓ |adapters| src/vsix/VsixPackageParser.test.ts > reports cancellation during a member read with the caller's reason 3ms
+ ✓ |adapters| src/vsix/VsixPackageParser.test.ts > keeps a Zstandard dictionary refusal as an unsupported layout instead of a malformed package 3ms
+ ✓ |adapters| src/vsix/VsixPackageParser.test.ts > keeps a Zstandard decoder window refusal as a memory limit instead of a malformed package 3ms
+ ✓ |adapters| src/vsix/VsixPackageParser.test.ts > marks a missing main entry as absent without treating it as a format error 4ms
+ ✓ |domain| src/domain/vsix/vsixPackage.test.ts > applies the shared absolute local-path policy to the public input 8ms
+ ✓ |domain| src/domain/vsix/vsixPackage.test.ts > rejects extra caller arguments and admits a package with unknown identity 5ms
+ ✓ |domain| src/domain/vsix/vsixPackage.test.ts > derives member kinds from ZIP names 1ms
+ ✓ |domain| src/domain/vsix/vsixPackage.test.ts > detects path traversal and eager activation events 0ms
+ ✓ |domain| src/domain/vsix/vsixPackage.test.ts > classifies member magic with BinaryReader 1ms
+ ✓ |domain| src/domain/analysisView/vsixPackageView.test.ts > summarizes VS Code extension Evidence with identity and counts 24ms
+ ✓ |acceptance| tests/acceptance/vsixPackageCli.test.ts > reports VS Code extension identity and activation through the public CLI 1676ms
+ ✓ |acceptance| tests/acceptance/vsixPackageCli.test.ts > matches CLI and MCP observations for the same .vsix 3895ms
+ ✓ |mcp-boundary| tests/boundary/mcp/vsixPackageMcp.test.ts > advertises inspect_vsix_package and reads package identity 1973ms
+ ✓ |mcp-boundary| tests/boundary/mcp/vsixPackageMcp.test.ts > requires an absolute path for inspect_vsix_package 18ms
+ ✓ |mcp-boundary| tests/boundary/mcp/vsixPackageMcp.test.ts > advises a fixed allowance, not more memory, for a Zstandard window refusal 19ms
+ ✓ |mcp-boundary| tests/boundary/mcp/vsixPackageMcp.test.ts > reports a Zstandard dictionary member as an unsupported target, not a malformed package 15ms
+ ✓ |acceptance| tests/acceptance/vsixPackageCli.test.ts > refuses a non-ZIP file through the public CLI 18ms
+ ✓ |acceptance| tests/acceptance/vsixPackageCli.test.ts > returns inventory with limitations for a malformed vsixmanifest 17ms
+ ✓ |acceptance| tests/acceptance/vsixPackageCli.test.ts > preserves selected budgets through CLI, MCP and retained views 3245ms
+ ✓ |services| src/application/vsix/VsixPackageService.test.ts > rejects a relative path and extra arguments before reading 5ms
+ ✓ |services| src/application/vsix/VsixPackageService.test.ts > retains completed Evidence and caller selections on late cancellation 12ms
+ ✓ |services| src/application/vsix/VsixPackageService.test.ts > preserves the caller's selected file budget undefined 1ms
+ ✓ |services| src/application/vsix/VsixPackageService.test.ts > preserves the caller's selected file budget 67108864 1ms
+ ✓ |services| src/application/vsix/VsixPackageService.test.ts > preserves the caller's selected file budget 128 1ms
+
+ Test Files  6 passed (6)
+      Tests  39 passed (39)
+   Start at  08:48:26
+   Duration  17.85s (transform 52%, tests 32%, import 15%)
+
