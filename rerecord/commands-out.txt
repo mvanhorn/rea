@@ -1,0 +1,48 @@
+rea inspect-oci-image-layout: offline OCI image-layout directory inventory
+Layout: /tmp/oci-demo/busybox.oci (assembled by script; one 17-byte layer)
+
+$ ls /tmp/oci-demo/busybox.oci /tmp/oci-demo/busybox.oci/blobs/sha256
+/tmp/oci-demo/busybox.oci:
+blobs
+index.json
+oci-layout
+
+/tmp/oci-demo/busybox.oci/blobs/sha256:
+3872afc4e1e91d8722bd5829bf663f4559fc6a7f4ea174c704785c5a80642dee
+4c088e27a28a388a7bf6938a4747468aa663599c49c54cc59d02b5fc1e09b94a
+5acc47cb64df692bbd2c80aada9a7ca587ea592c409790473d03f09995fadbca
+
+Before: untouched upstream/main
+
+$ rea inspect-oci-image-layout /tmp/oci-demo/busybox.oci --json | jq '{code, message}'
+{
+  "code": "COMMAND_NOT_FOUND",
+  "message": "'inspect-oci-image-layout' is not a command for 'rea'. Did you mean 'inspect-binary-layout'?"
+}
+exit=1
+After: feat/oci-image-layout (Env values omitted by default)
+
+$ rea inspect-oci-image-layout /tmp/oci-demo/busybox.oci --json | jq -r <key facts>
+layout_version: 1.0.0
+platform: {"os":"linux","architecture":"amd64"}
+env (names only): [{"name":"PATH","value":null},{"name":"SECRET","value":null}]
+layers: [{"size":17,"present":true}]
+coverage: {"status":"complete","entries_examined":7,"blobs_hashed":3,"json_bytes_read":1561}
+findings: []
+Tamper one layer blob (same 17 bytes, different content)
+
+$ printf 'TAMPER-layer-xxx\n' > blobs/sha256/5acc47cb...  # same size
+17 bytes
+
+Re-inspect: the digest mismatch is a finding
+
+$ rea inspect-oci-image-layout /tmp/oci-demo/busybox.oci --json | jq '.normalized_result.findings'
+[
+  {
+    "kind": "digest_mismatch",
+    "digest": "sha256:5acc47cb64df692bbd2c80aada9a7ca587ea592c409790473d03f09995fadbca",
+    "path": "blobs/sha256/5acc47cb64df692bbd2c80aada9a7ca587ea592c409790473d03f09995fadbca",
+    "message": "Blob sha256:5acc47cb64df692bbd2c80aada9a7ca587ea592c409790473d03f09995fadbca content does not match its digest."
+  }
+]
+exit=0
